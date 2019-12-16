@@ -1,8 +1,8 @@
 import {
   Card,
   CardActionArea,
-  CardMedia,
   CardContent,
+  CardMedia,
   Grid,
   Typography
 } from "@material-ui/core";
@@ -48,8 +48,8 @@ const ProductList = (
             <Grid item xs={6} md={4} lg={3} key={res._id}>
               <Card className={classes.card}>
                 <Link
-                  as={`/restaurants/${res._id}`}
-                  href={`/restaurants?id=${res._id}`}
+                  as={`/product/${res._id}`}
+                  href={`/product?id=${res._id}`}
                 >
                   <CardActionArea>
                     <CardMedia
@@ -68,16 +68,12 @@ const ProductList = (
                       >
                         {res.short_description}
                       </Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                      >
+                      <Typography variant="body2" component="p">
                         {res.reference}
                       </Typography>
                       <Typography
-                        variant="body2"
-                        color="textSecondary"
+                        variant="body1"
+                        color="secondary"
                         component="p"
                       >
                         {`${res.price}€`}

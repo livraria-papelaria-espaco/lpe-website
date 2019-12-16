@@ -1,6 +1,24 @@
-import App, { Container } from "next/app";
+import green from "@material-ui/core/colors/green";
+import purple from "@material-ui/core/colors/purple";
+import {
+  createMuiTheme,
+  responsiveFontSizes,
+  ThemeProvider
+} from "@material-ui/core/styles";
+import App from "next/app";
 import React from "react";
 import withData from "../lib/apollo";
+
+let theme = createMuiTheme({
+  palette: {
+    primary: purple,
+    secondary: green
+  },
+  status: {
+    danger: "orange"
+  }
+});
+theme = responsiveFontSizes(theme);
 
 class MyApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
@@ -14,9 +32,9 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
     return (
-      <Container>
+      <ThemeProvider theme={theme}>
         <Component {...pageProps} />
-      </Container>
+      </ThemeProvider>
     );
   }
 }
