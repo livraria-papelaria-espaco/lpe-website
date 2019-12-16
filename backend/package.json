@@ -3,12 +3,9 @@
   "private": true,
   "version": "0.0.1",
   "author": {
-    "name": "Diogo Correia",
-    "email": "me@diogotc.com",
-    "url": "https://diogotc.com"
+    "name": "A Strapi developer"
   },
-  "license": "UNLICENSED",
-  "private": true,
+  "license": "MIT",
   "description": "A Strapi application",
   "scripts": {
     "develop": "strapi develop",
@@ -20,16 +17,14 @@
   "dependencies": {
     "strapi": "3.0.0-beta.17.8",
     "strapi-admin": "3.0.0-beta.17.8",
-    "strapi-utils": "3.0.0-beta.17.8",
-    "strapi-plugin-content-type-builder": "3.0.0-beta.17.8",
+    "strapi-hook-mongoose": "3.0.0-beta.17.8",
     "strapi-plugin-content-manager": "3.0.0-beta.17.8",
-    "strapi-plugin-users-permissions": "3.0.0-beta.17.8",
+    "strapi-plugin-content-type-builder": "3.0.0-beta.17.8",
     "strapi-plugin-email": "3.0.0-beta.17.8",
+    "strapi-plugin-graphql": "3.0.0-beta.17.8",
     "strapi-plugin-upload": "3.0.0-beta.17.8",
-    "strapi-hook-mongoose": "3.0.0-beta.17.8"
-  },
-  "author": {
-    "name": "A Strapi developer"
+    "strapi-plugin-users-permissions": "3.0.0-beta.17.8",
+    "strapi-utils": "3.0.0-beta.17.8"
   },
   "strapi": {
     "uuid": "d37361df-57ad-47d5-afad-bed085f730bf"
@@ -37,6 +32,5 @@
   "engines": {
     "node": ">=10.0.0",
     "npm": ">=6.0.0"
-  },
-  "license": "MIT"
+  }
 }
