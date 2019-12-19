@@ -5,16 +5,18 @@ import { compose } from 'recompose';
 //import { withContext } from '../components/Context/AppProvider';
 //import Cart from "../components/Cart/Cart";
 import { Typography } from '@material-ui/core';
+import defaultPage from '../hocs/defaultPage';
 
-const Product = ({ data: { loading, error, product }, router, context }) => {
+const Product = ({ data: { loading, error, products }, router, context }) => {
   if (error) return <Typography variant='h1'>{`An error occurred: ${error}`}</Typography>;
-  if (!product) return <Typography variant='h1'>Loading</Typography>;
+  if (!products) return <Typography variant='h1'>Loading</Typography>;
 
+  const product = products[0];
   return (
     <div>
       <Typography variant='h1'>{product.name}</Typography>
       {product.images.map((i) => (
-        <img src={`http://localhost:3337/${i.url}`} />
+        <img key={i.id} src={`http://localhost:3337/${i.url}`} />
       ))}
       <Typography variant='body1'>{product.description}</Typography>
       <Typography variant='h6' component='p' color='secondary'>
@@ -27,12 +29,12 @@ const Product = ({ data: { loading, error, product }, router, context }) => {
 
 const GET_PRODUCT_INFO = gql`
   query($id: ID!) {
-    product(id: $id) {
-      _id
+    products(where: { slug: $id }) {
       name
       description
       images {
         url
+        id
       }
       price
       reference
@@ -42,7 +44,7 @@ const GET_PRODUCT_INFO = gql`
 
 export default compose(
   withRouter,
-  //defaultPage,
+  defaultPage,
   //withContext,
   graphql(GET_PRODUCT_INFO, {
     options: (props) => ({

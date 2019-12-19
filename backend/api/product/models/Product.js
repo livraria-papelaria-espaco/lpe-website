@@ -1,10 +1,23 @@
 'use strict';
+const slugify = require('slugify');
 
 /**
  * Lifecycle callbacks for the `Product` model.
  */
 
 module.exports = {
+  beforeSave: async (model) => {
+    if (model.name) {
+      model.slug = slugify(model.name);
+    }
+  },
+  beforeUpdate: async (model) => {
+    if (model.getUpdate().name) {
+      model.update({
+        slug: slugify(model.getUpdate().name),
+      });
+    }
+  },
   // Before saving a value.
   // Fired before an `insert` or `update` query.
   // beforeSave: async (model) => {},

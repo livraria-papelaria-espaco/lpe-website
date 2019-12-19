@@ -42,6 +42,10 @@
     },
     "short_description": {
       "type": "text"
+    },
+    "slug": {
+      "type": "string",
+      "unique": true
     }
   }
 }

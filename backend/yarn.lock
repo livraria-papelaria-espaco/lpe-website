@@ -5394,13 +5394,6 @@ iterall@^1.1.3, iterall@^1.2.1, iterall@^1.2.2:
   resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.2.2.tgz#92d70deb8028e0c39ff3164fdbf4d8b088130cd7"
   integrity sha512-yynBb1g+RFUPY64fTrFv7nsjRrENBQJaX2UL+2Szc9REFrSNm1rpSXHGzhmAy7a9uv3vlvgBlXnf9RqmPH1/DA==
 
-joi-json@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/joi-json/-/joi-json-2.1.0.tgz#4829cca91e531d19c4cad1205a08d61549a0c051"
-  integrity sha512-0NKQSqMeBzzU5FLoIPnmTNV3ZwA7TeN1itCpiYnumq9WIQGFAgIuEyEuBJ4xHhxa57E980zKU2596E9pODcYAg==
-  dependencies:
-    vandium-utils "^1.1.0"
-
 js-levenshtein@^1.1.3:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/js-levenshtein/-/js-levenshtein-1.1.6.tgz#c6cee58eb3550372df8deb85fad5ce66ce01d59d"
@@ -6261,15 +6254,6 @@ moment-timezone@^0.5.21, moment-timezone@^0.5.25:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
-mongodb@3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.3.2.tgz#ff086b5f552cf07e24ce098694210f3d42d668b2"
-  integrity sha512-fqJt3iywelk4yKu/lfwQg163Bjpo5zDKhXiohycvon4iQHbrfflSAz9AIlRE6496Pm/dQKQK5bMigdVo2s6gBg==
-  dependencies:
-    bson "^1.1.1"
-    require_optional "^1.0.1"
-    safe-buffer "^5.1.2"
-
 mongodb@3.3.5:
   version "3.3.5"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.3.5.tgz#38d531013afede92b0dd282e3b9f3c08c9bdff3b"
@@ -6295,23 +6279,6 @@ mongoose-long@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/mongoose-long/-/mongoose-long-0.2.1.tgz#2d4f560430338bfbe7129e31a543c497a2d6a4db"
   integrity sha512-cbzEW5rShz8MxoTMFUidf13KObGkauA4ILeR3XcIdI7VLzMXwwXy///gLAbN2fD6vYy2ZAMDnCopQrCkNH9VNQ==
-
-mongoose@5.7.4:
-  version "5.7.4"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.7.4.tgz#b6a77a9217dace917ab028fa5dc72f400f2faf4b"
-  integrity sha512-IgqQS5HIaZ8tG2cib6QllfIw2Wc/A0QVOsdKLsSqRolqJFWOjI0se3vsKXLNkbEcuJ1xziW3e/jPhBs65678Hg==
-  dependencies:
-    bson "~1.1.1"
-    kareem "2.3.1"
-    mongodb "3.3.2"
-    mongoose-legacy-pluralize "1.0.2"
-    mpath "0.6.0"
-    mquery "3.2.2"
-    ms "2.1.2"
-    regexp-clone "1.0.0"
-    safe-buffer "5.1.2"
-    sift "7.0.1"
-    sliced "1.0.1"
 
 mongoose@5.8.0, mongoose@^5.5.13:
   version "5.8.0"
@@ -8846,7 +8813,7 @@ strapi-admin@3.0.0-beta.18.2:
     webpackbar "^3.2.0"
     yup "^0.27.0"
 
-strapi-connector-mongoose@^3.0.0-beta.18.2:
+strapi-connector-mongoose@3.0.0-beta.18.2:
   version "3.0.0-beta.18.2"
   resolved "https://registry.yarnpkg.com/strapi-connector-mongoose/-/strapi-connector-mongoose-3.0.0-beta.18.2.tgz#124929b8e36a0eed51a8ead94689177c88289f69"
   integrity sha512-LrqBKirqWTCTa0uBzduM/W1T0TbhR8goJ/UKgkIgFeiA7C8ZS9X9clkceYAzBICK3D6T1gorx/JpRthH29C3sg==
@@ -8957,18 +8924,6 @@ strapi-helper-plugin@3.0.0-beta.18.2:
     reactstrap "^8.0.1"
     styled-components "^4.3.1"
     whatwg-fetch "^2.0.3"
-
-strapi-hook-mongoose@3.0.0-beta.17.8:
-  version "3.0.0-beta.17.8"
-  resolved "https://registry.yarnpkg.com/strapi-hook-mongoose/-/strapi-hook-mongoose-3.0.0-beta.17.8.tgz#2803703f9c52b8625767a0cfdedc8940dcbe80c1"
-  integrity sha512-VYTr4sCSGk7T12LaOQHH0lm257c2N61opXl4IkZjRSg13khjNufdnBxahti7TcsDs7SHHiswbADRYQaEFOwQ1w==
-  dependencies:
-    lodash "^4.17.11"
-    mongoose "5.7.4"
-    mongoose-float "^1.0.4"
-    mongoose-long "^0.2.1"
-    pluralize "^7.0.0"
-    strapi-utils "3.0.0-beta.17.8"
 
 strapi-plugin-content-manager@3.0.0-beta.18.2:
   version "3.0.0-beta.18.2"
@@ -9118,19 +9073,6 @@ strapi-provider-upload-local@3.0.0-beta.18.2:
   version "3.0.0-beta.18.2"
   resolved "https://registry.yarnpkg.com/strapi-provider-upload-local/-/strapi-provider-upload-local-3.0.0-beta.18.2.tgz#16b1586df1c24b9c8db975187a9545a67c407bf7"
   integrity sha512-ce7kINgFnJ9CoIUNwEcHRTJtcd4q9oPU3MBV5Cqb0ZROrSEuA9sPF96pQF7vVdm2lm1A6JCjRItRhxbJ1tB6WA==
-
-strapi-utils@3.0.0-beta.17.8:
-  version "3.0.0-beta.17.8"
-  resolved "https://registry.yarnpkg.com/strapi-utils/-/strapi-utils-3.0.0-beta.17.8.tgz#2466c211254233366f108bb12be3e090514660ea"
-  integrity sha512-upECDz/k8K4H5zCAUaMjY2C2Ov2hw9VM8vU3I5cw6Y3F1YqdClZ24ArWzTqBR4E1narGiyG04jwGvsCz10rO+Q==
-  dependencies:
-    commander "^2.20.0"
-    joi-json "^2.1.0"
-    knex "^0.16.5"
-    lodash "^4.17.11"
-    pino "^4.7.1"
-    pluralize "^7.0.0"
-    shelljs "^0.8.3"
 
 strapi-utils@3.0.0-beta.18.2:
   version "3.0.0-beta.18.2"
@@ -9896,11 +9838,6 @@ value-equal@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/value-equal/-/value-equal-1.0.1.tgz#1e0b794c734c5c0cade179c437d356d931a34d6c"
   integrity sha512-NOJ6JZCAWr0zlxZt+xqCHNTEKOsrks2HQd4MqhP1qy4z1SkbEP467eNx6TgDKXMvUOb+OENfJCZwM+16n7fRfw==
-
-vandium-utils@^1.1.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/vandium-utils/-/vandium-utils-1.2.0.tgz#44735de4b7641a05de59ebe945f174e582db4f59"
-  integrity sha1-RHNd5LdkGgXeWevpRfF05YLbT1k=
 
 vary@^1.1.2, vary@~1.1.2:
   version "1.1.2"

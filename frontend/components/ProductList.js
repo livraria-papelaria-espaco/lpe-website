@@ -1,32 +1,22 @@
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  Grid,
-  Typography
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import gql from "graphql-tag";
-import Link from "next/link";
-import { graphql } from "react-apollo";
+import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import gql from 'graphql-tag';
+import Link from 'next/link';
+import { graphql } from 'react-apollo';
 
 const useStyles = makeStyles({
   card: {
-    maxWidth: 345
+    maxWidth: 345,
   },
   media: {
-    height: 140
-  }
+    height: 140,
+  },
 });
 
-const ProductList = (
-  { data: { loading, error, products } /*, search*/ },
-  req
-) => {
+const ProductList = ({ data: { loading, error, products } /*, search*/ }, req) => {
   const classes = useStyles();
 
-  if (error) return "Error loading products";
+  if (error) return 'Error loading products';
   //if restaurants are returned from the GraphQL query, run the filter query
   //and set equal to variable restaurantSearch
 
@@ -37,20 +27,11 @@ const ProductList = (
     )*/
     if (searchQuery.length != 0) {
       return (
-        <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-          spacing={3}
-        >
-          {searchQuery.map(res => (
-            <Grid item xs={6} md={4} lg={3} key={res._id}>
+        <Grid container direction='row' justify='center' alignItems='center' spacing={3}>
+          {searchQuery.map((res) => (
+            <Grid item xs={6} md={4} lg={3} key={res.slug}>
               <Card className={classes.card}>
-                <Link
-                  as={`/product/${res._id}`}
-                  href={`/product?id=${res._id}`}
-                >
+                <Link as={`/product/${res.slug}`} href={`/product?id=${res.slug}`}>
                   <CardActionArea>
                     <CardMedia
                       className={classes.media}
@@ -58,24 +39,16 @@ const ProductList = (
                       title={res.name}
                     />
                     <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
+                      <Typography gutterBottom variant='h5' component='h2'>
                         {res.name}
                       </Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                      >
+                      <Typography variant='body2' color='textSecondary' component='p'>
                         {res.short_description}
                       </Typography>
-                      <Typography variant="body2" component="p">
+                      <Typography variant='body2' component='p'>
                         {res.reference}
                       </Typography>
-                      <Typography
-                        variant="body1"
-                        color="secondary"
-                        component="p"
-                      >
+                      <Typography variant='body1' color='secondary' component='p'>
                         {`${res.price}€`}
                       </Typography>
                     </CardContent>
@@ -103,19 +76,14 @@ const query = gql`
       }
       price
       reference
-      _id
+      slug
     }
   }
 `;
-ProductList.getInitialProps = async ({ req }) => {
-  const res = await fetch("https://api.github.com/repos/zeit/next.js");
-  const json = await res.json();
-  return { stars: json.stargazers_count };
-};
 // The `graphql` wrapper executes a GraphQL query and makes the results
 // available on the `data` prop of the wrapped component (ProductList)
 export default graphql(query, {
   props: ({ data }) => ({
-    data
-  })
+    data,
+  }),
 })(ProductList);
