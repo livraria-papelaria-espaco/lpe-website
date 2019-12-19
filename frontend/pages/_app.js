@@ -1,22 +1,19 @@
-import green from "@material-ui/core/colors/green";
-import purple from "@material-ui/core/colors/purple";
-import {
-  createMuiTheme,
-  responsiveFontSizes,
-  ThemeProvider
-} from "@material-ui/core/styles";
-import App from "next/app";
-import React from "react";
-import withData from "../lib/apollo";
+import green from '@material-ui/core/colors/green';
+import purple from '@material-ui/core/colors/purple';
+import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
+import App from 'next/app';
+import React from 'react';
+import withData from '../lib/apollo';
+import Head from 'next/head';
 
 let theme = createMuiTheme({
   palette: {
     primary: purple,
-    secondary: green
+    secondary: green,
   },
   status: {
-    danger: "orange"
-  }
+    danger: 'orange',
+  },
 });
 theme = responsiveFontSizes(theme);
 
@@ -33,6 +30,10 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
     return (
       <ThemeProvider theme={theme}>
+        <Head>
+          {/* PWA primary color */}
+          <meta name='theme-color' content={theme.palette.primary.main} />
+        </Head>
         <Component {...pageProps} />
       </ThemeProvider>
     );
