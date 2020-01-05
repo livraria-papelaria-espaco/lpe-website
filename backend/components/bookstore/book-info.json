@@ -1,0 +1,20 @@
+{
+  "connection": "default",
+  "collectionName": "components_meta_book_infos",
+  "info": {
+    "name": "Book Info",
+    "icon": "book-open"
+  },
+  "options": {},
+  "attributes": {
+    "author": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "publisher": {
+      "type": "string"
+    }
+  }
+}

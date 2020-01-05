@@ -38,7 +38,8 @@
     "images": {
       "collection": "file",
       "via": "related",
-      "plugin": "upload"
+      "plugin": "upload",
+      "required": false
     },
     "short_description": {
       "type": "text"
@@ -46,6 +47,28 @@
     "slug": {
       "type": "string",
       "unique": true
+    },
+    "book_info": {
+      "type": "component",
+      "repeatable": false,
+      "component": "bookstore.book-info"
+    },
+    "category": {
+      "model": "category"
+    },
+    "order_available": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "Livro",
+        "Outro"
+      ],
+      "default": "Outro",
+      "required": true
     }
   }
 }
