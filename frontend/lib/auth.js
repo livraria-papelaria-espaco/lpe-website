@@ -7,26 +7,22 @@ import Router from 'next/router';
 const apiUrl = process.env.API_URL || 'http://localhost:3337';
 const strapi = new Strapi(apiUrl);
 
-export const strapiRegister = (username, email, password) => {
+export const strapiRegister = async (username, email, password) => {
   if (!process.browser) {
     return undefined;
   }
-  strapi.register(username, email, password).then((res) => {
-    setToken(res);
-  });
-  return Promise.resolve();
+  const token = await strapi.register(username, email, password);
+  setToken(token);
 };
 //use strapi to get a JWT and token object, save
 //to approriate cookei for future requests
-export const strapiLogin = (email, password) => {
+export const strapiLogin = async (email, password) => {
   if (!process.browser) {
     return;
   }
   // Get a token
-  strapi.login(email, password).then((res) => {
-    setToken(res);
-  });
-  return Promise.resolve();
+  const token = await strapi.login(email, password);
+  setToken(token);
 };
 
 export const setToken = (token) => {

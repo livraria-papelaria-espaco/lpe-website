@@ -37,7 +37,7 @@ class SignIn extends React.Component {
 
     strapiLogin(email, password)
       .then(() => console.log(Cookies.get('user')))
-      .catch((err) => this.setState({ error: err, loading: false }));
+      .catch(() => this.setState({ error: 'Invalid email or password', loading: false }));
   }
   render() {
     const { error, loading } = this.state;

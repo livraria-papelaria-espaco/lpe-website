@@ -36,7 +36,7 @@ class SignUp extends React.Component {
 
     strapiRegister(username, email, password)
       .then(() => this.setState({ loading: false }))
-      .catch((error) => this.setState({ error: error }));
+      .catch((error) => this.setState({ error: 'Ocorreu um erro ao criar a conta' }));
   }
 
   render() {
