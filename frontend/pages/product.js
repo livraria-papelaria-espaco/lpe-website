@@ -4,10 +4,45 @@ import { graphql } from 'react-apollo';
 import { compose } from 'recompose';
 //import { withContext } from '../components/Context/AppProvider';
 //import Cart from "../components/Cart/Cart";
-import { Typography } from '@material-ui/core';
+import { Typography, Link } from '@material-ui/core';
 import defaultPage from '../hocs/defaultPage';
+import ReactMarkdown from 'markdown-to-jsx';
+import { withStyles } from '@material-ui/core/styles';
 
-const Product = ({ data: { loading, error, products }, router, context }) => {
+const styles = (theme) => ({
+  listItem: {
+    marginTop: theme.spacing(1),
+  },
+});
+
+const markdownOptions = {
+  overrides: {
+    h1: {
+      component: Typography,
+      props: {
+        gutterBottom: true,
+        variant: 'h5',
+      },
+    },
+    h2: { component: Typography, props: { gutterBottom: true, variant: 'h6' } },
+    h3: { component: Typography, props: { gutterBottom: true, variant: 'subtitle1' } },
+    h4: {
+      component: Typography,
+      props: { gutterBottom: true, variant: 'caption', paragraph: true },
+    },
+    p: { component: Typography, props: { paragraph: true } },
+    a: { component: Link },
+    li: {
+      component: withStyles(styles)(({ classes, ...props }) => (
+        <li className={classes.listItem}>
+          <Typography component='span' {...props} />
+        </li>
+      )),
+    },
+  },
+};
+
+const Product = ({ data: { error, products } }) => {
   if (error) return <Typography variant='h1'>{`An error occurred: ${error}`}</Typography>;
   if (!products) return <Typography variant='h1'>Loading</Typography>;
 
@@ -18,7 +53,7 @@ const Product = ({ data: { loading, error, products }, router, context }) => {
       {product.images.map((i) => (
         <img key={i.id} src={`http://localhost:3337/${i.url}`} />
       ))}
-      <Typography variant='body1'>{product.description}</Typography>
+      <ReactMarkdown options={markdownOptions} children={product.description} />
       <Typography variant='h6' component='p' color='secondary'>
         {product.price}€
       </Typography>
