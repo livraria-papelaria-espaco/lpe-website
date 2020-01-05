@@ -10,13 +10,31 @@ module.exports = {
     if (model.name) {
       model.slug = slugify(model.name);
     }
+
+    if (model.quantity !== undefined && model.order_available !== undefined) {
+      if (model.quantity > strapi.config.lowStockThreshold) model.stock_status = 'IN_STOCK';
+      else if (model.quantity > 0) model.stock_status = 'LOW_STOCK';
+      else model.stock_status = model.order_available ? 'ORDER_ONLY' : 'UNAVAILABLE';
+    }
   },
   beforeUpdate: async (model) => {
+    var update = {};
+
     if (model.getUpdate().name) {
-      model.update({
-        slug: slugify(model.getUpdate().name),
-      });
+      update.slug = slugify(model.getUpdate().name);
     }
+
+    if (
+      model.getUpdate().quantity !== undefined &&
+      model.getUpdate().order_available !== undefined
+    ) {
+      if (model.getUpdate().quantity > strapi.config.lowStockThreshold)
+        update.stock_status = 'IN_STOCK';
+      else if (model.getUpdate().quantity > 0) update.stock_status = 'LOW_STOCK';
+      else update.stock_status = model.getUpdate().order_available ? 'ORDER_ONLY' : 'UNAVAILABLE';
+    }
+
+    if (Object.keys(update).length !== 0) model.update(update);
   },
   // Before saving a value.
   // Fired before an `insert` or `update` query.

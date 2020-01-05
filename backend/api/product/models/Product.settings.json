@@ -25,12 +25,14 @@
     },
     "quantity": {
       "type": "integer",
-      "required": true
+      "required": true,
+      "private": true
     },
     "show": {
       "required": true,
       "default": true,
-      "type": "boolean"
+      "type": "boolean",
+      "private": true
     },
     "reference": {
       "type": "string"
@@ -59,7 +61,8 @@
     "order_available": {
       "type": "boolean",
       "default": true,
-      "required": true
+      "required": true,
+      "private": true
     },
     "type": {
       "type": "enumeration",
@@ -68,6 +71,17 @@
         "Outro"
       ],
       "default": "Outro",
+      "required": true
+    },
+    "stock_status": {
+      "type": "enumeration",
+      "enum": [
+        "IN_STOCK",
+        "LOW_STOCK",
+        "ORDER_ONLY",
+        "UNAVAILABLE"
+      ],
+      "default": "IN_STOCK",
       "required": true
     }
   }

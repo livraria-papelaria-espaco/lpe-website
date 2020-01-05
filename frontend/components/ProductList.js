@@ -48,8 +48,11 @@ const ProductList = ({ data: { loading, error, products } /*, search*/ }, req) =
                       <Typography variant='body2' component='p'>
                         {res.reference}
                       </Typography>
+                      <Typography variant='body2' component='p'>
+                        Estado: {res.stock_status}
+                      </Typography>
                       <Typography variant='body1' color='secondary' component='p'>
-                        {`${res.price}€`}
+                        {`${res.price.toFixed(2)}€`}
                       </Typography>
                     </CardContent>
                   </CardActionArea>
@@ -77,6 +80,7 @@ const query = gql`
       price
       reference
       slug
+      stock_status
     }
   }
 `;

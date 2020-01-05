@@ -55,9 +55,20 @@ const Product = ({ data: { error, products } }) => {
       ))}
       <ReactMarkdown options={markdownOptions} children={product.description} />
       <Typography variant='h6' component='p' color='secondary'>
-        {product.price}€
+        {product.price.toFixed(2)}€
       </Typography>
-      <Typography variant='subtitle2'>{product.reference}</Typography>
+      <Typography variant='subtitle2'>ISBN: {product.reference}</Typography>
+      {product.type === 'Livro' && product.book_info && (
+        <>
+          <Typography variant='body1'>Autor: {product.book_info.author}</Typography>
+          <Typography variant='body1'>Edição: {product.book_info.edition}</Typography>
+          <Typography variant='body1'>Editor: {product.book_info.publisher}</Typography>
+        </>
+      )}
+      {product.category && (
+        <Typography variant='body1'>Categoria: {product.category.name}</Typography>
+      )}
+      <Typography variant='body1'>Estado: {product.stock_status}</Typography>
     </div>
   );
 };
@@ -73,6 +84,16 @@ const GET_PRODUCT_INFO = gql`
       }
       price
       reference
+      type
+      book_info {
+        author
+        edition
+        publisher
+      }
+      category {
+        name
+      }
+      stock_status
     }
   }
 `;
