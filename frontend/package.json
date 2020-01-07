@@ -17,6 +17,7 @@
     "express": "^4.17.1",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
+    "immutable": "^4.0.0-rc.12",
     "js-cookie": "^2.2.1",
     "jwt-decode": "^2.2.0",
     "markdown-to-jsx": "^6.10.3",

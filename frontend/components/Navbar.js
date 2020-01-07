@@ -5,6 +5,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import React from 'react';
 import { unsetToken } from '../lib/auth';
 import Link from 'next/link';
+import CartIcon from './cart/CartIcon';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,6 +82,7 @@ const Navbar = ({ username }) => {
             </Link>
           </div>
         )}
+        <CartIcon />
       </Toolbar>
     </AppBar>
   );

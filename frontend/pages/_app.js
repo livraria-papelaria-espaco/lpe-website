@@ -5,6 +5,7 @@ import App from 'next/app';
 import React from 'react';
 import withData from '../lib/apollo';
 import Head from 'next/head';
+import { CartProvider } from '../components/context/CartContext';
 
 let theme = createMuiTheme({
   palette: {
@@ -29,13 +30,15 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
     return (
-      <ThemeProvider theme={theme}>
-        <Head>
-          {/* PWA primary color */}
-          <meta name='theme-color' content={theme.palette.primary.main} />
-        </Head>
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <CartProvider>
+        <ThemeProvider theme={theme}>
+          <Head>
+            {/* PWA primary color */}
+            <meta name='theme-color' content={theme.palette.primary.main} />
+          </Head>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </CartProvider>
     );
   }
 }
