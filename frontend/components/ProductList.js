@@ -1,8 +1,8 @@
+import { useQuery } from '@apollo/react-hooks';
 import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import gql from 'graphql-tag';
 import Link from 'next/link';
-import { graphql } from 'react-apollo';
 
 const useStyles = makeStyles({
   card: {
@@ -13,16 +13,16 @@ const useStyles = makeStyles({
   },
 });
 
-const ProductList = ({ data: { loading, error, products } /*, search*/ }, req) => {
+const ProductList = (/*{search}*/) => {
   const classes = useStyles();
+  const { loading, error, data } = useQuery(PRODUCTS_QUERY);
 
   if (error) return 'Error loading products';
-  //if restaurants are returned from the GraphQL query, run the filter query
-  //and set equal to variable restaurantSearch
+  if (loading) return <h1>Loading</h1>;
 
-  if (products && products.length) {
-    //searchQuery
-    const searchQuery = products; /*.filter(query =>
+  if (data.products && data.products.length) {
+    const searchQuery =
+      data.products; /*.filter(query =>
       query.name.toLowerCase().includes(search)
     )*/
     if (searchQuery.length != 0) {
@@ -62,14 +62,13 @@ const ProductList = ({ data: { loading, error, products } /*, search*/ }, req) =
           ))}
         </Grid>
       );
-    } else {
-      return <h1>No Products Found</h1>;
     }
   }
-  return <h1>Loading</h1>;
+
+  return <h1>No Products Found</h1>;
 };
 
-const query = gql`
+const PRODUCTS_QUERY = gql`
   {
     products {
       name
@@ -86,8 +85,4 @@ const query = gql`
 `;
 // The `graphql` wrapper executes a GraphQL query and makes the results
 // available on the `data` prop of the wrapped component (ProductList)
-export default graphql(query, {
-  props: ({ data }) => ({
-    data,
-  }),
-})(ProductList);
+export default ProductList;

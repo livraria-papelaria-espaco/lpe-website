@@ -1,16 +1,13 @@
-//import { withContext } from '../components/Context/AppProvider';
-//import Cart from "../components/Cart/Cart";
+import { useQuery } from '@apollo/react-hooks';
 import { Link, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import gql from 'graphql-tag';
 import ReactMarkdown from 'markdown-to-jsx';
-import { withRouter } from 'next/router';
-import { graphql } from 'react-apollo';
-import { compose } from 'recompose';
+import { useRouter } from 'next/router';
 import AddToCart from '../components/cart/AddToCart';
+import Layout from '../components/Layout';
 import Navbar from '../components/Navbar';
 import defaultPage from '../hocs/defaultPage';
-import Layout from '../components/Layout';
 
 const styles = (theme) => ({
   listItem: {
@@ -45,11 +42,18 @@ const markdownOptions = {
   },
 };
 
-const Product = ({ data: { error, products }, loggedUser }) => {
+const Product = ({ loggedUser }) => {
+  const router = useRouter();
+  const { loading, error, data } = useQuery(GET_PRODUCT_INFO, {
+    variables: { id: router.query.id },
+  });
   if (error) return <Typography variant='h1'>{`An error occurred: ${error}`}</Typography>;
-  if (!products) return <Typography variant='h1'>Loading</Typography>;
+  if (loading) return <Typography variant='h1'>Loading</Typography>;
 
-  const product = products[0];
+  const product = data.products[0];
+
+  if (!product) return <Typography variant='h1'>404 Not found</Typography>;
+
   return (
     <div>
       <Navbar username={loggedUser} />
@@ -106,16 +110,4 @@ const GET_PRODUCT_INFO = gql`
   }
 `;
 
-export default compose(
-  withRouter,
-  defaultPage,
-  //withContext,
-  graphql(GET_PRODUCT_INFO, {
-    options: (props) => ({
-      variables: {
-        id: props.router.query.id,
-      },
-    }),
-    props: ({ data }) => ({ data }),
-  })
-)(Product);
+export default defaultPage(Product);

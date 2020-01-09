@@ -13,7 +13,6 @@ app
     server.get('/product/:id', (req, res) => {
       const actualPage = '/product';
       const queryParams = { id: req.params.id };
-      console.dir('req.params.id = ' + JSON.stringify(req.params.id));
       app.render(req, res, actualPage, queryParams);
     });
 

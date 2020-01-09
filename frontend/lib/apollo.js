@@ -1,9 +1,9 @@
-import { HttpLink } from "apollo-link-http";
-import { withData } from "next-apollo";
+import { HttpLink } from 'apollo-boost';
+import { withData } from 'next-apollo';
 
 const config = {
   link: new HttpLink({
-    uri: "http://localhost:3337/graphql" // Server URL (must be absolute)
-  })
+    uri: 'http://localhost:3337/graphql', // Server URL (must be absolute)
+  }),
 };
 export default withData(config);
