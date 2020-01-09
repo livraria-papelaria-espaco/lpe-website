@@ -1,19 +1,18 @@
-import green from '@material-ui/core/colors/green';
-import purple from '@material-ui/core/colors/purple';
 import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
 import App from 'next/app';
-import React from 'react';
-import withData from '../lib/apollo';
 import Head from 'next/head';
+import React from 'react';
 import { CartProvider } from '../components/context/CartContext';
+import withData from '../lib/apollo';
 
 let theme = createMuiTheme({
   palette: {
-    primary: purple,
-    secondary: green,
-  },
-  status: {
-    danger: 'orange',
+    primary: {
+      main: '#1565c0',
+    },
+    secondary: {
+      main: '#ffa000',
+    },
   },
 });
 theme = responsiveFontSizes(theme);
