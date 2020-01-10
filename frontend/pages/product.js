@@ -44,9 +44,11 @@ const markdownOptions = {
 
 const Product = ({ loggedUser }) => {
   const router = useRouter();
+
   const { loading, error, data } = useQuery(GET_PRODUCT_INFO, {
     variables: { id: router.query.id },
   });
+
   if (error) return <Typography variant='h1'>{`An error occurred: ${error}`}</Typography>;
   if (loading) return <Typography variant='h1'>Loading</Typography>;
 

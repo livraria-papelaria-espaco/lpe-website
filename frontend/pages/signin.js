@@ -1,47 +1,38 @@
 import { Button, Container, Paper, TextField, Typography } from '@material-ui/core';
 import Cookies from 'js-cookie';
-import Router from 'next/router';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import Layout from '../components/Layout';
 import defaultPage from '../hocs/defaultPage';
 import { strapiLogin } from '../lib/auth';
 
-class SignIn extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: {
-        email: '',
-        password: '',
-      },
-      loading: false,
-      error: '',
-    };
-  }
-  componentDidMount() {
-    if (this.props.isAuthenticated) {
-      Router.push('/'); // redirect if you're already logged in
+const SignIn = ({ isAuthenticated }) => {
+  const router = useRouter();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const onEmailChange = (evt) => setEmail(evt.target.value);
+  const onPasswordChange = (evt) => setPassword(evt.target.value);
+
+  const onSubmit = async () => {
+    setLoading(true);
+    try {
+      await strapiLogin(email, password, router.query.redirect);
+    } catch (e) {
+      setError('Email e/ou palavra passe incorretos');
+      setLoading(false);
     }
-  }
+  };
 
-  onChange(propertyName, event) {
-    const { data } = this.state;
-    data[propertyName] = event.target.value;
-    this.setState({ data });
-  }
-  onSubmit() {
-    const {
-      data: { email, password },
-    } = this.state;
+  useEffect(() => {
+    if (isAuthenticated) router.push(router.query.redirect || '/');
+  }, [isAuthenticated]);
 
-    this.setState({ loading: true });
-
-    strapiLogin(email, password)
-      .then(() => console.log(Cookies.get('user')))
-      .catch(() => this.setState({ error: 'Invalid email or password', loading: false }));
-  }
-  render() {
-    const { error, loading } = this.state;
-    return (
+  return (
+    <Layout title='Iniciar Sessão'>
       <Container maxWidth='sm'>
         <Paper>
           <Typography variant='body1'>{error}</Typography>
@@ -51,8 +42,8 @@ class SignIn extends React.Component {
               <TextField
                 id='email'
                 label='Email'
-                value={this.state.email}
-                onChange={this.onChange.bind(this, 'email')}
+                value={email}
+                onChange={onEmailChange}
                 type='email'
                 variant='outlined'
               />
@@ -61,19 +52,20 @@ class SignIn extends React.Component {
               <TextField
                 id='password'
                 label='Palavra Passe'
-                value={this.state.password}
-                onChange={this.onChange.bind(this, 'password')}
+                value={password}
+                onChange={onPasswordChange}
                 type='password'
                 variant='outlined'
               />
             </div>
-            <Button color='primary' onClick={this.onSubmit.bind(this)}>
+            <Button color='primary' onClick={onSubmit}>
               Iniciar Sessão
             </Button>
           </form>
         </Paper>
       </Container>
-    );
-  }
-}
+    </Layout>
+  );
+};
+
 export default defaultPage(SignIn);

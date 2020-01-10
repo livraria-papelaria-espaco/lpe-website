@@ -1,38 +1,36 @@
-import React from 'react';
 import Router from 'next/router';
+import React, { useEffect } from 'react';
+import { getUserFromLocalCookie, getUserFromServerCookie } from '../lib/auth';
 
-import { getUserFromServerCookie, getUserFromLocalCookie } from '../lib/auth';
-
-export default (Page) =>
-  class DefaultPage extends React.Component {
-    static async getInitialProps({ req }) {
-      const loggedUser = process.browser ? getUserFromLocalCookie() : getUserFromServerCookie(req);
-      const pageProps = Page.getInitialProps && Page.getInitialProps(req);
-      let path = req ? req.pathname : '';
-      path = '';
-      return {
-        ...pageProps,
-        loggedUser,
-        currentUrl: path,
-        isAuthenticated: !!loggedUser,
-      };
-    }
-
-    logout = (eve) => {
-      if (eve.key === 'logout') {
-        Router.push(`/?logout=${eve.newValue}`);
-      }
+export default (WrappedComponent) => {
+  const Wrapper = (props) => {
+    const syncLogout = (event) => {
+      if (event.key === 'logout') Router.push(`/?logout=${event.newValue}`);
     };
 
-    componentDidMount() {
-      window.addEventListener('storage', this.logout, false);
-    }
+    useEffect(() => {
+      window.addEventListener('storage', syncLogout);
 
-    componentWillUnmount() {
-      window.removeEventListener('storage', this.logout, false);
-    }
+      return () => {
+        window.removeEventListener('storage', syncLogout);
+        window.localStorage.removeItem('logout');
+      };
+    }, []);
 
-    render() {
-      return <Page {...this.props} />;
-    }
+    return <WrappedComponent {...props} />;
   };
+
+  Wrapper.getInitialProps = async (ctx) => {
+    const loggedUser = process.browser
+      ? getUserFromLocalCookie()
+      : getUserFromServerCookie(ctx.req);
+    let path = ctx.req ? ctx.req.url : '';
+
+    const componentProps =
+      WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx));
+
+    return { ...componentProps, loggedUser, currentUrl: path, isAuthenticated: !!loggedUser };
+  };
+
+  return Wrapper;
+};

@@ -1,47 +1,39 @@
 import { Button, Container, Paper, TextField, Typography } from '@material-ui/core';
-import Router from 'next/router';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import Layout from '../components/Layout';
 import defaultPage from '../hocs/defaultPage';
 import { strapiRegister } from '../lib/auth';
 
-class SignUp extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: {
-        email: '',
-        username: '',
-        password: '',
-      },
-      loading: false,
-      error: '',
-    };
-  }
-  componentDidMount() {
-    if (this.props.isAuthenticated) {
-      Router.push('/'); // redirect if you're already logged in
+const SignUp = ({ isAuthenticated }) => {
+  const router = useRouter();
+
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const onUsernameChange = (evt) => setUsername(evt.target.value);
+  const onEmailChange = (evt) => setEmail(evt.target.value);
+  const onPasswordChange = (evt) => setPassword(evt.target.value);
+
+  const onSubmit = async () => {
+    setLoading(true);
+    try {
+      await strapiRegister(username, email, password, router.query.redirect);
+    } catch (e) {
+      setError('Ocorreu um erro ao criar uma conta');
+      setLoading(false);
     }
-  }
+  };
 
-  onChange(propertyName, event) {
-    const { data } = this.state;
-    data[propertyName] = event.target.value;
-    this.setState({ data });
-  }
-  onSubmit() {
-    const {
-      data: { email, username, password },
-    } = this.state;
-    this.setState({ loading: true });
+  useEffect(() => {
+    if (isAuthenticated) router.push(router.query.redirect || '/');
+  }, [isAuthenticated]);
 
-    strapiRegister(username, email, password)
-      .then(() => this.setState({ loading: false }))
-      .catch((error) => this.setState({ error: 'Ocorreu um erro ao criar a conta' }));
-  }
-
-  render() {
-    const { error, loading } = this.state;
-    return (
+  return (
+    <Layout title='Iniciar Sessão'>
       <Container maxWidth='sm'>
         <Paper>
           <Typography variant='body1'>{error}</Typography>
@@ -51,8 +43,8 @@ class SignUp extends React.Component {
               <TextField
                 id='username'
                 label='Nome de utilizador'
-                value={this.state.username}
-                onChange={this.onChange.bind(this, 'username')}
+                value={username}
+                onChange={onUsernameChange}
                 type='text'
                 variant='outlined'
               />
@@ -61,8 +53,8 @@ class SignUp extends React.Component {
               <TextField
                 id='email'
                 label='Email'
-                value={this.state.email}
-                onChange={this.onChange.bind(this, 'email')}
+                value={email}
+                onChange={onEmailChange}
                 type='email'
                 variant='outlined'
               />
@@ -71,19 +63,20 @@ class SignUp extends React.Component {
               <TextField
                 id='password'
                 label='Palavra Passe'
-                value={this.state.password}
-                onChange={this.onChange.bind(this, 'password')}
+                value={password}
+                onChange={onPasswordChange}
                 type='password'
                 variant='outlined'
               />
             </div>
-            <Button color='primary' onClick={this.onSubmit.bind(this)}>
-              Registar
+            <Button color='primary' onClick={onSubmit}>
+              Criar conta
             </Button>
           </form>
         </Paper>
       </Container>
-    );
-  }
-}
+    </Layout>
+  );
+};
+
 export default defaultPage(SignUp);
