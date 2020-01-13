@@ -26,16 +26,15 @@ const CartSummary = ({ data, dispatch }) => {
           <Typography variant='body1'>{item.get('price').toFixed(2)}€</Typography>
           <Typography variant='body2'>Qnt: {item.get('quantity')}</Typography>
           <IconButton
-            color='textSecondary'
             onClick={decreaseQuantity(item.get('id'))}
             disabled={item.get('quantity') <= 1}
           >
             <RemoveIcon />
           </IconButton>
-          <IconButton color='textSecondary' onClick={increaseQuantity(item.get('id'))}>
+          <IconButton onClick={increaseQuantity(item.get('id'))}>
             <AddIcon />
           </IconButton>
-          <IconButton color='textSecondary' onClick={removeItem(item.get('id'))}>
+          <IconButton onClick={removeItem(item.get('id'))}>
             <DeleteIcon />
           </IconButton>
         </div>

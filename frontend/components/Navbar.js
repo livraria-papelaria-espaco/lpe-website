@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
+    cursor: 'pointer',
+  },
+  grow: {
     flexGrow: 1,
   },
 }));
@@ -38,9 +41,12 @@ const Navbar = ({ username }) => {
         <IconButton edge='start' className={classes.menuButton} color='inherit' aria-label='menu'>
           <MenuIcon />
         </IconButton>
-        <Typography variant='h6' className={classes.title}>
-          Livraria e Papelaria Espaço
-        </Typography>
+        <Link href='/'>
+          <Typography variant='h6' className={classes.title} component='a'>
+            Livraria e Papelaria Espaço
+          </Typography>
+        </Link>
+        <div className={classes.grow} />
         {username ? (
           <div>
             <IconButton
@@ -68,7 +74,9 @@ const Navbar = ({ username }) => {
               onClose={handleClose}
             >
               <Typography variant='h6' component='p'>{`Bem vindo(a), ${username}`}</Typography>
-              <MenuItem onClick={handleClose}>Minha conta</MenuItem>
+              <Link href='/dashboard'>
+                <MenuItem>Minha conta</MenuItem>
+              </Link>
               <MenuItem onClick={unsetToken}>Sair</MenuItem>
             </Menu>
           </div>
