@@ -1,0 +1,33 @@
+{
+  "connection": "default",
+  "collectionName": "orders",
+  "info": {
+    "name": "Order"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "price": {
+      "type": "decimal",
+      "default": 0,
+      "required": true
+    },
+    "shippingAddress": {
+      "type": "component",
+      "repeatable": false,
+      "component": "checkout.address"
+    },
+    "billingAddress": {
+      "type": "component",
+      "repeatable": false,
+      "component": "checkout.address"
+    },
+    "user": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "orders"
+    }
+  }
+}
