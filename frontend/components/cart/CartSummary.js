@@ -25,18 +25,22 @@ const CartSummary = ({ data, dispatch }) => {
           </Typography>
           <Typography variant='body1'>{item.get('price').toFixed(2)}€</Typography>
           <Typography variant='body2'>Qnt: {item.get('quantity')}</Typography>
-          <IconButton
-            onClick={decreaseQuantity(item.get('id'))}
-            disabled={item.get('quantity') <= 1}
-          >
-            <RemoveIcon />
-          </IconButton>
-          <IconButton onClick={increaseQuantity(item.get('id'))}>
-            <AddIcon />
-          </IconButton>
-          <IconButton onClick={removeItem(item.get('id'))}>
-            <DeleteIcon />
-          </IconButton>
+          {dispatch && (
+            <>
+              <IconButton
+                onClick={decreaseQuantity(item.get('id'))}
+                disabled={item.get('quantity') <= 1}
+              >
+                <RemoveIcon />
+              </IconButton>
+              <IconButton onClick={increaseQuantity(item.get('id'))}>
+                <AddIcon />
+              </IconButton>
+              <IconButton onClick={removeItem(item.get('id'))}>
+                <DeleteIcon />
+              </IconButton>
+            </>
+          )}
         </div>
       ))}
       <Typography variant='h6' component='p'>

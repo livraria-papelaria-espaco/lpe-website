@@ -1,12 +1,15 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import Link from 'next/link';
 import React from 'react';
 
-const CartSummary = ({ open, onClose, children }) => (
+const CartDialog = ({ open, onClose, children }) => (
   <Dialog open={open} onClose={onClose}>
     <DialogTitle>Carrinho de Compras</DialogTitle>
     <DialogContent>{children}</DialogContent>
     <DialogActions>
-      <Button color='primary'>Finalizar compra</Button>
+      <Link href='/checkout'>
+        <Button color='primary'>Finalizar compra</Button>
+      </Link>
       <Button onClick={onClose} color='primary'>
         Fechar
       </Button>
@@ -14,4 +17,4 @@ const CartSummary = ({ open, onClose, children }) => (
   </Dialog>
 );
 
-export default CartSummary;
+export default CartDialog;
