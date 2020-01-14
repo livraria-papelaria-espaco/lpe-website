@@ -43,7 +43,7 @@ export const unsetToken = () => {
   }
   Cookies.remove('jwt');
   Cookies.remove('username');
-  Cookies.remove('cart');
+  //Cookies.remove('cart');
 
   // to support logging out from all windows
   window.localStorage.setItem('logout', Date.now());

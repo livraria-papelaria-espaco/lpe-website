@@ -7,7 +7,7 @@ const securePageHoc = (WrappedComponent) => {
     const router = useRouter();
     React.useEffect(() => {
       if (!props.isAuthenticated)
-        router.push({
+        router.replace({
           pathname: '/signin',
           query: { redirect: props.currentUrl || '/' },
         });

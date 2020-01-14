@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from '../components/Navbar';
 import Layout from '../components/Layout';
 import CheckoutSummary from '../components/checkout/CheckoutSummary';
+import securePage from '../hocs/securePage';
 
 const CheckoutPage = ({ loggedUser }) => (
   <div>
@@ -12,4 +13,4 @@ const CheckoutPage = ({ loggedUser }) => (
   </div>
 );
 
-export default CheckoutPage;
+export default securePage(CheckoutPage);

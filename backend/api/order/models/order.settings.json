@@ -28,6 +28,22 @@
       "plugin": "users-permissions",
       "model": "user",
       "via": "orders"
+    },
+    "orderData": {
+      "type": "json"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "WAITING_PAYMENT",
+        "PROCESSING",
+        "SHIPPED",
+        "DELIVERED",
+        "READY_TO_PICKUP",
+        "DELIVERY_FAILED"
+      ],
+      "default": "WAITING_PAYMENT",
+      "required": true
     }
   }
 }
