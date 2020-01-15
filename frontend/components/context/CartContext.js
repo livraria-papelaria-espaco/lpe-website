@@ -20,6 +20,8 @@ const refreshMeta = (state) => {
 
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
+    console.log('state', state);
+    console.log('action', action);
     switch (action.type) {
       case 'LOAD_CART':
         return action.data;
@@ -64,15 +66,13 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     if (state.get('default', false)) {
-      const cart = Cookies.getJSON('cart');
+      const cart = Cookies.getJSON('cart') || [];
       // TODO refresh all data from server
-      if (cart) {
-        const [total, count] = cart.reduce(
-          (result, v) => [result[0] + v.price * v.quantity, result[1] + v.quantity],
-          [0, 0]
-        );
-        dispatch({ type: 'LOAD_CART', data: fromJS({ total, items: cart, count }) });
-      }
+      const [total, count] = cart.reduce(
+        (result, v) => [result[0] + v.price * v.quantity, result[1] + v.quantity],
+        [0, 0]
+      );
+      dispatch({ type: 'LOAD_CART', data: fromJS({ total, items: cart, count }) });
     }
     Cookies.set('cart', state.get('items').toJS());
   }, [state, dispatch]);
