@@ -44,6 +44,19 @@
       ],
       "default": "WAITING_PAYMENT",
       "required": true
+    },
+    "paymentGateway": {
+      "type": "enumeration",
+      "enum": [
+        "IN_STORE",
+        "PAYPAL"
+      ],
+      "default": "IN_STORE",
+      "required": true
+    },
+    "storePickup": {
+      "type": "boolean",
+      "required": true
     }
   }
 }

@@ -1,7 +1,8 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
-import Layout from '../components/Layout';
+import CheckoutForm from '../components/checkout/CheckoutForm';
 import CheckoutSummary from '../components/checkout/CheckoutSummary';
+import Layout from '../components/Layout';
+import Navbar from '../components/Navbar';
 import securePage from '../hocs/securePage';
 
 const CheckoutPage = ({ loggedUser }) => (
@@ -9,6 +10,7 @@ const CheckoutPage = ({ loggedUser }) => (
     <Navbar username={loggedUser} />
     <Layout title='Checkout'>
       <CheckoutSummary />
+      <CheckoutForm />
     </Layout>
   </div>
 );
