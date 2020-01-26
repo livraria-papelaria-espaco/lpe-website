@@ -3,7 +3,7 @@ import App from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 import { CartProvider } from '../components/context/CartContext';
-import withData from '../lib/apollo';
+import { withApollo } from '../lib/apollo';
 
 let theme = createMuiTheme({
   palette: {
@@ -41,4 +41,4 @@ class MyApp extends App {
     );
   }
 }
-export default withData(MyApp);
+export default withApollo(MyApp);
