@@ -20,7 +20,7 @@ const CheckoutSubmit = () => {
           postalCode: '1234-567',
         },
         paymentGateway: 'PAYPAL',
-        orderData: '{"items": [{"slug": "test", "quantity": 3}]}',
+        orderData: { items: [{ slug: 'test', quantity: 3 }] },
       },
       context: {
         headers: {
