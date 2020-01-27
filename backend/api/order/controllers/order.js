@@ -14,7 +14,16 @@ const parseOrderData = async (data, price) => {
       const products = await strapi.models.product.find({ slug: v.slug });
       if (!products[0]) throw strapi.errors.badRequest(`Invalid item ${v.slug}.`);
       const product = products[0];
-      //TODO check stock
+      if (product.quantity - v.quantity < 0) {
+        if (!product.order_available)
+          throw strapi.errors.badRequest(`Stock not available for ${v.slug}`);
+        await strapi.models.product.updateOne({ _id: product._id }, { quantity: 0 });
+      } else {
+        await strapi.models.product.updateOne(
+          { _id: product._id },
+          { quantity: product.quantity - v.quantity }
+        );
+      }
       totalPrice += v.quantity * product.price;
       return {
         name: product.name,
