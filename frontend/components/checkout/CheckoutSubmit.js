@@ -9,7 +9,7 @@ const CheckoutSubmit = () => {
   const onClick = () => {
     createOrder({
       variables: {
-        price: 43.3,
+        price: 46.5,
         storePickup: false,
         address: {
           firstName: 'John',
