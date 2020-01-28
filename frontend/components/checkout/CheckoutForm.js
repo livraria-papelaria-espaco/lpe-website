@@ -29,7 +29,11 @@ const CheckoutForm = () => {
         setValue={setPaymentGateway}
         disableStore={storePickup !== 'true'}
       />
-      <CheckoutSubmit />
+      <CheckoutSubmit
+        storePickup={storePickup}
+        shippingAddress={shippingAddress}
+        paymentGateway={paymentGateway}
+      />
     </div>
   );
 };

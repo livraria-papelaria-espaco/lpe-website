@@ -1,34 +1,43 @@
-import React from 'react';
-import { Button } from '@material-ui/core';
-import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
+import { Button, Typography } from '@material-ui/core';
+import gql from 'graphql-tag';
+import { List } from 'immutable';
+import { useRouter } from 'next/router';
+import React from 'react';
+import CartContext from '../context/CartContext';
 
-const CheckoutSubmit = () => {
+const CheckoutSubmit = ({ storePickup, shippingAddress, paymentGateway }) => {
+  const router = useRouter();
+  const { state: itemsState } = React.useContext(CartContext);
   const [createOrder] = useMutation(CREATE_ORDER);
+  const [error, setError] = React.useState(false);
 
-  const onClick = () => {
-    createOrder({
+  const onClick = async () => {
+    const { data, errors } = await createOrder({
       variables: {
-        price: 46.5,
-        storePickup: false,
-        address: {
-          firstName: 'John',
-          lastName: 'Doe',
-          address1: 'Lorem Ipsum Stree',
-          address2: '123',
-          city: 'Lorem',
-          postalCode: '1234-567',
-        },
-        paymentGateway: 'PAYPAL',
-        orderData: { items: [{ slug: 'test', quantity: 3 }] },
-      },
-      context: {
-        headers: {
-          authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMWMyYzgzZjAzM2JhMTQ4OWIwMjVmZSIsImlhdCI6MTU3OTk3ODQ2MSwiZXhwIjoxNTgyNTcwNDYxfQ.A6hEFiBUTI77mB-sgEYSSOknip2WMxvLikTEDmyCnME',
+        price: itemsState.get('total', 0),
+        storePickup: storePickup != 'false',
+        address: shippingAddress,
+        paymentGateway: paymentGateway,
+        orderData: {
+          items: itemsState
+            .get('items', List())
+            .map((v) => ({ id: v.get('id'), quantity: v.get('quantity', 1) }))
+            .toJS(),
         },
       },
     });
+    if (errors) {
+      setError(true);
+      return;
+    }
+    router.push(
+      {
+        pathname: '/checkout/success',
+        query: { id: data.createOrder.order._id },
+      },
+      '/checkout/success'
+    );
   };
 
   return (
@@ -36,12 +45,16 @@ const CheckoutSubmit = () => {
       <Button variant='contained' color='primary' onClick={onClick}>
         Encomendar
       </Button>
+      {error && (
+        <Typography variant='p' color='error'>
+          Ocorreu um erro
+        </Typography>
+      )}
     </div>
   );
 };
 
 const CREATE_ORDER = gql`
-  # Write your query or mutation here
   mutation createOrder(
     $price: Float!
     $storePickup: Boolean!

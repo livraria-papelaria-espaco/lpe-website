@@ -20,8 +20,6 @@ const refreshMeta = (state) => {
 
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
-    console.log('state', state);
-    console.log('action', action);
     switch (action.type) {
       case 'LOAD_CART':
         return action.data;
@@ -59,6 +57,8 @@ export const CartProvider = ({ children }) => {
             if (key !== undefined) return items.delete(key);
           })
           .update(refreshMeta);
+      case 'RESET_CART':
+        return initialState.set('default', false);
       default:
         return state;
     }
