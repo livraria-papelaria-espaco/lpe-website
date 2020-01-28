@@ -2,6 +2,19 @@
 
 const { sanitizeEntity } = require('strapi-utils');
 
+const addStockStatus = (entity) => {
+  if (typeof entity !== 'object' || entity == null) return entity;
+
+  let stockStatus = 'UNAVAILABLE';
+
+  if (entity.quantity !== undefined && entity.order_available !== undefined) {
+    if (entity.quantity > strapi.config.lowStockThreshold) stockStatus = 'IN_STOCK';
+    else if (entity.quantity > 0) stockStatus = 'LOW_STOCK';
+    else stockStatus = entity.order_available ? 'ORDER_ONLY' : 'UNAVAILABLE';
+  }
+  return { ...entity, stock_status: stockStatus };
+};
+
 module.exports = {
   async find(ctx) {
     let entities;
@@ -13,12 +26,12 @@ module.exports = {
 
     return entities
       .filter((entity) => entity.show !== false)
-      .map((entity) => sanitizeEntity(entity, { model: strapi.models.product }));
+      .map((entity) => sanitizeEntity(addStockStatus(entity), { model: strapi.models.product }));
   },
 
   async findOne(ctx) {
     const entity = await strapi.services.product.findOne(ctx.params);
     if (entity.show === false) return null;
-    return sanitizeEntity(entity, { model: strapi.models.product });
+    return sanitizeEntity(addStockStatus(entity), { model: strapi.models.product });
   },
 };
