@@ -49,7 +49,8 @@
       "type": "enumeration",
       "enum": [
         "IN_STORE",
-        "PAYPAL"
+        "MB",
+        "MBWAY"
       ],
       "default": "IN_STORE",
       "required": true

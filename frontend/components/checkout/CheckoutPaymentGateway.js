@@ -22,7 +22,8 @@ const CheckoutPaymentGateway = ({ value, setValue, disableStore }) => {
             label='Pagar em loja'
             disabled={disableStore}
           />
-          <FormControlLabel value='PAYPAL' control={<Radio />} label='PayPal' />
+          <FormControlLabel value='MB' control={<Radio />} label='Referência Multibanco' />
+          <FormControlLabel value='MBWAY' control={<Radio />} label='MBWay' />
         </RadioGroup>
       </FormControl>
     </div>
