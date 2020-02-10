@@ -1,3 +1,4 @@
 {
-  "myCustomConfiguration": "This configuration is accessible through strapi.config.environments.production.myCustomConfiguration"
+  "myCustomConfiguration": "This configuration is accessible through strapi.config.environments.production.myCustomConfiguration",
+  "euPagoToken": "${process.env.EUPAGO_TOKEN || ''}"
 }

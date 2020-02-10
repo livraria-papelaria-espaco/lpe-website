@@ -6,6 +6,7 @@
  */
 
 const { sanitizeEntity } = require('strapi-utils');
+const crypto = require('crypto');
 
 const parseOrderData = async (data, price) => {
   let totalPrice = 0;
@@ -36,7 +37,18 @@ const parseOrderData = async (data, price) => {
   );
   if (totalPrice !== price)
     throw strapi.errors.badRequest('Provided price does not match with calculated price.');
+
   return { ...data, items };
+};
+
+const generateInvoiceId = () =>
+  crypto
+    .randomBytes(8)
+    .toString('hex')
+    .toUpperCase();
+
+const handleGateway = async (entity) => {
+  //TODO
 };
 
 module.exports = {
@@ -45,11 +57,13 @@ module.exports = {
     if (ctx.is('multipart')) {
       throw strapi.errors.badRequest('multipart/form-data is not supported for this endpoint.');
     } else {
-      entity = await strapi.services.order.create({
+      const entityData = {
         ...ctx.request.body,
         orderData: await parseOrderData(ctx.request.body.orderData, ctx.request.body.price),
         user: ctx.state.user.id,
-      });
+        invoiceId: generateInvoiceId(),
+      };
+      entity = await strapi.services.order.create(await handleGateway(entityData));
     }
     return sanitizeEntity(entity, { model: strapi.models.order });
   },

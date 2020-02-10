@@ -58,6 +58,11 @@
     "storePickup": {
       "type": "boolean",
       "required": true
+    },
+    "invoiceId": {
+      "type": "string",
+      "required": true,
+      "unique": true
     }
   }
 }
