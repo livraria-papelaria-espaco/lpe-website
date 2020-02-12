@@ -6,6 +6,7 @@
  */
 
 const { sanitizeEntity } = require('strapi-utils');
+const axios = require('axios');
 const crypto = require('crypto');
 
 const parseOrderData = async (data, price) => {
@@ -47,9 +48,41 @@ const generateInvoiceId = () =>
     .toString('hex')
     .toUpperCase();
 
-const handleGateway = async (entity) => {
-  //TODO
+const handleGateway = (entity) => {
+  switch (entity.paymentGateway) {
+    case 'IN_STORE':
+      return { ...entity, status: 'PROCESSING' };
+    case 'MB':
+      return handleMB(entity);
+    case 'MBWAY':
+      return handleMBWay(entity);
+    default:
+      return { ...entity, status: 'INVALID' };
+  }
 };
+
+const handleMB = async (entity) => {
+  const EU_PAGO_ENDPOINT = `https://${
+    strapi.config.currentEnvironment.euPagoSandbox ? 'sandbox' : 'clientes'
+  }.eupago.pt/clientes/rest_api`;
+  const response = await axios.post(EU_PAGO_ENDPOINT + '/multibanco/create', {
+    chave: strapi.config.currentEnvironment.euPagoToken,
+    valor: entity.price,
+    id: entity.invoiceId,
+    data_fim: new Date(Date.now() + 86400000).toISOString().split('T')[0], // 1 day from now in YYYY-MM-DD
+    per_dup: 0,
+  });
+  if (response.data.sucesso != true)
+    strapi.errors.badGateway('An error occurred in the payment gateway'); //TODO check if method exists
+  const gatewayData = {
+    reference: response.data.referencia,
+    entity: response.data.entidade,
+    valor: response.data.valor,
+  };
+  return { ...entity, orderData: { ...entity.orderData, multibanco: gatewayData } };
+};
+
+const handleMBWay = async (entity) => {};
 
 module.exports = {
   async create(ctx) {
