@@ -34,7 +34,7 @@ const CheckoutSubmit = ({ storePickup, shippingAddress, paymentGateway }) => {
     router.push(
       {
         pathname: '/checkout/success',
-        query: { id: data.createOrder.order._id },
+        query: { id: data.createOrder.order.invoiceId },
       },
       '/checkout/success'
     );
@@ -77,7 +77,7 @@ const CREATE_ORDER = gql`
     ) {
       order {
         status
-        _id
+        invoiceId
       }
     }
   }
