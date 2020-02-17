@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import CartContext from '../context/CartContext';
 
-const CheckoutSubmit = ({ storePickup, shippingAddress, paymentGateway }) => {
+const CheckoutSubmit = ({ storePickup, shippingAddress, paymentGateway, mbWayPhone }) => {
   const router = useRouter();
   const { state: itemsState } = React.useContext(CartContext);
   const [createOrder] = useMutation(CREATE_ORDER);
@@ -24,6 +24,7 @@ const CheckoutSubmit = ({ storePickup, shippingAddress, paymentGateway }) => {
             .get('items', List())
             .map((v) => ({ id: v.get('id'), quantity: v.get('quantity', 1) }))
             .toJS(),
+          mbWayPhone: paymentGateway === 'MBWAY' ? mbWayPhone : undefined,
         },
       },
     });
