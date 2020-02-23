@@ -75,14 +75,33 @@ const handleMB = async (entity) => {
   if (response.data.sucesso != true)
     strapi.errors.badGateway('An error occurred in the payment gateway'); //TODO check if method exists
   const gatewayData = {
-    reference: response.data.referencia,
-    entity: response.data.entidade,
-    valor: response.data.valor,
+    reference: `${response.data.referencia}`,
+    entity: `${response.data.entidade}`,
+    price: parseFloat(response.data.valor),
   };
   return { ...entity, orderData: { ...entity.orderData, multibanco: gatewayData } };
 };
 
-const handleMBWay = async (entity) => {};
+const handleMBWay = async (entity) => {
+  const EU_PAGO_ENDPOINT = `https://${
+    strapi.config.currentEnvironment.euPagoSandbox ? 'sandbox' : 'clientes'
+  }.eupago.pt/clientes/rest_api`;
+  const response = await axios.post(EU_PAGO_ENDPOINT + '/mbway/create', {
+    chave: strapi.config.currentEnvironment.euPagoToken,
+    valor: entity.price,
+    id: entity.invoiceId,
+    alias: entity.orderData.mbWayPhone,
+    descricao: `Encomenda #${entity.invoiceId}`,
+  });
+  if (response.data.sucesso != true)
+    strapi.errors.badGateway('An error occurred in the payment gateway'); //TODO check if method exists
+  const gatewayData = {
+    entity: '00000',
+    reference: `${response.data.referencia}`,
+    price: parseFloat(response.data.valor),
+  };
+  return { ...entity, orderData: { ...entity.orderData, multibanco: gatewayData } };
+};
 
 module.exports = {
   async create(ctx) {

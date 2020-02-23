@@ -9,9 +9,9 @@ const handleMultibancoPayment = async (query) => {
   if (!orders[0]) throw strapi.errors.badRequest("Can't find order.");
   const order = orders[0];
   if (
-    query.reference !== order.orderData.multibanco.reference ||
-    query.entidade !== order.orderData.multibanco.entity ||
-    query.price !== order.orderData.multibanco.valor
+    `${query.reference}` !== order.orderData.multibanco.reference ||
+    `${query.entidade}` !== order.orderData.multibanco.entity ||
+    parseFloat(query.price) !== order.orderData.multibanco.price
   )
     throw strapi.errors.badRequest('Invalid reference/entity/price for provided order.');
 
@@ -43,21 +43,19 @@ const handleMultibancoPayment = async (query) => {
   await strapi.models.order.updateOne(
     { _id: order._id },
     {
-      orderData: { ...order.orderData, fee: response.data.pagamentos[0].comissao },
+      orderData: { ...order.orderData, fee: parseFloat(response.data.pagamentos[0].comissao) },
       status: 'PROCESSING',
     }
   );
 };
 
-const handleMbWayPayment = async (query) => {};
-
 module.exports = {
   async eupago(ctx) {
     const query = ctx.request.query;
     const paymentMethod = query.mp;
-    if (paymentMethod === 'PC:PT') await handleMultibancoPayment(query);
-    else if (paymentMethod === 'MW:PT') await handleMbWayPayment(query);
-    else throw strapi.errors.badRequest('Unknown payment method');
+    if (paymentMethod !== 'PC:PT' && paymentMethod !== 'MW:PT')
+      throw strapi.errors.badRequest('Unknown payment method');
+    await handleMultibancoPayment(query);
     return {};
   },
 };
