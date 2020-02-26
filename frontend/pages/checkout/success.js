@@ -5,6 +5,7 @@ import Layout from '../../components/Layout';
 import Navbar from '../../components/Navbar';
 import defaultPage from '../../hocs/defaultPage';
 import CartContext from '../../components/context/CartContext';
+import OrderSummary from '../../components/order/OrderSummary';
 
 const OrderSucessful = ({ loggedUser }) => {
   const { dispatch } = React.useContext(CartContext);
@@ -19,6 +20,8 @@ const OrderSucessful = ({ loggedUser }) => {
     dispatch({ type: 'RESET_CART' });
   }, []);
 
+  if (!router.query.id) return <div></div>;
+
   return (
     <div>
       <Navbar username={loggedUser} />
@@ -26,9 +29,7 @@ const OrderSucessful = ({ loggedUser }) => {
         <Typography variant='h5' component='h1'>
           Encomenda finalizada com sucesso!
         </Typography>
-        <Typography variant='h6' component='h2'>
-          O número da encomenda é {router.query.id}.
-        </Typography>
+        <OrderSummary id={router.query.id} />
       </Layout>
     </div>
   );

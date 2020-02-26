@@ -103,6 +103,11 @@ const handleMBWay = async (entity) => {
   return { ...entity, orderData: { ...entity.orderData, multibanco: gatewayData } };
 };
 
+const sanitizeOrderData = (entity) => {
+  if (!entity.orderData) return entity;
+  return { ...entity, orderData: { ...entity.orderData, fee: undefined } };
+};
+
 module.exports = {
   async create(ctx) {
     let entity;
@@ -117,6 +122,22 @@ module.exports = {
       };
       entity = await strapi.services.order.create(await handleGateway(entityData));
     }
-    return sanitizeEntity(entity, { model: strapi.models.order });
+    return sanitizeOrderData(sanitizeEntity(entity, { model: strapi.models.order }));
+  },
+  async find(ctx) {
+    let entities;
+    if (ctx.query._q) {
+      entities = await strapi.services.order.search(ctx.query);
+    } else {
+      entities = await strapi.services.order.find(ctx.query);
+    }
+
+    return entities.map((entity) =>
+      sanitizeOrderData(sanitizeEntity(entity, { model: strapi.models.order }))
+    );
+  },
+  async findOne(ctx) {
+    const entity = await strapi.services.order.findOne(ctx.params);
+    return sanitizeOrderData(sanitizeEntity(entity, { model: strapi.models.order }));
   },
 };
