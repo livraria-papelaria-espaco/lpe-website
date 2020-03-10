@@ -23,30 +23,6 @@
       "config": {
         "policies": []
       }
-    },
-    {
-      "method": "POST",
-      "path": "/products",
-      "handler": "Product.create",
-      "config": {
-        "policies": []
-      }
-    },
-    {
-      "method": "PUT",
-      "path": "/products/:id",
-      "handler": "Product.update",
-      "config": {
-        "policies": []
-      }
-    },
-    {
-      "method": "DELETE",
-      "path": "/products/:id",
-      "handler": "Product.delete",
-      "config": {
-        "policies": []
-      }
     }
   ]
 }

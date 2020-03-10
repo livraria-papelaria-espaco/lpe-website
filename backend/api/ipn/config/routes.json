@@ -5,7 +5,7 @@
       "path": "/ipn/eupago",
       "handler": "ipn.eupago",
       "config": {
-        "policies": ["global.isEupagoToken"]
+        "policies": ["isEupagoToken"]
       }
     }
   ]

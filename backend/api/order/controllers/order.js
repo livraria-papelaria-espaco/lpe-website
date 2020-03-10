@@ -104,6 +104,7 @@ const handleMBWay = async (entity) => {
 };
 
 const sanitizeOrderData = (entity) => {
+  if (!entity) return entity;
   if (!entity.orderData) return entity;
   return { ...entity, orderData: { ...entity.orderData, fee: undefined } };
 };

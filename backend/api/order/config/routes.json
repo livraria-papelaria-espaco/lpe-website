@@ -29,7 +29,7 @@
       "path": "/orders",
       "handler": "order.create",
       "config": {
-        "policies": ["global.isAuthenticated"]
+        "policies": ["plugins::users-permissions.isAuthenticated"]
       }
     },
     {
