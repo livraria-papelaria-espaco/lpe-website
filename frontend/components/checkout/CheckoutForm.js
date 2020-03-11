@@ -18,7 +18,7 @@ const CheckoutForm = () => {
   const [storePickup, setStorePickup] = React.useState('undefined');
   const [shippingAddress, setShippingAddress] = React.useState({});
   const [paymentGateway, setPaymentGateway] = React.useState('undefined');
-  const [mbWayPhone, setMbWayPhone] = React.useState(undefined);
+  const [mbWayPhone, setMbWayPhone] = React.useState('');
 
   return (
     <div className={classes.root}>
