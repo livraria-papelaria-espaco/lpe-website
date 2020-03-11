@@ -8,6 +8,9 @@ import AddToCart from '../components/cart/AddToCart';
 import Layout from '../components/Layout';
 import Navbar from '../components/Navbar';
 import defaultPage from '../hocs/defaultPage';
+import getConfig from 'next/config';
+
+const { publicRuntimeConfig } = getConfig();
 
 const styles = (theme) => ({
   listItem: {
@@ -62,7 +65,7 @@ const Product = ({ loggedUser }) => {
       <Layout title={product.name}>
         <Typography variant='h1'>{product.name}</Typography>
         {product.images.map((i) => (
-          <img key={i.id} src={`http://localhost:3337/${i.url}`} />
+          <img key={i.id} src={`${publicRuntimeConfig.apiUrl}${i.url}`} />
         ))}
         <ReactMarkdown options={markdownOptions} children={product.description} />
         <Typography variant='h6' component='p' color='secondary'>

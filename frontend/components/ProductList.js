@@ -2,7 +2,10 @@ import { useQuery } from '@apollo/react-hooks';
 import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import gql from 'graphql-tag';
+import getConfig from 'next/config';
 import Link from 'next/link';
+
+const { publicRuntimeConfig } = getConfig();
 
 const useStyles = makeStyles({
   card: {
@@ -35,7 +38,7 @@ const ProductList = (/*{search}*/) => {
                   <CardActionArea>
                     <CardMedia
                       className={classes.media}
-                      image={`http://localhost:3337${res.images[0].url}`}
+                      image={`${publicRuntimeConfig.apiUrl}${res.images[0].url}`}
                       title={res.name}
                     />
                     <CardContent>
