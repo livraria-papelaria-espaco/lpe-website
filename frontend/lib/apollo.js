@@ -130,7 +130,7 @@ function createApolloClient(initialState = {}) {
     ssrMode: typeof window === 'undefined', // Disables forceFetch on the server (so queries are only run once)
     link: authLink.concat(
       new HttpLink({
-        uri: 'http://localhost:3337/graphql', // Server URL (must be absolute)
+        uri: process.env.API_URL || 'http://localhost:3337/graphql', // Server URL (must be absolute)
         credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
         fetch,
       })
