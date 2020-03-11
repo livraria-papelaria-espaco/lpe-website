@@ -37,7 +37,7 @@ const FETCH_ORDER_QUERY = gql`
 const OrderSummary = ({ id }) => {
   const { loading, error, data } = useQuery(FETCH_ORDER_QUERY, { variables: { id } });
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Unauthorized.</p>;
+  if (error) return <p>Error: {JSON.stringify(error)}</p>;
   const order = data.order;
   if (!order) return <p>Order not found.</p>;
   return (
