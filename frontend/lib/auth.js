@@ -1,10 +1,12 @@
-import jwtDecode from 'jwt-decode';
 import Cookies from 'js-cookie';
+import jwtDecode from 'jwt-decode';
+import getConfig from 'next/config';
+import Router from 'next/router';
 import Strapi from 'strapi-sdk-javascript/build/main';
 
-import Router from 'next/router';
+const { publicRuntimeConfig } = getConfig();
 
-const apiUrl = process.env.API_URL || 'http://localhost:3337';
+const apiUrl = publicRuntimeConfig.apiUrl || 'http://localhost:3337';
 const strapi = new Strapi(apiUrl);
 
 export const strapiRegister = async (username, email, password, targetRoute) => {
