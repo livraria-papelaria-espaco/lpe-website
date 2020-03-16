@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import CartContext from '~/components/context/CartContext';
 import Layout from '~/components/Layout';
-import Navbar from '~/components/Navbar';
 import OrderSummary from '~/components/order/OrderSummary';
 import { useAuth } from '~/hooks/useAuth';
 
@@ -25,15 +24,12 @@ const OrderSucessful = () => {
   if (!orderId) return <div></div>;
 
   return (
-    <div>
-      <Navbar />
-      <Layout title='Order Successful'>
-        <Typography variant='h5' component='h1'>
-          Encomenda finalizada com sucesso!
-        </Typography>
-        <OrderSummary id={orderId} />
-      </Layout>
-    </div>
+    <Layout title='Order Successful'>
+      <Typography variant='h5' component='h1'>
+        Encomenda finalizada com sucesso!
+      </Typography>
+      <OrderSummary id={orderId} />
+    </Layout>
   );
 };
 

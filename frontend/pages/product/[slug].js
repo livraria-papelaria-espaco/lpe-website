@@ -60,32 +60,29 @@ const Product = () => {
   if (!product) return <Typography variant='h1'>404 Not found</Typography>;
 
   return (
-    <div>
-      <Navbar />
-      <Layout title={product.name}>
-        <Typography variant='h1'>{product.name}</Typography>
-        {product.images.map((i) => (
-          <img key={i.id} src={`${publicRuntimeConfig.apiUrl}${i.url}`} />
-        ))}
-        <ReactMarkdown options={markdownOptions} children={product.description} />
-        <Typography variant='h6' component='p' color='secondary'>
-          {product.price.toFixed(2)}€
-        </Typography>
-        <Typography variant='subtitle2'>ISBN: {product.reference}</Typography>
-        {product.type === 'Livro' && product.book_info && (
-          <>
-            <Typography variant='body1'>Autor: {product.book_info.author}</Typography>
-            <Typography variant='body1'>Edição: {product.book_info.edition}</Typography>
-            <Typography variant='body1'>Editor: {product.book_info.publisher}</Typography>
-          </>
-        )}
-        {product.category && (
-          <Typography variant='body1'>Categoria: {product.category.name}</Typography>
-        )}
-        <Typography variant='body1'>Estado: {product.stock_status}</Typography>
-        <AddToCart item={{ id: product.id, name: product.name, price: product.price }} />
-      </Layout>
-    </div>
+    <Layout title={product.name}>
+      <Typography variant='h1'>{product.name}</Typography>
+      {product.images.map((i) => (
+        <img key={i.id} src={`${publicRuntimeConfig.apiUrl}${i.url}`} />
+      ))}
+      <ReactMarkdown options={markdownOptions} children={product.description} />
+      <Typography variant='h6' component='p' color='secondary'>
+        {product.price.toFixed(2)}€
+      </Typography>
+      <Typography variant='subtitle2'>ISBN: {product.reference}</Typography>
+      {product.type === 'Livro' && product.book_info && (
+        <>
+          <Typography variant='body1'>Autor: {product.book_info.author}</Typography>
+          <Typography variant='body1'>Edição: {product.book_info.edition}</Typography>
+          <Typography variant='body1'>Editor: {product.book_info.publisher}</Typography>
+        </>
+      )}
+      {product.category && (
+        <Typography variant='body1'>Categoria: {product.category.name}</Typography>
+      )}
+      <Typography variant='body1'>Estado: {product.stock_status}</Typography>
+      <AddToCart item={{ id: product.id, name: product.name, price: product.price }} />
+    </Layout>
   );
 };
 

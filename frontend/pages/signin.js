@@ -31,7 +31,7 @@ const SignIn = () => {
   }, [isAuthenticated]);
 
   return (
-    <Layout title='Iniciar Sessão'>
+    <Layout title='Iniciar Sessão' hideNavbar>
       <Container maxWidth='sm'>
         <Paper>
           <Typography variant='body1'>{error}</Typography>
