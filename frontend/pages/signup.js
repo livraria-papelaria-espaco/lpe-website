@@ -21,7 +21,7 @@ const SignUp = () => {
   const onSubmit = async () => {
     setLoading(true);
     try {
-      await register(username, email, password);
+      await register(username, password, email);
     } catch (e) {
       setError('Ocorreu um erro ao criar uma conta');
       setLoading(false);

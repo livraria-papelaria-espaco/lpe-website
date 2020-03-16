@@ -44,8 +44,8 @@ const useAuthProvider = () => {
 
   const register = async (username, password, email) => {
     const { data } = await requestRegister({ variables: { username, password, email } });
-    Cookies.set('jwt', data.login.jwt);
-    setUsername(data.login.user.username);
+    Cookies.set('jwt', data.register.jwt);
+    setUsername(data.register.user.username);
     window.localStorage.setItem('login', Date.now());
     return data;
   };
