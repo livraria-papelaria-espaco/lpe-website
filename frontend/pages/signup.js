@@ -2,11 +2,11 @@ import { Button, Container, Paper, TextField, Typography } from '@material-ui/co
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Layout from '~/components/Layout';
-import defaultPage from '~/hocs/defaultPage';
-import { strapiRegister } from '~/lib/auth';
+import { useAuth } from '~/hooks/useAuth';
 
-const SignUp = ({ isAuthenticated }) => {
+const SignUp = () => {
   const router = useRouter();
+  const { isAuthenticated, register } = useAuth();
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -21,7 +21,7 @@ const SignUp = ({ isAuthenticated }) => {
   const onSubmit = async () => {
     setLoading(true);
     try {
-      await strapiRegister(username, email, password, router.query.redirect);
+      await register(username, email, password);
     } catch (e) {
       setError('Ocorreu um erro ao criar uma conta');
       setLoading(false);
@@ -29,7 +29,7 @@ const SignUp = ({ isAuthenticated }) => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) router.push(router.query.redirect || '/');
+    if (isAuthenticated) router.replace(router.query.redirect || '/');
   }, [isAuthenticated]);
 
   return (
@@ -79,4 +79,4 @@ const SignUp = ({ isAuthenticated }) => {
   );
 };
 
-export default defaultPage(SignUp);
+export default SignUp;

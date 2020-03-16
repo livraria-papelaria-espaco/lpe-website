@@ -8,7 +8,6 @@ import { useRouter } from 'next/router';
 import AddToCart from '~/components/cart/AddToCart';
 import Layout from '~/components/Layout';
 import Navbar from '~/components/Navbar';
-import defaultPage from '~/hocs/defaultPage';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -45,7 +44,7 @@ const markdownOptions = {
   },
 };
 
-const Product = ({ loggedUser }) => {
+const Product = () => {
   const router = useRouter();
   const { slug } = router.query;
 
@@ -62,7 +61,7 @@ const Product = ({ loggedUser }) => {
 
   return (
     <div>
-      <Navbar username={loggedUser} />
+      <Navbar />
       <Layout title={product.name}>
         <Typography variant='h1'>{product.name}</Typography>
         {product.images.map((i) => (
@@ -116,4 +115,4 @@ const GET_PRODUCT_INFO = gql`
   }
 `;
 
-export default defaultPage(Product);
+export default Product;

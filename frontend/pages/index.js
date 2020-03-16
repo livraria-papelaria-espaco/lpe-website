@@ -2,15 +2,14 @@ import React from 'react';
 import Layout from '~/components/Layout';
 import Navbar from '~/components/Navbar';
 import ProductList from '~/components/ProductList';
-import defaultPage from '~/hocs/defaultPage';
 
-const HomePage = (props) => (
+const HomePage = () => (
   <div>
-    <Navbar username={props.loggedUser} />
+    <Navbar />
     <Layout title='Home'>
       <ProductList />
     </Layout>
   </div>
 );
 
-export default defaultPage(HomePage);
+export default HomePage;

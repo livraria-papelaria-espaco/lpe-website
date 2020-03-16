@@ -5,9 +5,10 @@ import CartContext from '~/components/context/CartContext';
 import Layout from '~/components/Layout';
 import Navbar from '~/components/Navbar';
 import OrderSummary from '~/components/order/OrderSummary';
-import defaultPage from '~/hocs/defaultPage';
+import { useAuth } from '~/hooks/useAuth';
 
-const OrderSucessful = ({ loggedUser }) => {
+const OrderSucessful = () => {
+  useAuth({ secure: true });
   const { dispatch } = React.useContext(CartContext);
   const router = useRouter();
   const { orderId } = router.query;
@@ -25,7 +26,7 @@ const OrderSucessful = ({ loggedUser }) => {
 
   return (
     <div>
-      <Navbar username={loggedUser} />
+      <Navbar />
       <Layout title='Order Successful'>
         <Typography variant='h5' component='h1'>
           Encomenda finalizada com sucesso!
@@ -36,4 +37,4 @@ const OrderSucessful = ({ loggedUser }) => {
   );
 };
 
-export default defaultPage(OrderSucessful);
+export default OrderSucessful;

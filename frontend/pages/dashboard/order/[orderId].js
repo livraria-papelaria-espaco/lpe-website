@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
 import React from 'react';
-import OrderSummary from '~/components/order/OrderSummary';
-import securePage from '~/hocs/securePage';
 import Layout from '~/components/Layout';
+import OrderSummary from '~/components/order/OrderSummary';
+import { useAuth } from '~/hooks/useAuth';
 
 const OrderSummaryPage = () => {
+  useAuth({ secure: true });
   const router = useRouter();
   const { orderId } = router.query;
   return (
@@ -14,4 +15,4 @@ const OrderSummaryPage = () => {
   );
 };
 
-export default securePage(OrderSummaryPage);
+export default OrderSummaryPage;

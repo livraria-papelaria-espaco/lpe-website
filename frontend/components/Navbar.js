@@ -5,7 +5,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Link from 'next/link';
 import React from 'react';
 import CartIcon from '~/components/cart/CartIcon';
-import { unsetToken } from '~/lib/auth';
+import { useAuth } from '~/hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,9 +22,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navbar = ({ username }) => {
+const Navbar = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { username, logout } = useAuth();
   const open = Boolean(anchorEl);
 
   const handleMenu = (event) => {
@@ -77,7 +78,7 @@ const Navbar = ({ username }) => {
               <Link href='/dashboard'>
                 <MenuItem>Minha conta</MenuItem>
               </Link>
-              <MenuItem onClick={unsetToken}>Sair</MenuItem>
+              <MenuItem onClick={logout}>Sair</MenuItem>
             </Menu>
           </div>
         ) : (

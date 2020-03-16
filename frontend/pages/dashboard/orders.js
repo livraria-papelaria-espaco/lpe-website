@@ -1,9 +1,10 @@
 import React from 'react';
-import securePage from '~/hocs/securePage';
-import OrderList from '~/components/order/OrderList';
 import Layout from '~/components/Layout';
+import OrderList from '~/components/order/OrderList';
+import { useAuth } from '~/hooks/useAuth';
 
 const OrdersPage = () => {
+  useAuth({ secure: true });
   return (
     <Layout title='Suas encomendas'>
       <OrderList />
@@ -11,4 +12,4 @@ const OrdersPage = () => {
   );
 };
 
-export default securePage(OrdersPage);
+export default OrdersPage;

@@ -2,11 +2,11 @@ import { Button, Container, Paper, TextField, Typography } from '@material-ui/co
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Layout from '~/components/Layout';
-import defaultPage from '~/hocs/defaultPage';
-import { strapiLogin } from '~/lib/auth';
+import { useAuth } from '~/hooks/useAuth';
 
-const SignIn = ({ isAuthenticated }) => {
+const SignIn = () => {
   const router = useRouter();
+  const { isAuthenticated, login } = useAuth(); // TODO use "loading" and wait before displaying form
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,7 +19,7 @@ const SignIn = ({ isAuthenticated }) => {
   const onSubmit = async () => {
     setLoading(true);
     try {
-      await strapiLogin(email, password, router.query.redirect);
+      await login(email, password);
     } catch (e) {
       setError('Email e/ou palavra passe incorretos');
       setLoading(false);
@@ -27,7 +27,7 @@ const SignIn = ({ isAuthenticated }) => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) router.push(router.query.redirect || '/');
+    if (isAuthenticated) router.replace(router.query.redirect || '/');
   }, [isAuthenticated]);
 
   return (
@@ -67,4 +67,4 @@ const SignIn = ({ isAuthenticated }) => {
   );
 };
 
-export default defaultPage(SignIn);
+export default SignIn;

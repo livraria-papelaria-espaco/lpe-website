@@ -1,15 +1,18 @@
 import { Typography } from '@material-ui/core';
 import Link from 'next/link';
 import React from 'react';
-import securePage from '~/hocs/securePage';
+import { useAuth } from '~/hooks/useAuth';
 
-const Profile = () => (
-  <div>
-    <Typography variant='h1'>Área Cliente</Typography>
-    <Link href='/dashboard/orders'>
-      <a>Suas encomendas</a>
-    </Link>
-  </div>
-);
+const Profile = () => {
+  useAuth({ secure: true });
+  return (
+    <div>
+      <Typography variant='h1'>Área Cliente</Typography>
+      <Link href='/dashboard/orders'>
+        <a>Suas encomendas</a>
+      </Link>
+    </div>
+  );
+};
 
-export default securePage(Profile);
+export default Profile;
