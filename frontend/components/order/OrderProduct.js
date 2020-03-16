@@ -1,6 +1,6 @@
-import React from 'react';
-import Link from 'next/link';
 import { Link as MuiLink } from '@material-ui/core';
+import Link from 'next/link';
+import React from 'react';
 
 const OrderProduct = ({ name, slug, priceUnity, price, quantity }) => (
   <Link href={`/product?id=${slug}`} as={`/product/${slug}`} passHref>

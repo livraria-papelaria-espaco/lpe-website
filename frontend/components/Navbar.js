@@ -1,11 +1,11 @@
-import { AppBar, IconButton, Menu, MenuItem, Toolbar, Typography, Button } from '@material-ui/core';
+import { AppBar, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
-import React from 'react';
-import { unsetToken } from '../lib/auth';
 import Link from 'next/link';
-import CartIcon from './cart/CartIcon';
+import React from 'react';
+import CartIcon from '~/components/cart/CartIcon';
+import { unsetToken } from '~/lib/auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -1,9 +1,9 @@
 import { Button, Container, Paper, TextField, Typography } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import Layout from '../components/Layout';
-import defaultPage from '../hocs/defaultPage';
-import { strapiRegister } from '../lib/auth';
+import Layout from '~/components/Layout';
+import defaultPage from '~/hocs/defaultPage';
+import { strapiRegister } from '~/lib/auth';
 
 const SignUp = ({ isAuthenticated }) => {
   const router = useRouter();

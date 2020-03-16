@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { List } from 'immutable';
 import { useRouter } from 'next/router';
 import React from 'react';
-import CartContext from '../context/CartContext';
+import CartContext from '~/components/context/CartContext';
 
 const CheckoutSubmit = ({ storePickup, shippingAddress, paymentGateway, mbWayPhone }) => {
   const router = useRouter();

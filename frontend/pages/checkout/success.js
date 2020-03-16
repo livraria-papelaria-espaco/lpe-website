@@ -1,11 +1,11 @@
 import { Typography } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import React from 'react';
-import Layout from '../../components/Layout';
-import Navbar from '../../components/Navbar';
-import defaultPage from '../../hocs/defaultPage';
-import CartContext from '../../components/context/CartContext';
-import OrderSummary from '../../components/order/OrderSummary';
+import CartContext from '~/components/context/CartContext';
+import Layout from '~/components/Layout';
+import Navbar from '~/components/Navbar';
+import OrderSummary from '~/components/order/OrderSummary';
+import defaultPage from '~/hocs/defaultPage';
 
 const OrderSucessful = ({ loggedUser }) => {
   const { dispatch } = React.useContext(CartContext);

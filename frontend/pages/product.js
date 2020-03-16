@@ -3,12 +3,12 @@ import { Link, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import gql from 'graphql-tag';
 import ReactMarkdown from 'markdown-to-jsx';
-import { useRouter } from 'next/router';
-import AddToCart from '../components/cart/AddToCart';
-import Layout from '../components/Layout';
-import Navbar from '../components/Navbar';
-import defaultPage from '../hocs/defaultPage';
 import getConfig from 'next/config';
+import { useRouter } from 'next/router';
+import AddToCart from '~/components/cart/AddToCart';
+import Layout from '~/components/Layout';
+import Navbar from '~/components/Navbar';
+import defaultPage from '~/hocs/defaultPage';
 
 const { publicRuntimeConfig } = getConfig();
 

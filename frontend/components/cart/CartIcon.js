@@ -1,7 +1,7 @@
 import { Badge, IconButton } from '@material-ui/core';
 import Icon from '@material-ui/icons/ShoppingCartRounded';
 import React from 'react';
-import CartContext from '../context/CartContext';
+import CartContext from '~/components/context/CartContext';
 import CartDialog from './CartDialog';
 import CartSummary from './CartSummary';
 

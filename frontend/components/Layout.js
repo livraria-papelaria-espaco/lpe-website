@@ -1,7 +1,7 @@
-import { Container, CssBaseline } from "@material-ui/core";
-import Head from "next/head";
-import React from "react";
-import getConfig from "next/config";
+import { Container, CssBaseline } from '@material-ui/core';
+import getConfig from 'next/config';
+import Head from 'next/head';
+import React from 'react';
 
 const { publicRuntimeConfig } = getConfig();
 

@@ -1,7 +1,7 @@
-import React from 'react';
-import securePage from '../../hocs/securePage';
-import Link from 'next/link';
 import { Typography } from '@material-ui/core';
+import Link from 'next/link';
+import React from 'react';
+import securePage from '~/hocs/securePage';
 
 const Profile = () => (
   <div>

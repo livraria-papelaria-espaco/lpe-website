@@ -1,6 +1,6 @@
 import React from 'react';
-import CartContext from '../context/CartContext';
-import CartSummary from '../cart/CartSummary';
+import CartSummary from '~/components/cart/CartSummary';
+import CartContext from '~/components/context/CartContext';
 
 const CheckoutSummary = () => {
   const { state } = React.useContext(CartContext);

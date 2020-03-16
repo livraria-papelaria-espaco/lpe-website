@@ -1,6 +1,6 @@
 import Router, { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { getUserFromLocalCookie, getUserFromServerCookie } from '../lib/auth';
+import { getUserFromLocalCookie, getUserFromServerCookie } from '~/lib/auth';
 
 export default (WrappedComponent) => {
   const Wrapper = (props) => {

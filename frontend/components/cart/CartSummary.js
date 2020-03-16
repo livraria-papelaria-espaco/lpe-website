@@ -1,8 +1,8 @@
-import { Typography, IconButton } from '@material-ui/core';
-import React from 'react';
+import { IconButton, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/AddRounded';
 import RemoveIcon from '@material-ui/icons/RemoveRounded';
 import DeleteIcon from '@material-ui/icons/RemoveShoppingCartRounded';
+import React from 'react';
 
 const CartSummary = ({ data, dispatch }) => {
   const increaseQuantity = (id) => () => {

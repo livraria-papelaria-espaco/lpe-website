@@ -2,8 +2,8 @@ import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui
 import App from 'next/app';
 import Head from 'next/head';
 import React from 'react';
-import { CartProvider } from '../components/context/CartContext';
-import { withApollo } from '../lib/apollo';
+import { CartProvider } from '~/components/context/CartContext';
+import { withApollo } from '~/lib/apollo';
 
 let theme = createMuiTheme({
   palette: {

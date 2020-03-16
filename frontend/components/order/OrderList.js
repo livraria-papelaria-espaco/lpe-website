@@ -10,8 +10,8 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import gql from 'graphql-tag';
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
 
 const FETCH_ORDERS_QUERY = gql`
   query FETCH_ORDER_LIST {

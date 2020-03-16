@@ -1,6 +1,6 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 import defaultPage from './defaultPage';
-import { useRouter } from 'next/router';
 
 const securePageHoc = (WrappedComponent) => {
   const Wrapper = (props) => {
