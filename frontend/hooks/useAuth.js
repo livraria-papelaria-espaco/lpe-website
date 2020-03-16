@@ -16,11 +16,15 @@ export const AuthProvider = ({ /*data,*/ children }) => {
 export const useAuth = ({ secure = false } = {}) => {
   const router = useRouter();
   const context = useContext(authContext);
-  if (secure && !context.loading && !context.username)
-    router.replace({
-      pathname: '/signin',
-      query: { redirect: router.asPath || '/' },
-    });
+
+  useEffect(() => {
+    if (secure && !context.loading && !context.username)
+      router.replace({
+        pathname: '/signin',
+        query: { redirect: router.asPath || '/' },
+      });
+  }, [context, router]);
+
   return context;
 };
 
