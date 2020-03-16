@@ -10,9 +10,10 @@ import defaultPage from '~/hocs/defaultPage';
 const OrderSucessful = ({ loggedUser }) => {
   const { dispatch } = React.useContext(CartContext);
   const router = useRouter();
+  const { orderId } = router.query;
 
   React.useEffect(() => {
-    if (!router.query.id) {
+    if (!orderId) {
       router.replace('/');
       return;
     }
@@ -20,7 +21,7 @@ const OrderSucessful = ({ loggedUser }) => {
     dispatch({ type: 'RESET_CART' });
   }, []);
 
-  if (!router.query.id) return <div></div>;
+  if (!orderId) return <div></div>;
 
   return (
     <div>
@@ -29,7 +30,7 @@ const OrderSucessful = ({ loggedUser }) => {
         <Typography variant='h5' component='h1'>
           Encomenda finalizada com sucesso!
         </Typography>
-        <OrderSummary id={router.query.id} />
+        <OrderSummary id={orderId} />
       </Layout>
     </div>
   );

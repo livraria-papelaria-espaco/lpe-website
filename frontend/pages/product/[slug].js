@@ -47,9 +47,10 @@ const markdownOptions = {
 
 const Product = ({ loggedUser }) => {
   const router = useRouter();
+  const { slug } = router.query;
 
   const { loading, error, data } = useQuery(GET_PRODUCT_INFO, {
-    variables: { id: router.query.id },
+    variables: { slug },
   });
 
   if (error) return <Typography variant='h1'>{`An error occurred: ${error}`}</Typography>;
@@ -90,8 +91,8 @@ const Product = ({ loggedUser }) => {
 };
 
 const GET_PRODUCT_INFO = gql`
-  query($id: ID!) {
-    products(where: { slug: $id }) {
+  query($slug: ID!) {
+    products(where: { slug: $slug }) {
       id
       name
       description

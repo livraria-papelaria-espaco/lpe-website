@@ -32,13 +32,7 @@ const CheckoutSubmit = ({ storePickup, shippingAddress, paymentGateway, mbWayPho
       setError(true);
       return;
     }
-    router.push(
-      {
-        pathname: '/checkout/success',
-        query: { id: data.createOrder.order._id },
-      },
-      '/checkout/success'
-    );
+    router.push('/checkout/success/[orderId]', `/checkout/success/${data.createOrder.order._id}`);
   };
 
   return (

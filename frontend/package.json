@@ -18,7 +18,6 @@
     "apollo-client": "^2.6.8",
     "apollo-link-context": "^1.0.19",
     "apollo-link-http": "^1.5.16",
-    "express": "^4.17.1",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
     "immutable": "^4.0.0-rc.12",
@@ -32,8 +31,8 @@
     "strapi-sdk-javascript": "^0.3.3"
   },
   "scripts": {
-    "dev": "node server.js",
+    "dev": "next dev",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "start": "NODE_ENV=production node start"
   }
 }

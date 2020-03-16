@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 
 const OrderProduct = ({ name, slug, priceUnity, price, quantity }) => (
-  <Link href={`/product?id=${slug}`} as={`/product/${slug}`} passHref>
+  <Link href='/product/[slug]' as={`/product/${slug}`} passHref>
     <MuiLink>
       <div>
         <p>

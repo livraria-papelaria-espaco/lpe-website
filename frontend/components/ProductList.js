@@ -34,7 +34,7 @@ const ProductList = (/*{search}*/) => {
           {searchQuery.map((res) => (
             <Grid item xs={6} md={4} lg={3} key={res.slug}>
               <Card className={classes.card}>
-                <Link as={`/product/${res.slug}`} href={`/product?id=${res.slug}`}>
+                <Link href='/product/[slug]' as={`/product/${res.slug}`}>
                   <CardActionArea>
                     <CardMedia
                       className={classes.media}
