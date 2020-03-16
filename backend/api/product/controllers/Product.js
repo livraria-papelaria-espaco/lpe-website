@@ -30,8 +30,9 @@ module.exports = {
   },
 
   async findOne(ctx) {
-    const entity = await strapi.services.product.findOne(ctx.params);
-    if (entity.show === false) return null;
+    const slug = ctx.params.slug || ctx.params._slug;
+    const entity = await strapi.services.product.findOne({ slug });
+    if (!entity || entity.show === false) return null;
     return sanitizeEntity(addStockStatus(entity), { model: strapi.models.product });
   },
 };

@@ -1,0 +1,14 @@
+module.exports={
+  query: `
+    productBySlug(slug: String!): Product
+  `,
+  resolver:{
+    Query:{
+      product: false,
+      productBySlug: {
+        description: "Get product by slug",
+        resolver: "application::product.product.findOne"
+      }
+    }
+  }
+}

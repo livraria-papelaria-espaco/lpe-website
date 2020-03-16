@@ -1,4 +1,5 @@
 {
+  "kind": "collectionType",
   "connection": "default",
   "collectionName": "orders",
   "info": {
@@ -60,9 +61,8 @@
       "required": true
     },
     "invoiceId": {
-      "type": "string",
-      "required": false,
-      "unique": true
+      "type": "uid",
+      "required": false
     }
   }
 }

@@ -1,4 +1,5 @@
 {
+  "kind": "collectionType",
   "connection": "default",
   "collectionName": "product",
   "info": {
@@ -46,10 +47,6 @@
     "short_description": {
       "type": "text"
     },
-    "slug": {
-      "type": "string",
-      "unique": true
-    },
     "book_info": {
       "type": "component",
       "repeatable": false,
@@ -82,6 +79,11 @@
         "UNAVAILABLE"
       ],
       "default": "IN_STOCK",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
       "required": true
     }
   }

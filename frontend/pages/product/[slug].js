@@ -56,7 +56,7 @@ const Product = ({ loggedUser }) => {
   if (error) return <Typography variant='h1'>{`An error occurred: ${error}`}</Typography>;
   if (loading) return <Typography variant='h1'>Loading</Typography>;
 
-  const product = data.products[0];
+  const product = data.productBySlug;
 
   if (!product) return <Typography variant='h1'>404 Not found</Typography>;
 
@@ -91,8 +91,8 @@ const Product = ({ loggedUser }) => {
 };
 
 const GET_PRODUCT_INFO = gql`
-  query($slug: ID!) {
-    products(where: { slug: $slug }) {
+  query GET_PRODUCT_BY_SLUG($slug: String!) {
+    productBySlug(slug: $slug) {
       id
       name
       description
