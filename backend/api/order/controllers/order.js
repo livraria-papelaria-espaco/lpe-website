@@ -125,18 +125,20 @@ module.exports = {
     }
     return sanitizeOrderData(sanitizeEntity(entity, { model: strapi.models.order }));
   },
+
   async find(ctx) {
     let entities;
     if (ctx.query._q) {
-      entities = await strapi.services.order.search(ctx.query);
+      entities = await strapi.services.order.search({ ...ctx.query, user: ctx.state.user.id });
     } else {
-      entities = await strapi.services.order.find(ctx.query);
+      entities = await strapi.services.order.find({ ...ctx.query, user: ctx.state.user.id });
     }
 
     return entities.map((entity) =>
       sanitizeOrderData(sanitizeEntity(entity, { model: strapi.models.order }))
     );
   },
+
   async findOne(ctx) {
     const entity = await strapi.services.order.findOne(ctx.params);
     return sanitizeOrderData(sanitizeEntity(entity, { model: strapi.models.order }));
