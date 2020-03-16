@@ -1,12 +1,12 @@
 import { Badge, IconButton } from '@material-ui/core';
 import Icon from '@material-ui/icons/ShoppingCartRounded';
 import React from 'react';
-import CartContext from '~/components/context/CartContext';
+import { useCart } from '~/hooks/useCart';
 import CartDialog from './CartDialog';
 import CartSummary from './CartSummary';
 
 const CartIcon = () => {
-  const { state: cart, dispatch } = React.useContext(CartContext);
+  const { state: cart, dispatch } = useCart();
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {

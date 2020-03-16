@@ -1,9 +1,9 @@
 import React from 'react';
 import CartSummary from '~/components/cart/CartSummary';
-import CartContext from '~/components/context/CartContext';
+import { useCart } from '~/hooks/useCart';
 
 const CheckoutSummary = () => {
-  const { state } = React.useContext(CartContext);
+  const { state } = useCart();
   return (
     <div>
       <CartSummary data={state} />

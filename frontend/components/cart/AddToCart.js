@@ -1,9 +1,9 @@
 import { Button } from '@material-ui/core';
 import React from 'react';
-import CartContext from '~/components/context/CartContext';
+import { useCart } from '~/hooks/useCart';
 
 const AddToCart = ({ item, ...props }) => {
-  const { dispatch } = React.useContext(CartContext);
+  const { dispatch } = useCart();
 
   const addToCart = () => {
     dispatch({ type: 'ADD_ITEM', item });

@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 import Cookies from 'js-cookie';
-import React, { createContext, useEffect, useReducer } from 'react';
+import React, { createContext, useContext, useEffect, useReducer } from 'react';
 
 const initialState = fromJS({ items: [], total: 0, count: 0, default: true });
 const CartContext = createContext(initialState);
@@ -17,6 +17,8 @@ const refreshMeta = (state) => {
     );
   return state.set('total', total).set('count', count);
 };
+
+export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
@@ -79,5 +81,3 @@ export const CartProvider = ({ children }) => {
 
   return <CartContext.Provider value={{ state, dispatch }}>{children}</CartContext.Provider>;
 };
-export const CartConsumer = CartContext.Consumer;
-export default CartContext;

@@ -4,11 +4,11 @@ import gql from 'graphql-tag';
 import { List } from 'immutable';
 import { useRouter } from 'next/router';
 import React from 'react';
-import CartContext from '~/components/context/CartContext';
+import { useCart } from '~/hooks/useCart';
 
 const CheckoutSubmit = ({ storePickup, shippingAddress, paymentGateway, mbWayPhone }) => {
   const router = useRouter();
-  const { state: itemsState } = React.useContext(CartContext);
+  const { state: itemsState } = useCart();
   const [createOrder] = useMutation(CREATE_ORDER);
   const [error, setError] = React.useState(false);
 
