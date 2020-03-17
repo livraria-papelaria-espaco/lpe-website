@@ -65,7 +65,6 @@ const useAuthProvider = () => {
   };
 
   useEffect(() => {
-    console.log(data, loading, error);
     if (data && !loading && !error) setUsername(data.me.username);
 
     window.addEventListener('storage', syncAuth);

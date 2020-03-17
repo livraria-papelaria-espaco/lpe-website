@@ -1,10 +1,9 @@
 import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
-import App from 'next/app';
 import Head from 'next/head';
 import React from 'react';
+import { AuthProvider } from '~/hooks/useAuth';
 import { CartProvider } from '~/hooks/useCart';
 import { withApollo } from '~/lib/apollo';
-import { AuthProvider } from '~/hooks/useAuth';
 
 let theme = createMuiTheme({
   palette: {
@@ -18,30 +17,18 @@ let theme = createMuiTheme({
 });
 theme = responsiveFontSizes(theme);
 
-class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    let pageProps = {};
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
-    }
-    return { pageProps };
-  }
+const MyApp = ({ Component, pageProps }) => (
+  <AuthProvider>
+    <CartProvider>
+      <ThemeProvider theme={theme}>
+        <Head>
+          {/* PWA primary color */}
+          <meta name='theme-color' content={theme.palette.primary.main} />
+        </Head>
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </CartProvider>
+  </AuthProvider>
+);
 
-  render() {
-    const { Component, pageProps } = this.props;
-    return (
-      <AuthProvider>
-        <CartProvider>
-          <ThemeProvider theme={theme}>
-            <Head>
-              {/* PWA primary color */}
-              <meta name='theme-color' content={theme.palette.primary.main} />
-            </Head>
-            <Component {...pageProps} />
-          </ThemeProvider>
-        </CartProvider>
-      </AuthProvider>
-    );
-  }
-}
-export default withApollo(MyApp);
+export default withApollo(MyApp, { ssr: false });
