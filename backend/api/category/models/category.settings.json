@@ -16,7 +16,17 @@
       "unique": false
     },
     "categories": {
-      "collection": "category"
+      "collection": "category",
+      "via": "parent"
+    },
+    "parent": {
+      "model": "category",
+      "via": "categories"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
     }
   }
 }
