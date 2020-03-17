@@ -12,6 +12,10 @@ const Profile = () => {
       <Link href='/dashboard/orders'>
         <a>Suas encomendas</a>
       </Link>
+      <br />
+      <Link href='/dashboard/manage'>
+        <a>Gerir conta</a>
+      </Link>
     </Layout>
   );
 };
