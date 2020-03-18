@@ -70,17 +70,17 @@ const Product = () => {
         {product.price.toFixed(2)}€
       </Typography>
       <Typography variant='subtitle2'>ISBN: {product.reference}</Typography>
-      {product.type === 'Livro' && product.book_info && (
+      {product.type === 'Livro' && product.bookInfo && (
         <>
-          <Typography variant='body1'>Autor: {product.book_info.author}</Typography>
-          <Typography variant='body1'>Edição: {product.book_info.edition}</Typography>
-          <Typography variant='body1'>Editor: {product.book_info.publisher}</Typography>
+          <Typography variant='body1'>Autor: {product.bookInfo.author}</Typography>
+          <Typography variant='body1'>Edição: {product.bookInfo.edition}</Typography>
+          <Typography variant='body1'>Editor: {product.bookInfo.publisher}</Typography>
         </>
       )}
       {product.category && (
         <Typography variant='body1'>Categoria: {product.category.name}</Typography>
       )}
-      <Typography variant='body1'>Estado: {product.stock_status}</Typography>
+      <Typography variant='body1'>Estado: {product.stockStatus}</Typography>
       <AddToCart item={{ id: product.id, name: product.name, price: product.price }} />
     </Layout>
   );
@@ -99,7 +99,7 @@ const GET_PRODUCT_INFO = gql`
       price
       reference
       type
-      book_info {
+      bookInfo {
         author
         edition
         publisher
@@ -107,7 +107,7 @@ const GET_PRODUCT_INFO = gql`
       category {
         name
       }
-      stock_status
+      stockStatus
     }
   }
 `;

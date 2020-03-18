@@ -17,14 +17,14 @@ const PRODUCTS_QUERY = gql`
   query SEARCH_PRODUCTS($search: String, $sort: String, $priceRange: [Int], $category: String) {
     productsSearch(query: $search, sort: $sort, priceRange: $priceRange, category: $category) {
       name
-      short_description
+      shortDescription
       images(limit: 1) {
         url
       }
       price
       reference
       slug
-      stock_status
+      stockStatus
     }
   }
 `;

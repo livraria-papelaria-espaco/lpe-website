@@ -50,9 +50,9 @@ module.exports = {
     if (params.query)
       searchQuery = [
         { name: { $regex: params.query, $options: 'i' } },
-        { short_description: { $regex: params.query, $options: 'i' } },
+        { shortDescription: { $regex: params.query, $options: 'i' } },
         { reference: { $regex: params.query, $options: 'i' } },
-        { 'book_info.publisher': { $regex: params.query, $options: 'i' } },
+        { 'bookInfo.publisher': { $regex: params.query, $options: 'i' } },
       ];
 
     if (params.minPrice !== undefined && params.maxPrice !== undefined)

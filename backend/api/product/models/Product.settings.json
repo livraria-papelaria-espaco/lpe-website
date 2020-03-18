@@ -44,10 +44,10 @@
       "plugin": "upload",
       "required": false
     },
-    "short_description": {
+    "shortDescription": {
       "type": "text"
     },
-    "book_info": {
+    "bookInfo": {
       "type": "component",
       "repeatable": false,
       "component": "bookstore.book-info"
@@ -55,7 +55,7 @@
     "category": {
       "model": "category"
     },
-    "order_available": {
+    "orderAvailable": {
       "type": "boolean",
       "default": true,
       "required": true,
@@ -70,7 +70,7 @@
       "default": "Outro",
       "required": true
     },
-    "stock_status": {
+    "stockStatus": {
       "type": "enumeration",
       "enum": [
         "IN_STOCK",

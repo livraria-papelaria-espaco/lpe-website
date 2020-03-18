@@ -32,13 +32,13 @@ const ProductCard = ({ product }) => {
               {product.name}
             </Typography>
             <Typography variant='body2' color='textSecondary' component='p'>
-              {product.short_description}
+              {product.shortDescription}
             </Typography>
             <Typography variant='body2' component='p'>
               {product.reference}
             </Typography>
             <Typography variant='body2' component='p'>
-              Estado: <StockBadge stock={product.stock_status} />
+              Estado: <StockBadge stock={product.stockStatus} />
             </Typography>
             <Typography variant='body1' color='secondary' component='p'>
               {`${product.price.toFixed(2)}€`}

@@ -7,12 +7,12 @@ const addStockStatus = (entity) => {
 
   let stockStatus = 'UNAVAILABLE';
 
-  if (entity.quantity !== undefined && entity.order_available !== undefined) {
+  if (entity.quantity !== undefined && entity.orderAvailable !== undefined) {
     if (entity.quantity > strapi.config.lowStockThreshold) stockStatus = 'IN_STOCK';
     else if (entity.quantity > 0) stockStatus = 'LOW_STOCK';
-    else stockStatus = entity.order_available ? 'ORDER_ONLY' : 'UNAVAILABLE';
+    else stockStatus = entity.orderAvailable ? 'ORDER_ONLY' : 'UNAVAILABLE';
   }
-  return { ...entity, stock_status: stockStatus };
+  return { ...entity, stockStatus: stockStatus };
 };
 
 module.exports = {

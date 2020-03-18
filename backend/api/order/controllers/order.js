@@ -17,7 +17,7 @@ const parseOrderData = async (data, price) => {
       if (!products[0]) throw strapi.errors.badRequest(`Invalid item ${v.id}.`);
       const product = products[0];
       if (product.quantity - v.quantity < 0) {
-        if (!product.order_available)
+        if (!product.orderAvailable)
           throw strapi.errors.badRequest(`Stock not available for ${v.id}`);
         await strapi.models.product.updateOne({ _id: product._id }, { quantity: 0 });
       } else {
