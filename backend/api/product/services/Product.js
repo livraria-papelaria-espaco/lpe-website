@@ -21,7 +21,6 @@ const convertSortQueryParams = (sortQuery) => {
 
     sortKeys[field] = order.toLowerCase();
   });
-  console.log(sortKeys);
   return sortKeys;
 };
 
@@ -43,7 +42,6 @@ const convertLimitQueryParams = (limitQuery) => {
 
 module.exports = {
   searchEnhanced: (params) => {
-    console.log(params);
     let searchQuery;
     const filterQuery = {};
 
@@ -67,8 +65,6 @@ module.exports = {
       if (!!searchQuery) queryObject.$and.push({ $or: searchQuery });
       if (Object.keys(filterQuery).length !== 0) queryObject.$and.push(filterQuery);
     }
-
-    console.log(queryObject);
 
     const query = strapi.query('product').model.find(queryObject);
 
