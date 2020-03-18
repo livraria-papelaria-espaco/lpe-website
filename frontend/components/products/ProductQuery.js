@@ -5,7 +5,7 @@ import ProductList from './ProductList';
 
 const ProductQuery = ({ where, sort }) => {
   const { loading, error, data } = useQuery(PRODUCTS_QUERY, { variables: { where, sort } });
-  if (loading) return <h1>Loading</h1>;
+  if (loading && !data) return <h1>Loading</h1>;
   if (error) return <p>Error loading products</p>;
 
   return <ProductList products={data.products || []} />;
