@@ -16,13 +16,25 @@ const addStockStatus = (entity) => {
 };
 
 module.exports = {
-  async find(ctx) {
-    let entities;
-    if (ctx.query._q) {
-      entities = await strapi.services.product.search(ctx.query);
-    } else {
-      entities = await strapi.services.product.find(ctx.query);
+  async searchEnhanced(ctx) {
+    const query = {};
+    if (ctx.query._category) {
+      const category = await strapi.services.category.findOne({ slug: ctx.query._category });
+      if (!category) throw ctx.badRequest('Invalid category');
+      query.category = category.id;
     }
+    if (ctx.query._query) query.query = ctx.query._query.substring(0, 30);
+    if (ctx.query._sort) query.sort = ctx.query._sort;
+    if (ctx.query._limit) query.limit = ctx.query._limit;
+    if (ctx.query._start) query.start = ctx.query._start;
+    if (ctx.query._priceRange) {
+      if (!Array.isArray(ctx.query._priceRange) && ctx.query._priceRange.length !== 2)
+        throw ctx.badRequest('Price range must be an array of two integers');
+      query.minPrice = parseInt(ctx.query._priceRange[0]);
+      query.maxPrice = parseInt(ctx.query._priceRange[1]);
+    }
+
+    const entities = await strapi.services.product.searchEnhanced(query);
 
     return entities
       .filter((entity) => entity.show !== false)

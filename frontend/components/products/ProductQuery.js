@@ -3,17 +3,19 @@ import gql from 'graphql-tag';
 import React from 'react';
 import ProductList from './ProductList';
 
-const ProductQuery = ({ where, sort }) => {
-  const { loading, error, data } = useQuery(PRODUCTS_QUERY, { variables: { where, sort } });
+const ProductQuery = ({ sort, priceRange, search, category }) => {
+  const { loading, error, data } = useQuery(PRODUCTS_QUERY, {
+    variables: { search, sort, priceRange, category },
+  });
   if (loading && !data) return <h1>Loading</h1>;
   if (error) return <p>Error loading products</p>;
 
-  return <ProductList products={data.products || []} />;
+  return <ProductList products={data.productsSearch || []} />;
 };
 
 const PRODUCTS_QUERY = gql`
-  query GET_PRODUCTS($where: JSON, $sort: String) {
-    products(where: $where, sort: $sort) {
+  query SEARCH_PRODUCTS($search: String, $sort: String, $priceRange: [Int], $category: String) {
+    productsSearch(query: $search, sort: $sort, priceRange: $priceRange, category: $category) {
       name
       short_description
       images(limit: 1) {
