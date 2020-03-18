@@ -41,6 +41,8 @@ module.exports = {
       .map((entity) => sanitizeEntity(addStockStatus(entity), { model: strapi.models.product }));
   },
 
+  find: undefined,
+
   async findOne(ctx) {
     const slug = ctx.params.slug || ctx.params._slug;
     const entity = await strapi.services.product.findOne({ slug });
