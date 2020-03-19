@@ -70,7 +70,10 @@ module.exports = {
 
     if (params.sort) query.sort(convertSortQueryParams(params.sort));
     if (params.start) query.skip(convertStartQueryParams(params.start));
-    if (params.limit) query.limit(convertLimitQueryParams(params.limit));
+    if (params.limit) {
+      const limit = convertLimitQueryParams(params.limit);
+      if (limit >= 0) query.limit(limit);
+    }
 
     return query.then((results) => results.map((result) => (result ? result.toObject() : null)));
   },
