@@ -1,5 +1,6 @@
 {
   "myCustomConfiguration": "This configuration is accessible through strapi.config.environments.development.myCustomConfiguration",
   "euPagoToken": "demo-f9ee-b006-8de5-8e8",
-  "euPagoSandbox": true
+  "euPagoSandbox": true,
+  "frontendUrl": "http://localhost:3000"
 }

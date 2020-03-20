@@ -123,6 +123,18 @@ module.exports = {
       };
       entity = await strapi.services.order.create(await handleGateway(entityData));
     }
+
+    try {
+      await strapi.config.functions['sendorderemails'].sendOrderCreatedEmail({
+        order: entity,
+        user: ctx.state.user,
+      });
+    } catch (e) {
+      strapi.log.error(
+        `Failed to send order create email for order ${entity.invoiceId}: ${JSON.stringify(e)}`
+      );
+    }
+
     return sanitizeOrderData(sanitizeEntity(entity, { model: strapi.models.order }));
   },
 

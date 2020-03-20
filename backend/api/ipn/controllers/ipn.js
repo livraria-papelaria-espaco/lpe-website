@@ -5,9 +5,13 @@ const axios = require('axios');
 const handleMultibancoPayment = async (query) => {
   // check if entities match with order
 
-  const orders = await strapi.models.order.find({ invoiceId: query.orderId });
+  const orders = await strapi.services.order.find({ invoiceId: query.orderId });
   if (!orders[0]) throw strapi.errors.badRequest("Can't find order.");
   const order = orders[0];
+
+  // we don't want to sent paid orders back to "processing" accidentally
+  if (order.status !== 'WAITING_PAYMENT') return;
+
   if (
     `${query.reference}` !== order.orderData.multibanco.reference ||
     `${query.entidade}` !== order.orderData.multibanco.entity ||
@@ -37,6 +41,17 @@ const handleMultibancoPayment = async (query) => {
     throw strapi.errors.badRequest('Payment not completed.');
   if (response.data.pagamentos[0].valor !== query.price)
     throw strapi.errors.badRequest('Payment has invalid price.');
+
+  try {
+    await strapi.config.functions['sendorderemails'].sendOrderPaidEmail({
+      order,
+      user: order.user,
+    });
+  } catch (e) {
+    strapi.log.error(
+      `Failed to send order create email for order ${order.invoiceId}: ${JSON.stringify(e)}`
+    );
+  }
 
   // update order with payment status
 
