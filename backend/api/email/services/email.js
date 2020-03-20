@@ -56,7 +56,7 @@ const sendOrderEmail = async ({ order, user }, subject, text, htmlGenerator) => 
           gateway: order.paymentGateway,
           multibanco: order.orderData.multibanco,
           mbWayPhone: order.orderData.mbWayPhone,
-          paid: order.status !== 'WAITING_PAYMENT' && order.status !== 'CANCELLED',
+          paid: order.status !== 'WAITING_PAYMENT',
         },
         items: order.orderData.items,
         price: order.price,
@@ -253,9 +253,8 @@ const generatePaymentInfo = (paymentDetails) => {
       <br />
       <strong>Valor: </strong> ${paymentDetails.multibanco.price}
     </p>`;
-  } finally {
-    return `<p>Ocorreu um erro. Por favor contacte-nos.</p>`;
-  }
+  } catch {}
+  return `<p>Ocorreu um erro. Por favor contacte-nos.</p>`;
 };
 
 const generateProductDetails = (baseUrl, items) => {

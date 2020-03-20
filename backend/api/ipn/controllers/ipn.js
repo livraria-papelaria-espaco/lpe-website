@@ -44,7 +44,7 @@ const handleMultibancoPayment = async (query) => {
 
   try {
     await strapi.services.email.sendOrderPaidEmail({
-      order,
+      order: { ...order, status: 'PROCESSING' },
       user: order.user,
     });
   } catch (e) {
