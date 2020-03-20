@@ -125,7 +125,7 @@ module.exports = {
     }
 
     try {
-      await strapi.config.functions['sendorderemails'].sendOrderCreatedEmail({
+      await strapi.services.email.sendOrderCreatedEmail({
         order: entity,
         user: ctx.state.user,
       });

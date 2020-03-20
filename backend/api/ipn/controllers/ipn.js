@@ -43,7 +43,7 @@ const handleMultibancoPayment = async (query) => {
     throw strapi.errors.badRequest('Payment has invalid price.');
 
   try {
-    await strapi.config.functions['sendorderemails'].sendOrderPaidEmail({
+    await strapi.services.email.sendOrderPaidEmail({
       order,
       user: order.user,
     });
