@@ -102,7 +102,11 @@ const OrderInfo = ({ id }) => {
             value={data.orderData.multibanco && data.orderData.multibanco.reference}
             assert={data.paymentGateway === 'MBWAY' || data.paymentGateway === 'MB'}
           />
-          <Field title='fee' value={`${data.orderData.fee.toFixed(2)} €`} />
+          <Field
+            title='fee'
+            value={`${(data.orderData.fee && data.orderData.fee.toFixed(2)) || '-'} €`}
+            assert={data.status !== 'WAITING_PAYMENT'}
+          />
         </SectionTitle>
         <SectionTitle title='shipping'>
           <Field
