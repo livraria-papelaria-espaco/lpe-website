@@ -7,5 +7,6 @@
  */
 
 module.exports = {
-
+  fetch: (params, populate) => strapi.services.order.findOne(params, populate),
+  update: (params, data, files) => strapi.services.order.update(params, data, files),
 };

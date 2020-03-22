@@ -1,6 +1,6 @@
 {
   "HeaderNav.link.pending": "Ação necessária",
-  "HeaderNav.link.readyToPickup": "Pronto para levantar",
+  "HeaderNav.link.readyToPickup": "Pronto para recolha",
   "HeaderNav.link.other": "Outras encomendas",
 
   "HomePage.header.title": "Gestão de Encomendas",
@@ -16,6 +16,17 @@
   "List.content.orders.statusBadge.DELIVERY_FAILED": "Falha no envio",
   "List.content.orders.statusBadge.CANCELLED": "Cancelado",
   "List.content.orders.statusBadge.DELIVERED": "Entregue",
+  "List.content.orders.markAsReadyToPickup": "Marcar como Pronto para Recolha",
+  "List.content.orders.markAsShipped": "Marcar como Enviado",
+  "List.content.orders.markAsPickedUp": "Marcar como Entregue",
+
+  "PopUpWarning.title": "Atenção",
+  "PopUpWarning.warning.nextstep": "Tem a certeza que quer alterar o estado desta encomenda?",
+  "PopUpWarning.button.cancel": "Cancelar",
+  "PopUpWarning.button.confirm": "Confirmar",
+
+  "Action.sucess.order.nextstep": "Estado da encomenda alterado com sucesso.",
+  "Action.error.order.nextstep": "Erro ao alterar estado da encomenda.",
 
   "plugin.description.short": "Gestão de encomendas da Livraria e Papelaria Espaço"
 }

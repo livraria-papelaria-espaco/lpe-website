@@ -1,9 +1,9 @@
 {
   "routes": [
     {
-      "method": "GET",
-      "path": "/",
-      "handler": "OrderManagement.index",
+      "method": "POST",
+      "path": "/order/nextstep/:id",
+      "handler": "OrderManagement.nextstep",
       "config": {
         "policies": []
       }

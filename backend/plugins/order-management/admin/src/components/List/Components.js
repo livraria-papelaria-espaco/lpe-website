@@ -83,10 +83,10 @@ const ListRow = styled.li`
 `;
 
 const RowTop = styled.div`
-  height: 1.8rem;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  padding: 0.5rem 0;
 `;
 
 const Truncate = styled.div``;

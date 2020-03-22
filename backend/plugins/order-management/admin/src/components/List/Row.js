@@ -1,6 +1,7 @@
 import moment from 'moment';
-import React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Button, PopUpWarning, request } from 'strapi-helper-plugin';
 import getTrad from '../../utils/getTrad';
 import {
   Hashtag,
@@ -26,7 +27,13 @@ const getStatusColor = (status) => {
 const prettifyOrderItems = (items) =>
   items.map((item) => `${item.name} x${item.quantity}`).join(', ');
 
-const Row = ({ item, handleGoTo }) => {
+const Row = ({ item, handleGoTo, openNextStepWarning }) => {
+  const handleNextStepButton = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openNextStepWarning({ id: item.id, status: item.status });
+  };
+
   return (
     <ListRow
       onClick={(e) => {
@@ -56,6 +63,21 @@ const Row = ({ item, handleGoTo }) => {
         <Truncate>
           <Truncated>{item.user.email}</Truncated>
         </Truncate>
+        {(item.status === 'READY_TO_PICKUP' || item.status === 'PROCESSING') && (
+          <Button secondaryHotline onClick={handleNextStepButton}>
+            <FormattedMessage
+              id={getTrad(
+                `List.content.orders.${
+                  item.status === 'READY_TO_PICKUP'
+                    ? `markAsPickedUp`
+                    : item.storePickup
+                    ? `markAsReadyToPickup`
+                    : `markAsShipped`
+                }`
+              )}
+            />
+          </Button>
+        )}
       </RowTop>
       <OrderItems>{prettifyOrderItems(item.orderData.items)}</OrderItems>
     </ListRow>

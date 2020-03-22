@@ -16,6 +16,17 @@
   "List.content.orders.statusBadge.DELIVERY_FAILED": "Delivery Failed",
   "List.content.orders.statusBadge.CANCELLED": "Cancelled",
   "List.content.orders.statusBadge.DELIVERED": "Delivered",
+  "List.content.orders.markAsReadyToPickup": "Mark as Ready To Pickup",
+  "List.content.orders.markAsShipped": "Mark as Shipped",
+  "List.content.orders.markAsPickedUp": "Mark as Picked up",
+
+  "PopUpWarning.title": "Warning",
+  "PopUpWarning.warning.nextstep": "Are you sure you want advance the state of this order? This action is irreversible.",
+  "PopUpWarning.button.cancel": "Cancel",
+  "PopUpWarning.button.confirm": "Confirm",
+
+  "Action.sucess.order.nextstep": "Order advanced successfuly.",
+  "Action.error.order.nextstep": "Failed to advance order.",
 
   "plugin.description.short": "Order management for Livraria e Papelaria Espaço"
 }
