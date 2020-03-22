@@ -114,6 +114,15 @@ const OrderItems = styled.div`
   color: #777777;
 `;
 
+const RestockWarning = styled.span`
+  &:after {
+    content: '\f071';
+    font-family: 'FontAwesome';
+    color: #fd7e14;
+    margin-left: 10px;
+  }
+`;
+
 export {
   Flex,
   ListEmpty,
@@ -121,6 +130,7 @@ export {
   ListWrapper,
   Hashtag,
   OrderItems,
+  RestockWarning,
   RowTop,
   StatusBadge,
   Title,

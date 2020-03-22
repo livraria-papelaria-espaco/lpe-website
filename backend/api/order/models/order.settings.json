@@ -42,7 +42,8 @@
         "DELIVERED",
         "READY_TO_PICKUP",
         "DELIVERY_FAILED",
-        "CANCELLED"
+        "CANCELLED",
+        "WAITING_ITEMS"
       ],
       "default": "WAITING_PAYMENT",
       "required": true

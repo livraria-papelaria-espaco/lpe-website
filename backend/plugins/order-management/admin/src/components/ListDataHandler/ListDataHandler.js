@@ -15,6 +15,7 @@ const ListDataHandler = ({ type }) => {
     let query;
     if (type === 'pending')
       query = '_sort=createdAt:ASC&status_in=PROCESSING&status_in=DELIVERY_FAILED';
+    else if (type === 'waitingItems') query = '_sort=createdAt:ASC&status=WAITING_ITEMS';
     else if (type === 'pickup') query = '_sort=createdAt:ASC&status=READY_TO_PICKUP';
     else
       query =

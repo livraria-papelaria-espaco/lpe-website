@@ -23,6 +23,10 @@ const HomePage = () => {
       to: `/plugins/${pluginId}/pending`,
     },
     {
+      name: getTrad('HeaderNav.link.waitingItems'),
+      to: `/plugins/${pluginId}/waitingItems`,
+    },
+    {
       name: getTrad('HeaderNav.link.readyToPickup'),
       to: `/plugins/${pluginId}/pickup`,
     },
@@ -33,7 +37,7 @@ const HomePage = () => {
   ];
 
   const content =
-    view === 'pending' || view === 'pickup' || view === 'other' ? (
+    view === 'pending' || view === 'waitingItems' || view === 'pickup' || view === 'other' ? (
       <ListDataHandler type={view} />
     ) : (
       <p>Invalid path</p>

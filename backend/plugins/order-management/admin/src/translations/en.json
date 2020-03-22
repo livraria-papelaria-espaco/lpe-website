@@ -1,6 +1,7 @@
 {
   "HeaderNav.link.pending": "Needs attention",
-  "HeaderNav.link.readyToPickup": "To Pickup",
+  "HeaderNav.link.waitingItems": "Waiting items",
+  "HeaderNav.link.readyToPickup": "To pickup",
   "HeaderNav.link.other": "Other orders",
 
   "HomePage.header.title": "Order management",
@@ -16,6 +17,7 @@
   "List.content.orders.statusBadge.DELIVERY_FAILED": "Delivery Failed",
   "List.content.orders.statusBadge.CANCELLED": "Cancelled",
   "List.content.orders.statusBadge.DELIVERED": "Delivered",
+  "List.content.orders.statusBadge.WAITING_ITEMS": "Waiting Items",
   "List.content.orders.markAsReadyToPickup": "Mark as Ready To Pickup",
   "List.content.orders.markAsShipped": "Mark as Shipped",
   "List.content.orders.markAsPickedUp": "Mark as Picked up",

@@ -16,9 +16,11 @@ const parseOrderData = async (data, price) => {
       const products = await strapi.models.product.find({ _id: v.id });
       if (!products[0]) throw strapi.errors.badRequest(`Invalid item ${v.id}.`);
       const product = products[0];
+      let needsRestock = 0;
       if (product.quantity - v.quantity < 0) {
         if (!product.orderAvailable)
           throw strapi.errors.badRequest(`Stock not available for ${v.id}`);
+        needsRestock = v.quantity - product.quantity;
         await strapi.models.product.updateOne({ _id: product._id }, { quantity: 0 });
       } else {
         await strapi.models.product.updateOne(
@@ -33,6 +35,7 @@ const parseOrderData = async (data, price) => {
         priceUnity: product.price,
         price: v.quantity * product.price,
         quantity: v.quantity,
+        needsRestock,
       };
     })
   );

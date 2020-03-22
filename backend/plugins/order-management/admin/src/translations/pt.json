@@ -1,5 +1,6 @@
 {
   "HeaderNav.link.pending": "Ação necessária",
+  "HeaderNav.link.waitingItems": "À espera de items",
   "HeaderNav.link.readyToPickup": "Pronto para recolha",
   "HeaderNav.link.other": "Outras encomendas",
 
@@ -16,6 +17,7 @@
   "List.content.orders.statusBadge.DELIVERY_FAILED": "Falha no envio",
   "List.content.orders.statusBadge.CANCELLED": "Cancelado",
   "List.content.orders.statusBadge.DELIVERED": "Entregue",
+  "List.content.orders.statusBadge.WAITING_ITEMS": "À espera de items",
   "List.content.orders.markAsReadyToPickup": "Marcar como Pronto para Recolha",
   "List.content.orders.markAsShipped": "Marcar como Enviado",
   "List.content.orders.markAsPickedUp": "Marcar como Entregue",
