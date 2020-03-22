@@ -65,6 +65,9 @@
     "invoiceId": {
       "type": "uid",
       "required": false
+    },
+    "nif": {
+      "type": "biginteger"
     }
   }
 }

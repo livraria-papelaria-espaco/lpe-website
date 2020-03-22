@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This is the description of the plugin.",
   "strapi": {
-    "name": "Order Management",
+    "name": "order-management.plugin.name",
     "icon": "plug",
     "description": "order-management.plugin.description"
   },

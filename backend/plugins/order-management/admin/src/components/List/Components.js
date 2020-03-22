@@ -98,14 +98,6 @@ const Truncated = styled.p`
   margin-bottom: 0;
 `;
 
-const StatusBadge = styled.span`
-  margin-left: 10px;
-  background-color: ${(props) => props.color};
-  color: #ffffff;
-  border-radius: 6px;
-  padding: 3px 6px;
-`;
-
 const Hashtag = styled.span`
   color: #aaaaaa;
 `;
@@ -132,7 +124,6 @@ export {
   OrderItems,
   RestockWarning,
   RowTop,
-  StatusBadge,
   Title,
   Truncate,
   Truncated,

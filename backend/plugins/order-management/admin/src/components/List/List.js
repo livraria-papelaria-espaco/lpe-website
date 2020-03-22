@@ -34,7 +34,10 @@ const List = ({ data, setPage, page, count, loading, refetch }) => {
 
   const handleGoTo = (id) => {
     push({
-      pathname: `${pathname}/${id}`,
+      pathname: `${pathname
+        .split('/')
+        .slice(0, -1)
+        .join('/')}/view/${id}`,
       search: redirectUrl,
     });
   };

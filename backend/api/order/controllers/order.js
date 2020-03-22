@@ -36,6 +36,7 @@ const parseOrderData = async (data, price) => {
         price: v.quantity * product.price,
         quantity: v.quantity,
         needsRestock,
+        ref: product.reference,
       };
     })
   );
