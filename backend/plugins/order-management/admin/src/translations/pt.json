@@ -1,0 +1,21 @@
+{
+  "HeaderNav.link.pending": "Ação necessária",
+  "HeaderNav.link.readyToPickup": "Pronto para levantar",
+  "HeaderNav.link.other": "Outras encomendas",
+
+  "HomePage.header.title": "Gestão de Encomendas",
+  "HomePage.header.description": "Gerir as encomendas da loja.",
+
+  "List.title.orders.singular": "{count} encomenda encontrada",
+  "List.title.orders.plural": "{count} encomendas encontradas",
+  "List.content.orders.empty": "Não foram encontradas encomendas para os critérios selecionados.",
+  "List.content.orders.statusBadge.PROCESSING": "Em Processamento",
+  "List.content.orders.statusBadge.WAITING_PAYMENT": "A aguardar pagamento",
+  "List.content.orders.statusBadge.SHIPPED": "Enviado",
+  "List.content.orders.statusBadge.READY_TO_PICKUP": "Pronto para recolha",
+  "List.content.orders.statusBadge.DELIVERY_FAILED": "Falha no envio",
+  "List.content.orders.statusBadge.CANCELLED": "Cancelado",
+  "List.content.orders.statusBadge.DELIVERED": "Entregue",
+
+  "plugin.description.short": "Gestão de encomendas da Livraria e Papelaria Espaço"
+}

@@ -1,0 +1,28 @@
+{
+  "name": "strapi-plugin-order-management",
+  "version": "1.0.0",
+  "description": "This is the description of the plugin.",
+  "strapi": {
+    "name": "Order Management",
+    "icon": "plug",
+    "description": "order-management.plugin.description"
+  },
+  "dependencies": {},
+  "author": {
+    "name": "Diogo Correia",
+    "email": "me@diogotc.com",
+    "url": "https://diogotc.com"
+  },
+  "maintainers": [
+    {
+      "name": "Diogo Correia",
+      "email": "me@diogotc.com",
+      "url": "https://diogotc.com"
+    }
+  ],
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}

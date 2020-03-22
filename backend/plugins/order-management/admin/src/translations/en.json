@@ -1,0 +1,21 @@
+{
+  "HeaderNav.link.pending": "Needs attention",
+  "HeaderNav.link.readyToPickup": "To Pickup",
+  "HeaderNav.link.other": "Other orders",
+
+  "HomePage.header.title": "Order management",
+  "HomePage.header.description": "Manage the orders in the store.",
+
+  "List.title.orders.singular": "{count} order found",
+  "List.title.orders.plural": "{count} orders found",
+  "List.content.orders.empty": "Couldn't find any order that matches the selected criteria.",
+  "List.content.orders.statusBadge.PROCESSING": "Processing",
+  "List.content.orders.statusBadge.WAITING_PAYMENT": "Waiting Payment",
+  "List.content.orders.statusBadge.SHIPPED": "Shipped",
+  "List.content.orders.statusBadge.READY_TO_PICKUP": "Ready To Pickup",
+  "List.content.orders.statusBadge.DELIVERY_FAILED": "Delivery Failed",
+  "List.content.orders.statusBadge.CANCELLED": "Cancelled",
+  "List.content.orders.statusBadge.DELIVERED": "Delivered",
+
+  "plugin.description.short": "Order management for Livraria e Papelaria Espaço"
+}
