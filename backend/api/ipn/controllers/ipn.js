@@ -69,9 +69,13 @@ const handleMultibancoPayment = async (query) => {
 module.exports = {
   async eupago(ctx) {
     const query = ctx.request.query;
+
+    if (!query.mp || !query.orderId || !query.reference || !query.entidade || !query.price)
+      throw strapi.errors.badRequest('Missing parameters');
+
     const paymentMethod = query.mp;
     if (paymentMethod !== 'PC:PT' && paymentMethod !== 'MW:PT')
-      throw strapi.errors.badRequest('Unknown payment method');
+      throw strapi.errors.badRequest('Unknown payment method', { paymentMethod });
     await handleMultibancoPayment(query);
     return {};
   },
