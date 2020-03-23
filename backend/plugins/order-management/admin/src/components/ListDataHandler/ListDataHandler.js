@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { GlobalPagination, request } from 'strapi-helper-plugin';
+import { PageFooter, request } from 'strapi-helper-plugin';
 import List from '../List';
 
 const orderType = 'application::order.order';
-const limit = 15;
 
 const ListDataHandler = ({ type }) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -34,21 +34,25 @@ const ListDataHandler = ({ type }) => {
 
   useEffect(() => {
     fetchData();
-  }, [type, page]);
+  }, [type, page, limit]);
 
   return (
     <>
       <List data={data} count={count} loading={loading} refetch={fetchData} />
-      <GlobalPagination
-        count={count}
-        onChangeParams={({ target: { value } }) => {
-          setPage(value - 1);
-        }}
-        params={{
-          _limit: limit,
-          _page: page + 1,
-        }}
-      />
+      <div className='col-md-12'>
+        <PageFooter
+          count={count}
+          context={{ emitEvent: () => {} }}
+          onChangeParams={({ target: { name, value } }) => {
+            if (name === 'params._page') setPage(value - 1);
+            if (name === 'params._limit') setLimit(value);
+          }}
+          params={{
+            _limit: limit,
+            _page: page + 1,
+          }}
+        />
+      </div>
     </>
   );
 };
