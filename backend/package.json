@@ -11,9 +11,13 @@
     "dev": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
-    "strapi": "strapi"
+    "strapi": "strapi",
+    "postinstall": "patch-package"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "patch-package": "^6.2.1",
+    "postinstall-postinstall": "^2.0.0"
+  },
   "dependencies": {
     "axios": "^0.19.2",
     "crypto": "^1.0.1",

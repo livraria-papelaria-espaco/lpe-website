@@ -5,17 +5,19 @@
  */
 
 import { Header } from '@buffetjs/custom';
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { HeaderNav, useGlobalContext } from 'strapi-helper-plugin';
 import ListDataHandler from '../../components/ListDataHandler';
 import pluginId from '../../pluginId';
 import getTrad from '../../utils/getTrad';
+import Search from './Search';
 import Wrapper from './Wrapper';
 
 const HomePage = () => {
   const { formatMessage } = useGlobalContext();
   const { view } = useParams();
+  const [search, setSearch] = useState('');
 
   const headerNavLinks = [
     {
@@ -37,8 +39,8 @@ const HomePage = () => {
   ];
 
   const content =
-    view === 'pending' || view === 'waitingItems' || view === 'pickup' || view === 'other' ? (
-      <ListDataHandler type={view} />
+    ['pending', 'waitingItems', 'pickup', 'other'].indexOf(view) >= 0 ? (
+      <ListDataHandler type={view} search={search} />
     ) : (
       <p>Invalid path</p>
     );
@@ -54,6 +56,13 @@ const HomePage = () => {
         content={formatMessage({
           id: getTrad('HomePage.header.description'),
         })}
+        actions={[
+          {
+            Component: Search,
+            key: 'input-search',
+            setSearch,
+          },
+        ]}
       />
       <HeaderNav links={headerNavLinks} style={{ marginTop: '4.6rem' }} />
       {content}

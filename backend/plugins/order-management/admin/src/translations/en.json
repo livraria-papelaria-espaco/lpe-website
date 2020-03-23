@@ -40,6 +40,7 @@
 
   "List.title.orders.singular": "{count} order found",
   "List.title.orders.plural": "{count} orders found",
+  "List.header.inputSearch.placeholder": "Search for an order...",
   "List.content.orders.empty": "Couldn't find any order that matches the selected criteria.",
   "List.content.orders.statusBadge.PROCESSING": "Processing",
   "List.content.orders.statusBadge.WAITING_PAYMENT": "Waiting Payment",

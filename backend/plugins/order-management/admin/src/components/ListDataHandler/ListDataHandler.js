@@ -4,7 +4,7 @@ import List from '../List';
 
 const orderType = 'application::order.order';
 
-const ListDataHandler = ({ type }) => {
+const ListDataHandler = ({ type, search }) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
@@ -13,7 +13,8 @@ const ListDataHandler = ({ type }) => {
 
   const fetchData = async () => {
     let query;
-    if (type === 'pending')
+    if (search) query = `_sort=createdAt:DESC&_q=${encodeURIComponent(search)}`;
+    else if (type === 'pending')
       query = '_sort=createdAt:ASC&status_in=PROCESSING&status_in=DELIVERY_FAILED';
     else if (type === 'waitingItems') query = '_sort=createdAt:ASC&status=WAITING_ITEMS';
     else if (type === 'pickup') query = '_sort=createdAt:ASC&status=READY_TO_PICKUP';
@@ -34,7 +35,7 @@ const ListDataHandler = ({ type }) => {
 
   useEffect(() => {
     fetchData();
-  }, [type, page, limit]);
+  }, [type, page, limit, search]);
 
   return (
     <>

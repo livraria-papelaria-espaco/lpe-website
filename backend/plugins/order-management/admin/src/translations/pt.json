@@ -40,6 +40,7 @@
 
   "List.title.orders.singular": "{count} encomenda encontrada",
   "List.title.orders.plural": "{count} encomendas encontradas",
+  "List.header.inputSearch.placeholder": "Procurar uma encomenda...",
   "List.content.orders.empty": "Não foram encontradas encomendas para os critérios selecionados.",
   "List.content.orders.statusBadge.PROCESSING": "Em Processamento",
   "List.content.orders.statusBadge.WAITING_PAYMENT": "A aguardar pagamento",
