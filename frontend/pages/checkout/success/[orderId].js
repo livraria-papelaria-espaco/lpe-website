@@ -21,7 +21,7 @@ const OrderSucessful = () => {
     dispatch({ type: 'RESET_CART' });
   }, []);
 
-  if (!orderId) return <div></div>;
+  if (!orderId) return null;
 
   return (
     <Layout title='Order Successful'>

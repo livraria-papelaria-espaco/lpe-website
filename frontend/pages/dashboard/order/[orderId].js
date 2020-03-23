@@ -8,6 +8,7 @@ const OrderSummaryPage = () => {
   useAuth({ secure: true });
   const router = useRouter();
   const { orderId } = router.query;
+  if (!orderId) return null;
   return (
     <Layout title='Ver detalhes da encomenda'>
       <OrderSummary id={orderId} />

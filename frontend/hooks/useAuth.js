@@ -30,7 +30,7 @@ export const useAuth = ({ secure = false } = {}) => {
 
 const useAuthProvider = () => {
   const { data, loading, error, refetch } = useQuery(ME_QUERY);
-  const [username, setUsername] = useState(null);
+  const [username, setUsername] = useState(undefined);
   const [requestLogin] = useMutation(LOGIN_MUTATION);
   const [requestRegister] = useMutation(REGISTER_MUTATION);
 
@@ -65,18 +65,22 @@ const useAuthProvider = () => {
   };
 
   useEffect(() => {
-    if (data && !loading && !error) setUsername(data.me.username);
-
     window.addEventListener('storage', syncAuth);
 
     return () => {
       window.removeEventListener('storage', syncAuth);
     };
-  }, [data, loading, error, setUsername, refetch]);
+  }, [syncAuth]);
+
+  useEffect(() => {
+    if (loading) return;
+    if (data) setUsername(data.me.username);
+    else setUsername(null);
+  }, [data, loading, error]);
 
   return {
-    isAuthenticated: username !== null,
-    loading,
+    isAuthenticated: username !== null && username !== undefined,
+    loading: loading || username === undefined,
     username,
     login,
     register,
