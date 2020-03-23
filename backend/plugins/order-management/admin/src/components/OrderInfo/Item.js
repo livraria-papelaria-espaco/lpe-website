@@ -13,7 +13,7 @@ const Item = ({ item }) => {
       <ItemSecondary>
         <FormattedMessage
           id={getTrad(`OrderPage.content.field.item.ref`)}
-          values={{ ref: item.ref }}
+          values={{ ref: item.reference }}
         />
       </ItemSecondary>
       {item.quantity !== 1 && (
