@@ -6,7 +6,7 @@ import getTrad from '../../utils/getTrad';
 import { Flex, ListEmpty, ListWrapper, Title, Wrapper } from './Components';
 import Row from './Row';
 
-const List = ({ data, setPage, page, count, loading, refetch }) => {
+const List = ({ data, count, loading, refetch }) => {
   const { pathname, search } = useLocation();
   const { push } = useHistory();
   const [nextStepPopup, setNextStepPopup] = useState(false);

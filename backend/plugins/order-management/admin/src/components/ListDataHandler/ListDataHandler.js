@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { GlobalPagination, request } from 'strapi-helper-plugin';
 import List from '../List';
-import { request } from 'strapi-helper-plugin';
 
 const orderType = 'application::order.order';
-const limit = 30;
+const limit = 15;
 
 const ListDataHandler = ({ type }) => {
   const [data, setData] = useState([]);
@@ -37,14 +37,19 @@ const ListDataHandler = ({ type }) => {
   }, [type, page]);
 
   return (
-    <List
-      data={data}
-      page={page}
-      setPage={setPage}
-      count={count}
-      loading={loading}
-      refetch={fetchData}
-    />
+    <>
+      <List data={data} count={count} loading={loading} refetch={fetchData} />
+      <GlobalPagination
+        count={count}
+        onChangeParams={({ target: { value } }) => {
+          setPage(value - 1);
+        }}
+        params={{
+          _limit: limit,
+          _page: page + 1,
+        }}
+      />
+    </>
   );
 };
 
