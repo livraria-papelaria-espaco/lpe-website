@@ -35,6 +35,7 @@ module.exports = {
     switch (status) {
       case 'DELIVERY_FAILED':
       case 'PROCESSING':
+      case 'WAITING_ITEMS':
         let sendEmail;
         if (order.storePickup) {
           finalStatus = 'READY_TO_PICKUP';

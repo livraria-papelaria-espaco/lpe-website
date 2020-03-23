@@ -54,12 +54,12 @@
   "List.content.orders.markAsPickedUp": "Mark as Picked up",
 
   "PopUpWarning.title": "Warning",
-  "PopUpWarning.warning.nextstep": "Are you sure you want advance the state of this order? This action is irreversible.",
+  "PopUpWarning.warning.nextstep": "Are you sure you want to change the state of this order? This action is irreversible.",
   "PopUpWarning.button.cancel": "Cancel",
   "PopUpWarning.button.confirm": "Confirm",
 
-  "Action.sucess.order.nextstep": "Order advanced successfuly.",
-  "Action.error.order.nextstep": "Failed to advance order.",
+  "Action.sucess.order.nextstep": "Order status updated successfuly.",
+  "Action.error.order.nextstep": "Failed to update status of order.",
 
   "plugin.name": "Order Management",
   "plugin.description.short": "Order management for Livraria e Papelaria Espaço"

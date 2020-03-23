@@ -2,7 +2,7 @@ import { Header } from '@buffetjs/custom';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { LoadingIndicator, request, useGlobalContext } from 'strapi-helper-plugin';
+import { LoadingIndicator, PopUpWarning, request, useGlobalContext } from 'strapi-helper-plugin';
 import getTrad from '../../utils/getTrad';
 import PaymentGatewayBadge from '../PaymentGatewayBadge/PaymentGatewayBadge';
 import StatusBadge from '../StatusBadge';
@@ -25,20 +25,19 @@ const OrderInfo = ({ id }) => {
   const { formatMessage } = useGlobalContext();
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [nextStepPopup, setNextStepPopup] = useState(false);
+
+  const toggleNextStepPopup = () => setNextStepPopup((v) => !v);
+
+  const fetchData = async () => {
+    setLoading(true);
+    const response = await request(`/content-manager/explorer/${orderType}/${id}`);
+    setData(response);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    let ignore = false;
-
-    const fetchData = async () => {
-      setLoading(true);
-      const response = await request(`/content-manager/explorer/${orderType}/${id}`);
-      if (ignore) return;
-      setData(response);
-      setLoading(false);
-    };
-
     fetchData();
-    return () => (ignore = true);
   }, [id]);
 
   if (loading)
@@ -47,6 +46,56 @@ const OrderInfo = ({ id }) => {
         <LoadingIndicator />
       </LoadingWrapper>
     );
+
+  const needsRestock = () => data.orderData.items.some((v) => v.needsRestock > 0);
+
+  const handleNextStep = async () => {
+    toggleNextStepPopup();
+    try {
+      await request(`/order-management/order/nextstep/${id}?status=${data.status}`, {
+        method: 'POST',
+      });
+
+      strapi.notification.success(getTrad(`Action.sucess.order.nextstep`));
+
+      fetchData();
+    } catch (e) {
+      console.error(e);
+      strapi.notification.error(getTrad(`Action.error.order.nextstep`));
+    }
+  };
+
+  const headerActions =
+    data.status === 'READY_TO_PICKUP' ||
+    data.status === 'PROCESSING' ||
+    data.status === 'WAITING_ITEMS'
+      ? [
+          {
+            disabled: needsRestock(),
+            onClick: () => {
+              toggleNextStepPopup();
+            },
+            color: 'success',
+            label: formatMessage({
+              id: getTrad(
+                `List.content.orders.${
+                  data.status === 'READY_TO_PICKUP'
+                    ? `markAsPickedUp`
+                    : data.storePickup
+                    ? `markAsReadyToPickup`
+                    : `markAsShipped`
+                }`
+              ),
+            }),
+            type: 'button',
+            style: {
+              paddingLeft: 15,
+              paddingRight: 15,
+              fontWeight: 600,
+            },
+          },
+        ]
+      : [];
 
   return (
     <div>
@@ -57,6 +106,19 @@ const OrderInfo = ({ id }) => {
         content={formatMessage({
           id: getTrad('OrderPage.header.subtitle'),
         })}
+        actions={headerActions}
+      />
+      <PopUpWarning
+        isOpen={!!nextStepPopup}
+        toggleModal={() => toggleNextStepPopup()}
+        content={{
+          title: getTrad(`PopUpWarning.title`),
+          message: getTrad(`PopUpWarning.warning.nextstep`),
+          cancel: getTrad(`PopUpWarning.button.cancel`),
+          confirm: getTrad(`PopUpWarning.button.confirm`),
+        }}
+        popUpWarningType='danger'
+        onConfirm={handleNextStep}
       />
       <Wrapper>
         <SectionTitle title='customer'>
