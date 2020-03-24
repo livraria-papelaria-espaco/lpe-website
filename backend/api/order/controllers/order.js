@@ -22,6 +22,11 @@ const orderCreateSchema = Joi.object({
     .valid('IN_STORE', 'MB', 'MBWAY')
     .required(),
   status: Joi.string().valid('WAITING_PAYMENT'),
+  nif: Joi.number()
+    .integer()
+    .min(100000000)
+    .max(999999999)
+    .default(0),
   orderData: Joi.object()
     .keys({
       items: Joi.array()
