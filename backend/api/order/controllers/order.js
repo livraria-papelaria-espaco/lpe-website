@@ -8,18 +8,78 @@
 const { sanitizeEntity } = require('strapi-utils');
 const axios = require('axios');
 const crypto = require('crypto');
+const Joi = require('@hapi/joi');
+
+const orderCreateSchema = Joi.object({
+  price: Joi.number()
+    .positive()
+    .precision(2)
+    .required(),
+  storePickup: Joi.boolean().required(),
+  shippingAddress: Joi.link('#address').when('storePickup', { is: false, then: Joi.required() }),
+  billingAddress: Joi.link('#address').required(),
+  paymentGateway: Joi.string()
+    .valid('IN_STORE', 'MB', 'MBWAY')
+    .required(),
+  status: Joi.string().valid('WAITING_PAYMENT'),
+  orderData: Joi.object()
+    .keys({
+      items: Joi.array()
+        .items(
+          Joi.object({
+            id: Joi.string()
+              .alphanum()
+              .required(),
+            quantity: Joi.number()
+              .integer()
+              .positive()
+              .required(),
+          })
+        )
+        .unique('id')
+        .min(1)
+        .required(),
+      mbWayPhone: Joi.string().pattern(/^\d{9}$/),
+    })
+    .when('paymentGateway', { is: 'MBWAY', then: Joi.object({ mbWayPhone: Joi.required() }) }),
+}).shared(
+  Joi.object({
+    firstName: Joi.string()
+      .pattern(/\d+/, { invert: true })
+      .max(20)
+      .required(),
+    lastName: Joi.string()
+      .pattern(/\d+/, { invert: true })
+      .max(20)
+      .required(),
+    address1: Joi.string()
+      .max(100)
+      .required(),
+    address2: Joi.string()
+      .max(100)
+      .empty(''),
+    city: Joi.string()
+      .pattern(/\d+/, { invert: true })
+      .max(50)
+      .required(),
+    postalCode: Joi.string()
+      .pattern(/^\d{4}-\d{3}$/)
+      .required(),
+  }).id('address')
+);
 
 const parseOrderData = async (data, price) => {
   let totalPrice = 0;
+  //TODO separate verification
   const items = await Promise.all(
     data.items.map(async (v) => {
       const products = await strapi.models.product.find({ _id: v.id });
-      if (!products[0]) throw strapi.errors.badRequest(`Invalid item ${v.id}.`);
+      if (!products[0]) throw strapi.errors.badRequest(`Invalid item`, { id: v.id });
       const product = products[0];
       let needsRestock = 0;
       if (product.quantity - v.quantity < 0) {
         if (!product.orderAvailable)
-          throw strapi.errors.badRequest(`Stock not available for ${v.id}`);
+          throw strapi.errors.conflict(`Stock not available`, { id: v.id });
         needsRestock = v.quantity - product.quantity;
         await strapi.models.product.updateOne({ _id: product._id }, { quantity: 0 });
       } else {
@@ -41,7 +101,10 @@ const parseOrderData = async (data, price) => {
     })
   );
   if (totalPrice !== price)
-    throw strapi.errors.badRequest('Provided price does not match with calculated price.');
+    throw strapi.errors.badRequest('Provided price does not match with calculated price.', {
+      originalPrice: price,
+      calculatedPrice: totalPrice,
+    });
 
   return { ...data, items };
 };
@@ -61,15 +124,18 @@ const handleGateway = (entity) => {
     case 'MBWAY':
       return handleMBWay(entity);
     default:
-      return { ...entity, status: 'INVALID' };
+      return { ...entity, status: 'CANCELLED' };
   }
 };
 
-const handleMB = async (entity) => {
-  const EU_PAGO_ENDPOINT = `https://${
+const getEuPagoEndpoint = (path) =>
+  `https://${
     strapi.config.currentEnvironment.euPagoSandbox ? 'sandbox' : 'clientes'
-  }.eupago.pt/clientes/rest_api`;
-  const response = await axios.post(EU_PAGO_ENDPOINT + '/multibanco/create', {
+  }.eupago.pt/clientes/rest_api${path}`;
+
+const handleMB = async (entity) => {
+  //TODO add try/catch
+  const response = await axios.post(getEuPagoEndpoint('/multibanco/create'), {
     chave: strapi.config.currentEnvironment.euPagoToken,
     valor: entity.price,
     id: entity.invoiceId,
@@ -77,7 +143,7 @@ const handleMB = async (entity) => {
     per_dup: 0,
   });
   if (response.data.sucesso != true)
-    strapi.errors.badGateway('An error occurred in the payment gateway'); //TODO check if method exists
+    throw strapi.errors.badGateway('An error occurred in the payment gateway');
   const gatewayData = {
     reference: `${response.data.referencia}`,
     entity: `${response.data.entidade}`,
@@ -87,6 +153,7 @@ const handleMB = async (entity) => {
 };
 
 const handleMBWay = async (entity) => {
+  //TODO add try/catch
   const EU_PAGO_ENDPOINT = `https://${
     strapi.config.currentEnvironment.euPagoSandbox ? 'sandbox' : 'clientes'
   }.eupago.pt/clientes/rest_api`;
@@ -98,7 +165,7 @@ const handleMBWay = async (entity) => {
     descricao: `Encomenda #${entity.invoiceId}`,
   });
   if (response.data.sucesso != true)
-    strapi.errors.badGateway('An error occurred in the payment gateway'); //TODO check if method exists
+    throw strapi.errors.badGateway('An error occurred in the payment gateway');
   const gatewayData = {
     entity: '00000',
     reference: `${response.data.referencia}`,
@@ -116,17 +183,18 @@ const sanitizeOrderData = (entity) => {
 module.exports = {
   async create(ctx) {
     let entity;
-    if (ctx.is('multipart')) {
+    if (ctx.is('multipart'))
       throw strapi.errors.badRequest('multipart/form-data is not supported for this endpoint.');
-    } else {
-      const entityData = {
-        ...ctx.request.body,
-        orderData: await parseOrderData(ctx.request.body.orderData, ctx.request.body.price),
-        user: ctx.state.user.id,
-        invoiceId: generateInvoiceId(),
-      };
-      entity = await strapi.services.order.create(await handleGateway(entityData));
-    }
+
+    ctx.request.body = Joi.attempt(ctx.request.body, orderCreateSchema);
+
+    const entityData = {
+      ...ctx.request.body,
+      orderData: await parseOrderData(ctx.request.body.orderData, ctx.request.body.price),
+      user: ctx.state.user.id,
+      invoiceId: generateInvoiceId(),
+    };
+    entity = await strapi.services.order.create(await handleGateway(entityData));
 
     try {
       strapi.services.email.sendOrderCreatedEmail({
