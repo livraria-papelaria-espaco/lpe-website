@@ -77,4 +77,14 @@ module.exports = {
 
     return query.then((results) => results.map((result) => (result ? result.toObject() : null)));
   },
+
+  decreaseStock: async ({ id, qnt }) => {
+    if (!id || !qnt) return;
+
+    const res = await strapi
+      .query('product')
+      .model.updateOne({ _id: id, quantity: { $gte: qnt } }, { $inc: { quantity: -qnt } });
+
+    if (res.nModified !== 1) throw new Error(`Couldn't decrease stock for ${id}.`);
+  },
 };

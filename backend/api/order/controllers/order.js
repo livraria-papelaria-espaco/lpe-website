@@ -70,26 +70,24 @@ const orderCreateSchema = Joi.object({
 
 const parseOrderData = async (data, price) => {
   let totalPrice = 0;
-  //TODO separate verification
+
   const items = await Promise.all(
     data.items.map(async (v) => {
-      const products = await strapi.models.product.find({ _id: v.id });
-      if (!products[0]) throw strapi.errors.badRequest(`Invalid item`, { id: v.id });
-      const product = products[0];
+      const product = await strapi.services.product.findOne({ _id: v.id });
+      if (!product) throw strapi.errors.badRequest(`Invalid item`, { id: v.id });
+
       let needsRestock = 0;
+
       if (product.quantity - v.quantity < 0) {
         if (!product.orderAvailable)
           throw strapi.errors.conflict(`Stock not available`, { id: v.id });
         needsRestock = v.quantity - product.quantity;
-        await strapi.models.product.updateOne({ _id: product._id }, { quantity: 0 });
-      } else {
-        await strapi.models.product.updateOne(
-          { _id: product._id },
-          { quantity: product.quantity - v.quantity }
-        );
       }
+
       totalPrice += v.quantity * product.price;
+
       return {
+        id: product.id,
         name: product.name,
         slug: product.slug,
         priceUnity: product.price,
@@ -100,11 +98,28 @@ const parseOrderData = async (data, price) => {
       };
     })
   );
+
   if (totalPrice !== price)
     throw strapi.errors.badRequest('Provided price does not match with calculated price.', {
       originalPrice: price,
       calculatedPrice: totalPrice,
     });
+
+  await Promise.all(
+    items.map(async (item) =>
+      strapi.services.product
+        .decreaseStock({ id: item.id, qnt: item.quantity - item.needsRestock })
+        .catch((e) => {
+          strapi.log.error(
+            { error: e, items },
+            'Failed to decrease stock for %s by %d',
+            item.id,
+            item.quantity - item.needsRestock
+          );
+          throw e;
+        })
+    )
+  );
 
   return { ...data, items };
 };
@@ -124,7 +139,8 @@ const handleGateway = (entity) => {
     case 'MBWAY':
       return handleMBWay(entity);
     default:
-      return { ...entity, status: 'CANCELLED' };
+      // This should never trigger due to Joi verification
+      return entity;
   }
 };
 
