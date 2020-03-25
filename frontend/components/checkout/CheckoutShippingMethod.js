@@ -1,7 +1,7 @@
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@material-ui/core';
 import React from 'react';
 
-const CheckoutStorePickup = ({ value, handleChange }) => {
+const CheckoutShippingMethod = ({ value, handleChange }) => {
   return (
     <FormControl component='fieldset'>
       <RadioGroup
@@ -11,14 +11,14 @@ const CheckoutStorePickup = ({ value, handleChange }) => {
         onChange={handleChange}
       >
         <FormControlLabel
-          value='true'
+          value='STORE_PICKUP'
           control={<Radio color='primary' />}
           label='Recolher em loja'
         />
-        <FormControlLabel value='false' control={<Radio color='primary' />} label='Envio via CTT' />
+        <FormControlLabel value='CTT' control={<Radio color='primary' />} label='Envio via CTT' />
       </RadioGroup>
     </FormControl>
   );
 };
 
-export default CheckoutStorePickup;
+export default CheckoutShippingMethod;

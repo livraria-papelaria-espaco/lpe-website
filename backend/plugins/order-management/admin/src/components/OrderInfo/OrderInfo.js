@@ -81,7 +81,7 @@ const OrderInfo = ({ id }) => {
                 `List.content.orders.${
                   data.status === 'READY_TO_PICKUP'
                     ? `markAsPickedUp`
-                    : data.storePickup
+                    : data.shippingMethod === 'STORE_PICKUP'
                     ? `markAsReadyToPickup`
                     : `markAsShipped`
                 }`
@@ -172,30 +172,32 @@ const OrderInfo = ({ id }) => {
         </SectionTitle>
         <SectionTitle title='shipping'>
           <Field
-            title='storePickup'
+            title='shippingMethod'
             value={
               <FormattedMessage
-                id={getTrad(`OrderPage.content.field.storePickup.${!!data.storePickup}`)}
+                id={getTrad(`OrderPage.content.field.shippingMethod.${data.shippingMethod}`)}
               />
             }
           />
-          <Field
-            title='shippingAddress'
-            value={[
-              `${data.shippingAddress.firstName} ${data.shippingAddress.firstName}`,
-              data.shippingAddress.address1,
-              data.shippingAddress.address2 || '',
-              `${data.shippingAddress.postalCode}, ${data.shippingAddress.city}`,
-            ].map((v, i) => (
-              <span key={i}>
-                {i !== 0 && <br />}
-                {v}
-              </span>
-            ))}
-            md={12}
-            lg={6}
-            assert={!!data.shippingAddress.firstName}
-          />
+          {data.shippingAddress && (
+            <Field
+              title='shippingAddress'
+              value={[
+                `${data.shippingAddress.firstName} ${data.shippingAddress.firstName}`,
+                data.shippingAddress.address1,
+                data.shippingAddress.address2 || '',
+                `${data.shippingAddress.postalCode}, ${data.shippingAddress.city}`,
+              ].map((v, i) => (
+                <span key={i}>
+                  {i !== 0 && <br />}
+                  {v}
+                </span>
+              ))}
+              md={12}
+              lg={6}
+              assert={data.shippingMethod !== 'STORE_PICKUP'}
+            />
+          )}
         </SectionTitle>
         <SectionTitle title='items'>
           {data.orderData.items.map((item) => (

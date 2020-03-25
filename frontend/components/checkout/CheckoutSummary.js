@@ -24,6 +24,11 @@ const paymentGatewayMapping = {
   MBWAY: 'MBWay',
 };
 
+const shippingMethodMapping = {
+  STORE_PICKUP: 'Levantamento em Loja',
+  CTT: 'Envio via CTT',
+};
+
 const CheckoutSummary = ({ state, goBack }) => {
   const classes = useStyles();
   const { state: cartState } = useCart();
@@ -76,10 +81,7 @@ const CheckoutSummary = ({ state, goBack }) => {
         Dados de Envio
       </Typography>
       <Grid container spacing={3}>
-        <Field
-          title='Método de Envio'
-          value={state.get('storePickup') ? 'Levantamento em loja' : 'Envio via CTT'}
-        />
+        <Field title='Método de Envio' value={shippingMethodMapping[state.get('shippingMethod')]} />
         <Field
           title='Endereço de Envio'
           value={[
@@ -95,7 +97,7 @@ const CheckoutSummary = ({ state, goBack }) => {
               {v}
             </span>
           ))}
-          assert={!state.get('storePickup')}
+          assert={state.get('shippingMethod') !== 'STORE_PICKUP'}
         />
       </Grid>
       <Typography variant='h5' component='h2'>

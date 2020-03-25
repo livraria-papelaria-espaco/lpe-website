@@ -25,7 +25,7 @@ const CheckoutPaymentGateway = ({ state, dispatch, children }) => {
             value='IN_STORE'
             control={<Radio color='primary' />}
             label='Pagar em Loja'
-            disabled={!state.get('storePickup', false)}
+            disabled={state.get('shippingMethod') !== 'STORE_PICKUP'}
           />
           <FormControlLabel
             value='MB'

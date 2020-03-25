@@ -37,7 +37,7 @@ module.exports = {
       case 'PROCESSING':
       case 'WAITING_ITEMS':
         let sendEmail;
-        if (order.storePickup) {
+        if (order.shippingMethod === 'STORE_PICKUP') {
           finalStatus = 'READY_TO_PICKUP';
           sendEmail = strapi.services.email.sendOrderReadyToPickupEmail;
         } else {

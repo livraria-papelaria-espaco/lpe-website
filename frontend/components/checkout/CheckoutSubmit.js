@@ -29,11 +29,12 @@ const CheckoutSubmit = ({ state, itemsState, ...props }) => {
   const classes = useStyles();
 
   const price = itemsState.get('total', 0); // TODO add shipping
-  const storePickup = state.get('storePickup', true);
+  const shippingMethod = state.get('shippingMethod', 'STORE_PICKUP');
   const billingAddress = state.get('billingAddress').toJS();
-  const shippingAddress = state
-    .get(state.get('useSameAddress', true) ? 'billingAddress' : 'shippingAddress')
-    .toJS();
+  const shippingAddress =
+    shippingMethod === 'STORE_PICKUP'
+      ? undefined
+      : state.get(state.get('useSameAddress', true) ? 'billingAddress' : 'shippingAddress').toJS();
   const paymentGateway = state.get('paymentGateway');
   const nif = state.get('nif') ? parseInt(state.get('nif'), 10) : undefined;
 
@@ -43,7 +44,7 @@ const CheckoutSubmit = ({ state, itemsState, ...props }) => {
       const { data } = await createOrder({
         variables: {
           price,
-          storePickup,
+          shippingMethod,
           billingAddress,
           shippingAddress,
           paymentGateway,
@@ -57,7 +58,7 @@ const CheckoutSubmit = ({ state, itemsState, ...props }) => {
           },
         },
       });
-      setLoading(false);
+      //setLoading(false);
       router.push('/checkout/success/[orderId]', `/checkout/success/${data.createOrder.order._id}`);
     } catch (e) {
       console.error(e);
@@ -86,8 +87,8 @@ const CheckoutSubmit = ({ state, itemsState, ...props }) => {
 const CREATE_ORDER = gql`
   mutation createOrder(
     $price: Float!
-    $storePickup: Boolean!
-    $shippingAddress: ComponentCheckoutAddressInput!
+    $shippingMethod: ENUM_ORDER_SHIPPINGMETHOD!
+    $shippingAddress: ComponentCheckoutAddressInput
     $billingAddress: ComponentCheckoutAddressInput!
     $paymentGateway: ENUM_ORDER_PAYMENTGATEWAY!
     $orderData: JSON!
@@ -99,7 +100,7 @@ const CREATE_ORDER = gql`
           price: $price
           status: WAITING_PAYMENT
           paymentGateway: $paymentGateway
-          storePickup: $storePickup
+          shippingMethod: $shippingMethod
           shippingAddress: $shippingAddress
           billingAddress: $billingAddress
           orderData: $orderData

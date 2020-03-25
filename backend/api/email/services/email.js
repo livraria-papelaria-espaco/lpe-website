@@ -50,7 +50,7 @@ const sendOrderEmail = async ({ order, user }, subject, text, htmlGenerator) => 
         date: order.createdAt.toLocaleString('pt-PT'),
         name: user.username,
         baseUrl: strapi.config.currentEnvironment.frontendUrl || 'http://localhost:3000',
-        storePickup: order.storePickup,
+        shippingMethod: order.shippingMethod,
         shippingAddress: order.shippingAddress,
         paymentDetails: {
           gateway: order.paymentGateway,
@@ -85,7 +85,7 @@ const generateOrderCreatedHtml = ({
   date,
   name,
   baseUrl,
-  storePickup,
+  shippingMethod,
   shippingAddress,
   paymentDetails,
   items,
@@ -99,7 +99,7 @@ const generateOrderCreatedHtml = ({
     Espaço. Poderá seguir a sua encomenda através da
     <a href="${baseUrl}/dashboard/orders">área cliente no nosso site</a>.
     ${
-      storePickup
+      shippingMethod === 'STORE_PICKUP'
         ? `Receberá um email quando a sua encomenda estiver pronta
     para recolha na nossa loja.`
         : `Receberá um email quando a sua encomenda
@@ -108,7 +108,7 @@ const generateOrderCreatedHtml = ({
   </div>
   <h2>Modo de entrega</h2>
   <div>
-    ${generateDeliveryInfo(storePickup, shippingAddress)}
+    ${generateDeliveryInfo(shippingMethod, shippingAddress)}
   </div>
   <h2>Detalhes de pagamento</h2>
   <div>
@@ -127,7 +127,7 @@ const generateOrderPaidHtml = ({
   orderId,
   name,
   baseUrl,
-  storePickup,
+  shippingMethod,
   shippingAddress,
   paymentDetails,
   items,
@@ -140,7 +140,7 @@ const generateOrderPaidHtml = ({
     aceda à 
     <a href="${baseUrl}/dashboard/orders">área cliente no nosso site</a>.
     ${
-      storePickup
+      shippingMethod === 'STORE_PICKUP'
         ? `Receberá um email quando a sua encomenda estiver pronta
     para recolha na nossa loja.`
         : `Receberá um email quando a sua encomenda
@@ -149,7 +149,7 @@ const generateOrderPaidHtml = ({
   </div>
   <h2>Modo de entrega</h2>
   <div>
-    ${generateDeliveryInfo(storePickup, shippingAddress)}
+    ${generateDeliveryInfo(shippingMethod, shippingAddress)}
   </div>
   <h2>Detalhes de pagamento</h2>
   <div>
@@ -184,7 +184,7 @@ const generateOrderShippedHtml = ({
   orderId,
   name,
   baseUrl,
-  storePickup,
+  shippingMethod,
   shippingAddress,
   items,
   price,
@@ -197,7 +197,7 @@ const generateOrderShippedHtml = ({
   </div>
   <h2>Modo de entrega</h2>
   <div>
-    ${generateDeliveryInfo(storePickup, shippingAddress)}
+    ${generateDeliveryInfo(shippingMethod, shippingAddress)}
   </div>
   <h2>Resumo da encomenda</h2>
   <div>
@@ -208,8 +208,8 @@ const generateOrderShippedHtml = ({
     <p><strong>Total:</strong> ${price}
   </div>`;
 
-const generateDeliveryInfo = (storePickup, shippingAddress) => {
-  if (storePickup)
+const generateDeliveryInfo = (shippingMethod, shippingAddress) => {
+  if (shippingMethod === 'STORE_PICKUP')
     return `<p>
         Para recolher em loja.
         <br/>

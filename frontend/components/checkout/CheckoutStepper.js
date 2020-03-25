@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const initialState = fromJS({
-  storePickup: null,
+  shippingMethod: '',
   nif: '',
   shippingAddress: {},
   billingAddress: {},

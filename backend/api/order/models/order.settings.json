@@ -58,16 +58,20 @@
       "default": "IN_STORE",
       "required": true
     },
-    "storePickup": {
-      "type": "boolean",
-      "required": true
-    },
     "invoiceId": {
       "type": "uid",
       "required": false
     },
     "nif": {
       "type": "biginteger"
+    },
+    "shippingMethod": {
+      "type": "enumeration",
+      "enum": [
+        "STORE_PICKUP",
+        "CTT"
+      ],
+      "default": "STORE_PICKUP"
     }
   }
 }

@@ -12,7 +12,7 @@ const FETCH_ORDER_QUERY = gql`
       invoiceId
       paymentGateway
       status
-      storePickup
+      shippingMethod
       shippingAddress {
         firstName
         lastName
@@ -47,7 +47,7 @@ const OrderSummary = ({ id }) => {
       <p>Custo total: {order.price.toFixed(2)}€</p>
       <p>Meio de pagamento: {order.paymentGateway}</p>
       <p>Estado da encomenda: {order.status}</p>
-      {order.storePickup ? (
+      {order.shippingMethod === 'STORE_PICKUP' ? (
         <p>Para levantar na loja</p>
       ) : (
         <>

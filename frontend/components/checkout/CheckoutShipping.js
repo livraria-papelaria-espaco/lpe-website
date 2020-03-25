@@ -1,7 +1,7 @@
 import { Checkbox, Collapse, FormControlLabel } from '@material-ui/core';
 import React, { useState } from 'react';
 import CheckoutAddress from './CheckoutAddress';
-import CheckoutStorePickup from './CheckoutStorePickup';
+import CheckoutShippingMethod from './CheckoutShippingMethod';
 
 const CheckoutShipping = ({ state, dispatch, children }) => {
   const [addressReady, setAddressReady] = useState(false);
@@ -12,16 +12,16 @@ const CheckoutShipping = ({ state, dispatch, children }) => {
   const handleCheckboxChange = (e) =>
     dispatch({ type: 'setValue', field: 'useSameAddress', value: e.target.checked });
 
-  const handleStorePickupChange = (e) =>
-    dispatch({ type: 'setValue', field: 'storePickup', value: e.target.value === 'true' });
+  const handleShippingMethodChange = (e) =>
+    dispatch({ type: 'setValue', field: 'shippingMethod', value: e.target.value });
 
   const useSameAddress = state.get('useSameAddress', true);
-  const storePickup = state.get('storePickup', null);
+  const shippingMethod = state.get('shippingMethod', '');
 
   return (
     <div>
-      <CheckoutStorePickup value={storePickup} handleChange={handleStorePickupChange} />
-      <Collapse in={!storePickup && storePickup !== null}>
+      <CheckoutShippingMethod value={shippingMethod} handleChange={handleShippingMethodChange} />
+      <Collapse in={!!shippingMethod && shippingMethod !== 'STORE_PICKUP'}>
         <FormControlLabel
           control={
             <Checkbox checked={useSameAddress} onChange={handleCheckboxChange} color='primary' />

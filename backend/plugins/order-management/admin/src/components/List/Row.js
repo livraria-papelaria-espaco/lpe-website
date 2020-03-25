@@ -62,7 +62,7 @@ const Row = ({ item, handleGoTo, openNextStepWarning }) => {
                 `List.content.orders.${
                   item.status === 'READY_TO_PICKUP'
                     ? `markAsPickedUp`
-                    : item.storePickup
+                    : item.shippingMethod === 'STORE_PICKUP'
                     ? `markAsReadyToPickup`
                     : `markAsShipped`
                 }`

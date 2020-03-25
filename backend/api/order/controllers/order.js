@@ -15,8 +15,13 @@ const orderCreateSchema = Joi.object({
     .positive()
     .precision(2)
     .required(),
-  storePickup: Joi.boolean().required(),
-  shippingAddress: Joi.link('#address').when('storePickup', { is: false, then: Joi.required() }),
+  shippingMethod: Joi.string()
+    .valid('STORE_PICKUP', 'CTT')
+    .required(),
+  shippingAddress: Joi.link('#address').when('shippingMethod', {
+    not: 'STORE_PICKUP',
+    then: Joi.required(),
+  }),
   billingAddress: Joi.link('#address').required(),
   paymentGateway: Joi.string()
     .valid('IN_STORE', 'MB', 'MBWAY')
