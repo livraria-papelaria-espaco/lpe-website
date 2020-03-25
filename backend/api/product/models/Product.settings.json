@@ -85,6 +85,12 @@
       "type": "uid",
       "targetField": "name",
       "required": true
+    },
+    "weight": {
+      "type": "decimal",
+      "min": 0,
+      "default": 0,
+      "private": true
     }
   }
 }
