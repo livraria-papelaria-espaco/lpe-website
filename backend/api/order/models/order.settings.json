@@ -72,6 +72,10 @@
         "CTT"
       ],
       "default": "STORE_PICKUP"
+    },
+    "shippingCost": {
+      "type": "decimal",
+      "default": 0
     }
   }
 }

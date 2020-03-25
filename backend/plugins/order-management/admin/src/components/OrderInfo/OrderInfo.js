@@ -178,6 +178,15 @@ const OrderInfo = ({ id }) => {
                 id={getTrad(`OrderPage.content.field.shippingMethod.${data.shippingMethod}`)}
               />
             }
+            md={3}
+            lg={2}
+          />
+          <Field
+            title='shippingCost'
+            value={`${(data.shippingCost && data.shippingCost.toFixed(2)) || '-'} €`}
+            md={3}
+            lg={2}
+            assert={data.shippingMethod !== 'STORE_PICKUP'}
           />
           {data.shippingAddress && (
             <Field

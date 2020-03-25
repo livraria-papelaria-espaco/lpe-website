@@ -5,4 +5,10 @@
  * to customize this service
  */
 
-module.exports = {};
+module.exports = {
+  calculateShipping: async (postalCode, shippingMethod, items) => {
+    if (shippingMethod === 'STORE_PICKUP') return 0;
+    //TODO calculate based on weight and postalcode
+    return 4.5;
+  },
+};

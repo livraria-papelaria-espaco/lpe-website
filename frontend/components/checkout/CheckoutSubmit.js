@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CheckoutSubmit = ({ state, itemsState, ...props }) => {
+const CheckoutSubmit = ({ state, itemsState, shippingCost = 0, ...props }) => {
   const router = useRouter();
   const [createOrder] = useMutation(CREATE_ORDER);
   const [error, setError] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const classes = useStyles();
 
-  const price = itemsState.get('total', 0); // TODO add shipping
+  const price = itemsState.get('total', 0) + shippingCost;
   const shippingMethod = state.get('shippingMethod', 'STORE_PICKUP');
   const billingAddress = state.get('billingAddress').toJS();
   const shippingAddress =
@@ -43,6 +43,7 @@ const CheckoutSubmit = ({ state, itemsState, ...props }) => {
       setLoading(true);
       const { data } = await createOrder({
         variables: {
+          shippingCost,
           price,
           shippingMethod,
           billingAddress,
@@ -87,6 +88,7 @@ const CheckoutSubmit = ({ state, itemsState, ...props }) => {
 const CREATE_ORDER = gql`
   mutation createOrder(
     $price: Float!
+    $shippingCost: Float!
     $shippingMethod: ENUM_ORDER_SHIPPINGMETHOD!
     $shippingAddress: ComponentCheckoutAddressInput
     $billingAddress: ComponentCheckoutAddressInput!
@@ -98,6 +100,7 @@ const CREATE_ORDER = gql`
       input: {
         data: {
           price: $price
+          shippingCost: $shippingCost
           status: WAITING_PAYMENT
           paymentGateway: $paymentGateway
           shippingMethod: $shippingMethod

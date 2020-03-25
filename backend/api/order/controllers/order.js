@@ -15,6 +15,10 @@ const orderCreateSchema = Joi.object({
     .positive()
     .precision(2)
     .required(),
+  shippingCost: Joi.number()
+    .precision(2)
+    .min(0)
+    .default(0),
   shippingMethod: Joi.string()
     .valid('STORE_PICKUP', 'CTT')
     .required(),
@@ -77,6 +81,31 @@ const orderCreateSchema = Joi.object({
       .required(),
   }).id('address')
 );
+
+const calculateShippingSchema = Joi.object({
+  _postalCode: Joi.string()
+    .pattern(/^\d{4}-\d{3}$/)
+    .required(),
+  _shippingMethod: Joi.string()
+    .valid('CTT')
+    .required(),
+  _items: Joi.array()
+    .items(
+      Joi.object({
+        id: Joi.string()
+          .alphanum()
+          .required(),
+        quantity: Joi.number()
+          .integer()
+          .positive()
+          .required(),
+      })
+    )
+    .unique('id')
+    .min(1)
+    .required(),
+  _limit: Joi.any(),
+});
 
 const parseOrderData = async (data, price) => {
   let totalPrice = 0;
@@ -212,11 +241,20 @@ module.exports = {
     if (ctx.is('multipart'))
       throw strapi.errors.badRequest('multipart/form-data is not supported for this endpoint.');
 
-    ctx.request.body = Joi.attempt(ctx.request.body, orderCreateSchema);
+    const request = Joi.attempt(ctx.request.body, orderCreateSchema);
+
+    const shippingCost =
+      request.shippingMethod === 'STORE_PICKUP'
+        ? 0
+        : await strapi.services.order.calculateShipping(
+            request.shippingAddress.postalCode,
+            request.shippingMethod,
+            request.orderData.items
+          );
 
     const entityData = {
-      ...ctx.request.body,
-      orderData: await parseOrderData(ctx.request.body.orderData, ctx.request.body.price),
+      ...request,
+      orderData: await parseOrderData(request.orderData, request.price - shippingCost),
       user: ctx.state.user.id,
       invoiceId: generateInvoiceId(),
     };
@@ -252,5 +290,13 @@ module.exports = {
   async findOne(ctx) {
     const entity = await strapi.services.order.findOne(ctx.params);
     return sanitizeOrderData(sanitizeEntity(entity, { model: strapi.models.order }));
+  },
+
+  async calculateShipping(ctx) {
+    const { _postalCode, _shippingMethod, _items } = Joi.attempt(
+      ctx.request.query,
+      calculateShippingSchema
+    );
+    return strapi.services.order.calculateShipping(_postalCode, _shippingMethod, _items);
   },
 };

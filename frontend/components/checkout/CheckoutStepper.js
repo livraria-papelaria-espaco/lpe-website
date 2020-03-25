@@ -117,7 +117,7 @@ const CheckoutStepper = () => {
           </Step>
         ))}
       </Stepper>
-      <Collapse in={activeStep === steps.length}>
+      <Collapse in={activeStep === steps.length} mountOnEnter unmountOnExit>
         <Paper elevation={2} className={classes.resetContainer}>
           <CheckoutSummary state={state} goBack={handleBack} />
         </Paper>
