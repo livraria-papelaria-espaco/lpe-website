@@ -44,6 +44,13 @@ module.exports = {
   find: undefined,
 
   async findOne(ctx) {
+    const id = ctx.params.id;
+    const entity = await strapi.services.product.findOne({ id });
+    if (!entity || entity.show === false) return null;
+    return sanitizeEntity(addStockStatus(entity), { model: strapi.models.product });
+  },
+
+  async findOneSlug(ctx) {
     const slug = ctx.params.slug || ctx.params._slug;
     const entity = await strapi.services.product.findOne({ slug });
     if (!entity || entity.show === false) return null;

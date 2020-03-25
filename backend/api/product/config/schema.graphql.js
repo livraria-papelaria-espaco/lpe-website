@@ -5,16 +5,16 @@ module.exports = {
   `,
   resolver: {
     Query: {
-      product: false,
       productBySlug: {
-        description: "Get product by slug",
-        resolver: "application::product.product.findOne"
+        description: 'Get product by slug',
+        resolver: 'application::product.product.findOneSlug',
+        resolverOf: 'application::product.product.findOne',
       },
       products: false,
       productsSearch: {
-        description: "Search products",
-        resolver: "application::product.product.searchEnhanced"
-      }
-    }
-  }
-}
+        description: 'Search products',
+        resolver: 'application::product.product.searchEnhanced',
+      },
+    },
+  },
+};

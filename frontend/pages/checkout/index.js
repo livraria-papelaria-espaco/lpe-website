@@ -1,15 +1,16 @@
 import React from 'react';
-import CheckoutForm from '~/components/checkout/CheckoutForm';
-import CheckoutSummary from '~/components/checkout/CheckoutSummary';
+import CheckoutStepper from '~/components/checkout/CheckoutStepper';
 import Layout from '~/components/Layout';
 import { useAuth } from '~/hooks/useAuth';
+import { Container } from '@material-ui/core';
 
 const CheckoutPage = () => {
   useAuth({ secure: true });
   return (
     <Layout title='Checkout'>
-      <CheckoutSummary />
-      <CheckoutForm />
+      <Container maxWidth='md'>
+        <CheckoutStepper />
+      </Container>
     </Layout>
   );
 };

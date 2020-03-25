@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/styles';
 import React from 'react';
 import CheckoutMbWayPhone from './CheckoutMbWayPhone';
 import CheckoutPaymentGateway from './CheckoutPaymentGateway';
-import CheckoutShippingAddress from './CheckoutShippingAddress';
+import CheckoutShippingAddress from './CheckoutAddress';
 import CheckoutStorePickup from './CheckoutStorePickup';
 import CheckoutSubmit from './CheckoutSubmit';
 
@@ -17,6 +17,8 @@ const CheckoutForm = () => {
 
   const [storePickup, setStorePickup] = React.useState('undefined');
   const [shippingAddress, setShippingAddress] = React.useState({});
+  const [billingAddress, setBillingAddress] = React.useState({});
+  const [nif, setNif] = React.useState('');
   const [paymentGateway, setPaymentGateway] = React.useState('undefined');
   const [mbWayPhone, setMbWayPhone] = React.useState('');
 

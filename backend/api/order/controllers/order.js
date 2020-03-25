@@ -44,7 +44,7 @@ const orderCreateSchema = Joi.object({
         .unique('id')
         .min(1)
         .required(),
-      mbWayPhone: Joi.string().pattern(/^\d{9}$/),
+      mbWayPhone: Joi.string().pattern(/^9\d{8}$/),
     })
     .when('paymentGateway', { is: 'MBWAY', then: Joi.object({ mbWayPhone: Joi.required() }) }),
 }).shared(

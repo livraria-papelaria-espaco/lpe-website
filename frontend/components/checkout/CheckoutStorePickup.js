@@ -1,26 +1,23 @@
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@material-ui/core';
 import React from 'react';
 
-const CheckoutStorePickup = ({ value, setValue }) => {
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
-
+const CheckoutStorePickup = ({ value, handleChange }) => {
   return (
-    <div>
-      <FormControl component='fieldset'>
-        <FormLabel component='legend'>Escolher tipo de encomenda</FormLabel>
-        <RadioGroup
-          aria-label='store pickup'
-          name='storePickup'
-          value={value}
-          onChange={handleChange}
-        >
-          <FormControlLabel value='true' control={<Radio />} label='Recolher em loja' />
-          <FormControlLabel value='false' control={<Radio />} label='Enviar para casa' />
-        </RadioGroup>
-      </FormControl>
-    </div>
+    <FormControl component='fieldset'>
+      <RadioGroup
+        aria-label='store pickup'
+        name='storePickup'
+        value={String(value)}
+        onChange={handleChange}
+      >
+        <FormControlLabel
+          value='true'
+          control={<Radio color='primary' />}
+          label='Recolher em loja'
+        />
+        <FormControlLabel value='false' control={<Radio color='primary' />} label='Envio via CTT' />
+      </RadioGroup>
+    </FormControl>
   );
 };
 

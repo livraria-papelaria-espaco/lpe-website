@@ -8,10 +8,10 @@ import { withApollo } from '~/lib/apollo';
 let theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#1565c0',
+      main: '#03a9f4',
     },
     secondary: {
-      main: '#ffa000',
+      main: '#263238',
     },
   },
 });

@@ -1,47 +1,12 @@
-import { IconButton, Typography } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/AddRounded';
-import RemoveIcon from '@material-ui/icons/RemoveRounded';
-import DeleteIcon from '@material-ui/icons/RemoveShoppingCartRounded';
+import { Typography } from '@material-ui/core';
 import React from 'react';
+import CartItem from './CartItem';
 
 const CartSummary = ({ data, dispatch }) => {
-  const increaseQuantity = (id) => () => {
-    dispatch({ type: 'INCREASE_QUANTITY', id });
-  };
-
-  const decreaseQuantity = (id) => () => {
-    dispatch({ type: 'DECREASE_QUANTITY', id });
-  };
-
-  const removeItem = (id) => () => {
-    dispatch({ type: 'REMOVE_ITEM', id });
-  };
   return (
     <>
       {data.get('items').map((item) => (
-        <div key={item.get('id')}>
-          <Typography variant='h6' component='p'>
-            {item.get('name')}
-          </Typography>
-          <Typography variant='body1'>{item.get('price').toFixed(2)}€</Typography>
-          <Typography variant='body2'>Qnt: {item.get('quantity')}</Typography>
-          {dispatch && (
-            <>
-              <IconButton
-                onClick={decreaseQuantity(item.get('id'))}
-                disabled={item.get('quantity') <= 1}
-              >
-                <RemoveIcon />
-              </IconButton>
-              <IconButton onClick={increaseQuantity(item.get('id'))}>
-                <AddIcon />
-              </IconButton>
-              <IconButton onClick={removeItem(item.get('id'))}>
-                <DeleteIcon />
-              </IconButton>
-            </>
-          )}
-        </div>
+        <CartItem key={item.get('id')} item={item} dispatch={dispatch} />
       ))}
       <Typography variant='h6' component='p'>
         Total: {data.get('total').toFixed(2)}€
