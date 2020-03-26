@@ -7,7 +7,6 @@ import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import AddToCart from '~/components/cart/AddToCart';
 import Layout from '~/components/Layout';
-import Navbar from '~/components/Navbar';
 
 const { publicRuntimeConfig } = getConfig();
 
