@@ -124,7 +124,7 @@ const OrderInfo = ({ id }) => {
         <SectionTitle title='customer'>
           <Field title='customerName' value={data.user.username} />
           <Field title='customerEmail' value={data.user.email} />
-          <Field title='nif' value={data.user.nif || '-'} />
+          <Field title='nif' value={data.nif > 0 ? data.nif : '-'} />
           <Field
             title='billingAddress'
             value={[
