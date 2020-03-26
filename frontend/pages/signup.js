@@ -131,7 +131,7 @@ const SignUp = () => {
   }, [isAuthenticated]);
 
   return (
-    <Layout title='Registar' hideNavbar>
+    <Layout title='Registar' hideNavbar colorBackground>
       <Container maxWidth='sm' className={classes.root}>
         <Paper className={classes.paper}>
           <div className={classes.backContainer}>

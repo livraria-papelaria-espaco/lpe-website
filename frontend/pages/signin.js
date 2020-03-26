@@ -100,7 +100,7 @@ const SignIn = () => {
   }, [isAuthenticated]);
 
   return (
-    <Layout title='Iniciar Sessão' hideNavbar>
+    <Layout title='Iniciar Sessão' hideNavbar colorBackground>
       <Container maxWidth='sm' className={classes.root}>
         <Paper className={classes.paper}>
           <div className={classes.backContainer}>
