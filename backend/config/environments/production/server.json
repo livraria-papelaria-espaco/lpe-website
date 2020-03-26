@@ -3,7 +3,10 @@
   "port": "${process.env.PORT || 1337}",
   "production": true,
   "proxy": {
-    "enabled": false
+    "enabled": true,
+    "ssl": true,
+    "host": "${process.env.PROXY_HOST || 'localhost'}",
+    "port": "${process.env.PROXY_PORT || 1337}"
   },
   "cron": {
     "enabled": false
