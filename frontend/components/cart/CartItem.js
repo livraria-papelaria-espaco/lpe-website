@@ -8,6 +8,7 @@ import { Skeleton } from '@material-ui/lab';
 import gql from 'graphql-tag';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Link from 'next/link';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -26,9 +27,13 @@ const useStyles = makeStyles((theme) => ({
   image: {
     maxWidth: '100%',
     maxHeight: '100%',
+    cursor: 'pointer',
   },
   text: {
     marginLeft: theme.spacing(2),
+  },
+  name: {
+    cursor: 'pointer',
   },
 }));
 
@@ -66,15 +71,19 @@ const CartItem = ({ item, dispatch }) => {
   return (
     <div className={classes.root}>
       <div className={classes.imageContainer}>
-        <img
-          src={`${publicRuntimeConfig.apiUrl}${data.product.images[0].url}`}
-          className={classes.image}
-        />
+        <Link href='/product/[slug]' as={`/product/${data.product.slug}`}>
+          <img
+            src={`${publicRuntimeConfig.apiUrl}${data.product.images[0].url}`}
+            className={classes.image}
+          />
+        </Link>
       </div>
       <div className={classes.text}>
-        <Typography variant='h6' component='p'>
-          {data.product.name}
-        </Typography>
+        <Link href='/product/[slug]' as={`/product/${data.product.slug}`}>
+          <Typography variant='h6' component='p' className={classes.name}>
+            {data.product.name}
+          </Typography>
+        </Link>
         <Typography variant='caption' component='p' color='textSecondary'>
           Referência: {data.product.reference}
         </Typography>
@@ -106,6 +115,7 @@ const GET_CART_PRODUCT_INFO = gql`
   query GET_CART_PRODUCT_INFO($id: ID!) {
     product(id: $id) {
       name
+      slug
       reference
       price
       images(limit: 1) {
