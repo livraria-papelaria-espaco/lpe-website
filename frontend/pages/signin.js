@@ -160,7 +160,11 @@ const SignIn = () => {
             </div>
           </form>
           <Typography variant='body2'>
-            <Link href='/signup' passHref>
+            <Link
+              href={{ pathname: '/signup', query: { redirect: router.query.redirect || '/' } }}
+              passHref
+              replace
+            >
               <MUILink>
                 <strong>Ainda não tem uma conta? Registe-se!</strong>
               </MUILink>

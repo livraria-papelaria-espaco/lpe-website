@@ -189,7 +189,7 @@ const SignUp = () => {
             </div>
             <div className={classes.fieldDiv}>
               <TextField
-                id='password'
+                id='passwordConfirmation'
                 label='Reintroduzir Palavra Passe'
                 value={passwordConfirmation}
                 onChange={onPasswordConfirmationChange}
@@ -218,7 +218,11 @@ const SignUp = () => {
             </div>
           </form>
           <Typography variant='body2'>
-            <Link href='/signin' passHref>
+            <Link
+              href={{ pathname: '/signin', query: { redirect: router.query.redirect || '/' } }}
+              passHref
+              replace
+            >
               <MUILink>
                 <strong>Já tem uma conta? Inicie sessão!</strong>
               </MUILink>
