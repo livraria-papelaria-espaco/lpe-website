@@ -1,9 +1,11 @@
 import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
 import Head from 'next/head';
+import Router from 'next/router';
 import React from 'react';
 import { AuthProvider } from '~/hooks/useAuth';
 import { CartProvider } from '~/hooks/useCart';
 import { withApollo } from '~/lib/apollo';
+import * as gtag from '../lib/gtag';
 
 let theme = createMuiTheme({
   palette: {
@@ -30,5 +32,7 @@ const MyApp = ({ Component, pageProps }) => (
     </CartProvider>
   </AuthProvider>
 );
+
+Router.events.on('routeChangeComplete', (url) => gtag.pageview(url));
 
 export default withApollo(MyApp, { ssr: false });
