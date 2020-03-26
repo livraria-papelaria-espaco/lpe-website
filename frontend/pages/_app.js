@@ -16,6 +16,9 @@ let theme = createMuiTheme({
       main: '#263238',
     },
   },
+  typography: {
+    fontFamily: ['"Baloo 2"', 'Roboto', 'cursive'],
+  },
 });
 theme = responsiveFontSizes(theme);
 

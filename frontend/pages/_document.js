@@ -13,9 +13,14 @@ export default class MyDocument extends Document {
             name='viewport'
             content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no'
           />
+          {/* TODO REMOVE ROBOTO */}
           <link
             rel='stylesheet'
             href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
+          />
+          <link
+            rel='stylesheet'
+            href='https://fonts.googleapis.com/css?family=Baloo+2:400,500,700&display=swap'
           />
           {process.env.NODE_ENV === 'production' && (
             <>
