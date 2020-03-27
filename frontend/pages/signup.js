@@ -34,9 +34,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '100vh',
+    minHeight: '100vh',
   },
   paper: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
     padding: theme.spacing(4),
     width: '100%',
     textAlign: 'center',
