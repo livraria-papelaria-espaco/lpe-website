@@ -1,0 +1,17 @@
+{
+  "kind": "singleType",
+  "connection": "default",
+  "collectionName": "terms_of_services",
+  "info": {
+    "name": "Terms of Service"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "termsOfService": {
+      "type": "richtext"
+    }
+  }
+}

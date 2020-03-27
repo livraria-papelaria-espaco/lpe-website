@@ -1,0 +1,28 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/terms-of-service",
+      "handler": "terms-of-service.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/terms-of-service",
+      "handler": "terms-of-service.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/terms-of-service",
+      "handler": "terms-of-service.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
