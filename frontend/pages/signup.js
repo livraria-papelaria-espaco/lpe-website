@@ -7,6 +7,8 @@ import {
   TextField,
   Typography,
   CircularProgress,
+  Checkbox,
+  FormControlLabel,
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import BackIcon from '@material-ui/icons/ArrowBackRounded';
@@ -86,11 +88,13 @@ const SignUp = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [acceptTos, setAcceptTos] = useState(false);
 
   const onUsernameChange = (evt) => setUsername(evt.target.value);
   const onEmailChange = (evt) => setEmail(evt.target.value);
   const onPasswordChange = (evt) => setPassword(evt.target.value);
   const onPasswordConfirmationChange = (evt) => setPasswordConfirmation(evt.target.value);
+  const onAcceptTosChange = (evt) => setAcceptTos(evt.target.checked);
 
   const usernameError = !usernameRegExp.test(username);
   const emailError = !emailRegExp.test(email);
@@ -199,6 +203,25 @@ const SignUp = () => {
                 error={passwordConfirmation.length > 0 && passwordConfirmation !== password}
               />
             </div>
+            <div className={classes.fieldDiv}>
+              <FormControlLabel
+                control={
+                  <Checkbox checked={acceptTos} onChange={onAcceptTosChange} color='primary' />
+                }
+                label={
+                  <span>
+                    Li e aceito os{' '}
+                    <Link href='/legal/tos' passHref>
+                      <MUILink>Termos de Serviço</MUILink>
+                    </Link>{' '}
+                    e a{' '}
+                    <Link href='/legal/privacy' passHref>
+                      <MUILink>Política de Privacidade</MUILink>
+                    </Link>
+                  </span>
+                }
+              />
+            </div>
             <div className={classes.buttonArea}>
               <Button
                 type='submit'
@@ -210,7 +233,7 @@ const SignUp = () => {
                   root: classes.submitButton,
                   disabled: classes.buttonDisabled,
                 }}
-                disabled={loading}
+                disabled={!acceptTos || loading}
               >
                 Criar Conta
               </Button>
