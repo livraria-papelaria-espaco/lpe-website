@@ -1,14 +1,15 @@
 import { useQuery } from '@apollo/react-hooks';
 import { IconButton, Typography } from '@material-ui/core';
-import getConfig from 'next/config';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/AddRounded';
 import RemoveIcon from '@material-ui/icons/RemoveRounded';
 import DeleteIcon from '@material-ui/icons/RemoveShoppingCartRounded';
 import { Skeleton } from '@material-ui/lab';
 import gql from 'graphql-tag';
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import getConfig from 'next/config';
 import Link from 'next/link';
+import React from 'react';
+import LogoSvg from '../../assets/logo.svg';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   image: {
+    fill: fade(theme.palette.primary.main, 0.5),
     maxWidth: '100%',
     maxHeight: '100%',
     cursor: 'pointer',
@@ -68,14 +70,23 @@ const CartItem = ({ item, dispatch }) => {
       </div>
     );
 
+  const getImage = () => {
+    if (data.product.images && data.product.images[0] && data.product.images[0].url)
+      return (
+        <img
+          src={`${publicRuntimeConfig.apiUrl}${data.product.images[0].url}`}
+          alt={data.product.name}
+          className={classes.image}
+        />
+      );
+    return <LogoSvg className={classes.image} />;
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.imageContainer}>
         <Link href='/product/[slug]' as={`/product/${data.product.slug}`}>
-          <img
-            src={`${publicRuntimeConfig.apiUrl}${data.product.images[0].url}`}
-            className={classes.image}
-          />
+          {getImage()}
         </Link>
       </div>
       <div className={classes.text}>
