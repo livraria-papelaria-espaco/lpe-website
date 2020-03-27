@@ -1,9 +1,10 @@
-import { Container, CssBaseline } from '@material-ui/core';
+import { Container, CssBaseline, NoSsr } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import getConfig from 'next/config';
 import Head from 'next/head';
 import React from 'react';
 import Navbar from './Navbar';
+import CookieBanner from 'react-cookie-banner';
 
 const useStyles = makeStyles((theme) => ({
   colorBackground: {
@@ -24,6 +25,9 @@ const Layout = ({ title, children, hideNavbar = false, colorBackground = false }
 
   return (
     <div>
+      <NoSsr>
+        <CookieBanner message='Este website utiliza cookies.' buttonMessage='Entendi' />
+      </NoSsr>
       <div className={colorBackground ? classes.colorBackground : ''} />
       <Head>
         <title>{`${!!title ? `${title} | ` : ''}${publicRuntimeConfig.siteTitle}`}</title>

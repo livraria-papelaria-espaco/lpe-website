@@ -2036,6 +2036,11 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
+classnames@2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
+  integrity sha1-+zgB1FNGdknvNgPH1hoCvRKb3m0=
+
 cli-cursor@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/cli-cursor/-/cli-cursor-2.1.0.tgz#b35dac376479facc3e94747d41d0d0f5238ffcb5"
@@ -2210,6 +2215,11 @@ cookie@0.4.0, cookie@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.0.tgz#beb437e7022b3b6d49019d088665303ebe9c14ba"
   integrity sha512-+Hp8fLp57wnUSt0tY0tHEXh4voZRDnoIrZPqlo3DPiI4y9lwg/jqx+1Om94/W6ZaPDOUbnjOt/99w66zk+l1Xg==
+
+cookie@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
+  integrity sha1-5+Ch+e9DtMi6klxcWpboBtFoc7s=
 
 copy-concurrently@^1.0.0:
   version "1.0.5"
@@ -3180,6 +3190,11 @@ hmac-drbg@^1.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
+hoist-non-react-statics@^2.3.1:
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
+  integrity sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==
+
 hoist-non-react-statics@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
@@ -3896,6 +3911,11 @@ lodash.isstring@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/lodash.isstring/-/lodash.isstring-4.0.1.tgz#d527dfb5456eca7cc9bb95d5daeaf88ba54a5451"
   integrity sha1-1SfftUVuynzJu5XV2ur4i6VKVFE=
+
+lodash.omit@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.omit/-/lodash.omit-4.5.0.tgz#6eb19ae5a1ee1dd9df0b969e66ce0b7fa30b5e60"
+  integrity sha1-brGa5aHuHdnfC5aeZs4Lf6MLXmA=
 
 lodash.once@^4.0.0:
   version "4.1.1"
@@ -5149,7 +5169,7 @@ prop-types-exact@1.2.0:
     object.assign "^4.1.0"
     reflect.ownkeys "^0.2.0"
 
-prop-types@15.7.2, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15.7.2, prop-types@^15.0.0, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -5267,6 +5287,30 @@ raw-body@2.4.0:
     http-errors "1.7.2"
     iconv-lite "0.4.24"
     unpipe "1.0.0"
+
+react-addons-clone-with-props@^0.14.8:
+  version "0.14.8"
+  resolved "https://registry.yarnpkg.com/react-addons-clone-with-props/-/react-addons-clone-with-props-0.14.8.tgz#3d481b9a9d146cf2671562e3627ad7e4c0f6b2e2"
+  integrity sha1-PUgbmp0UbPJnFWLjYnrX5MD2suI=
+
+react-cookie-banner@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/react-cookie-banner/-/react-cookie-banner-4.1.0.tgz#9bb0877a3285360f3ae70c44bb4437effa934fda"
+  integrity sha512-dUWT3jawnJM029+kScKDs43G8gD35fGTlnrWI3el6ib9wpGDhK4ovHF1/OBXgUUSFVzf16ZgTgG+7vZi0AIysg==
+  dependencies:
+    classnames "2.2.5"
+    lodash.omit "^4.5.0"
+    react-addons-clone-with-props "^0.14.8"
+    react-cookie "^2.1.2"
+
+react-cookie@^2.1.2:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-cookie/-/react-cookie-2.2.0.tgz#0ad91a04db235aa35af97032c388fe902be3560c"
+  integrity sha512-W6e+ZyeEkgUhJV4D/p41QaApfFKsChW/OLvhDXLcBRcV2pmKOh88YhHkBz2QwZt20J5xaiqcN0NqGGK+58gn/g==
+  dependencies:
+    hoist-non-react-statics "^2.3.1"
+    prop-types "^15.0.0"
+    universal-cookie "^2.2.0"
 
 react-dom@^16.13.0:
   version "16.13.1"
@@ -6182,6 +6226,14 @@ unique-slug@^2.0.0:
   integrity sha512-zoWr9ObaxALD3DOPfjPSqxt4fnZiWblxHIgeWqW8x7UqDzEtHEQLzji2cuJYQFCU6KmoJikOYAZlrTHHebjx2w==
   dependencies:
     imurmurhash "^0.1.4"
+
+universal-cookie@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/universal-cookie/-/universal-cookie-2.2.0.tgz#328dc3883cf0ebd5b4904902033ad4dfdb907ed2"
+  integrity sha512-weEuvQvnMs74WGwqKSbeapCRv/7ATHDCqrfZtj579r3fQCxcwtoXYMoaZ8YOCQga/ctQTYy20xMOH1u7cAAU6w==
+  dependencies:
+    cookie "^0.3.1"
+    object-assign "^4.1.0"
 
 universal-cookie@^4.0.2:
   version "4.0.3"
