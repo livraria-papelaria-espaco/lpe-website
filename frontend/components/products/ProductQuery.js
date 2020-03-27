@@ -7,7 +7,7 @@ const ProductQuery = ({ sort, priceRange, search, category }) => {
   const { loading, error, data } = useQuery(PRODUCTS_QUERY, {
     variables: { search, sort, priceRange, category },
   });
-  if (loading && !data) return <h1>Loading</h1>;
+  if (loading && !data) return <ProductList loading />;
   if (error) return <p>Error loading products</p>;
 
   return <ProductList products={data.productsSearch || []} />;
@@ -25,6 +25,10 @@ const PRODUCTS_QUERY = gql`
       reference
       slug
       stockStatus
+      type
+      bookInfo {
+        author
+      }
     }
   }
 `;

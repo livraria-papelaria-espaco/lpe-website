@@ -1,52 +1,77 @@
-import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import getConfig from 'next/config';
 import Link from 'next/link';
 import React from 'react';
+import LogoSvg from '../../assets/logo.svg';
 import StockBadge from './StockBadge';
 
 const { publicRuntimeConfig } = getConfig();
 
-const useStyles = makeStyles({
-  card: {
-    maxWidth: 345,
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    cursor: 'pointer',
+    padding: theme.spacing(1),
+    borderRadius: theme.shape.borderRadius,
+    //maxWidth: 250,
+    margin: 'auto',
+    '&:hover': {
+      backgroundColor: fade(theme.palette.secondary.light, theme.palette.action.hoverOpacity),
+    },
   },
-  media: {
-    height: 140,
+  imageContainer: {
+    textAlign: 'center',
+    height: 150,
+    marginBottom: theme.spacing(1),
   },
-});
+  image: {
+    fill: fade(theme.palette.primary.main, 0.5),
+    maxWidth: '100%',
+    maxHeight: '100%',
+  },
+}));
 
 const ProductCard = ({ product }) => {
   const classes = useStyles();
+
+  const getImage = () => {
+    if (product.images && product.images[0] && product.images[0].url)
+      return (
+        <img
+          src={`${publicRuntimeConfig.apiUrl}${product.images[0].url}`}
+          alt={product.name}
+          className={classes.image}
+        />
+      );
+    return <LogoSvg className={classes.image} />;
+  };
+
   return (
-    <Card className={classes.card}>
-      <Link href='/product/[slug]' as={`/product/${product.slug}`}>
-        <CardActionArea>
-          <CardMedia
-            className={classes.media}
-            image={`${publicRuntimeConfig.apiUrl}${product.images[0].url}`}
-            title={product.name}
-          />
-          <CardContent>
-            <Typography gutterBottom variant='h5' component='h2'>
-              {product.name}
-            </Typography>
-            <Typography variant='body2' color='textSecondary' component='p'>
-              {product.shortDescription}
-            </Typography>
-            <Typography variant='body2' component='p'>
-              {product.reference}
-            </Typography>
-            <Typography variant='body2' component='p'>
-              Estado: <StockBadge stock={product.stockStatus} />
-            </Typography>
-            <Typography variant='body1' color='secondary' component='p'>
-              {`${product.price.toFixed(2)}€`}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Link>
-    </Card>
+    <Link href='/product/[slug]' as={`/product/${product.slug}`}>
+      <div className={classes.root}>
+        <div className={classes.imageContainer}>{getImage()}</div>
+        <Typography variant='h5' component='h2'>
+          {product.name}
+        </Typography>
+        {product.type === 'Livro' && product.bookInfo && product.bookInfo.author && (
+          <Typography variant='subtitle1' component='h3' color='textSecondary'>
+            {product.bookInfo.author}
+          </Typography>
+        )}
+        <Typography gutterBottom variant='caption' component='p'>
+          {`${product.type === 'Livro' ? 'ISBN' : 'Ref'}: ${product.reference}`}
+        </Typography>
+        <Typography variant='body2' color='textSecondary' component='p'>
+          {product.shortDescription}
+        </Typography>
+        <Typography variant='body1' component='p' color='secondary'>
+          {`${product.price.toFixed(2)}€ `}
+          <StockBadge stock={product.stockStatus} />
+        </Typography>
+      </div>
+    </Link>
   );
 };
 
