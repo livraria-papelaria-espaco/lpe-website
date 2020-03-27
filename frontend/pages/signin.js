@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   submitButton: {
     background: `linear-gradient(45deg, ${theme.palette.primary.dark} 20%, ${theme.palette.primary.light} 70%)`,
     '&$buttonDisabled': {
-      background: `rgba(0, 0, 0, 0.12)`,
+      background: theme.palette.action.disabledBackground,
     },
   },
   buttonDisabled: {},
