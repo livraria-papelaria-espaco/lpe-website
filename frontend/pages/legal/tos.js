@@ -5,19 +5,22 @@ import ErrorPage from 'next/error';
 import React from 'react';
 import Layout from '~/components/Layout';
 import Markdown from '~/components/text/Markdown';
+import { fetchAPI } from '~/lib/graphql';
 
-const TermsOfService = () => {
+const TermsOfService = ({ defaultData }) => {
   const { data, loading, error } = useQuery(TOS_QUERY);
 
-  if (error) return <ErrorPage statusCode={500} />;
-  if (loading) return null;
+  if (!defaultData && error) return <ErrorPage statusCode={500} />;
+  if (!defaultData && loading) return null;
+
+  const content = data ? data.termsOfService.termsOfService : defaultData;
 
   return (
     <Layout title='Termos de Serviço'>
       <Typography variant='h3' component='h1'>
         Termos de Serviço
       </Typography>
-      <Markdown children={data.termsOfService.termsOfService} />
+      <Markdown children={content} />
     </Layout>
   );
 };
@@ -29,5 +32,14 @@ const TOS_QUERY = gql`
     }
   }
 `;
+
+export const getStaticProps = async () => {
+  const data = await fetchAPI(TOS_QUERY);
+  return {
+    props: {
+      defaultData: data.termsOfService.termsOfService,
+    },
+  };
+};
 
 export default TermsOfService;
