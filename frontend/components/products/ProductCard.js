@@ -31,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '100%',
     maxHeight: '100%',
   },
+  bookAuthor: {
+    lineHeight: 1.3,
+    paddingBottom: theme.spacing(1),
+  },
 }));
 
 const ProductCard = ({ product }) => {
@@ -56,7 +60,12 @@ const ProductCard = ({ product }) => {
           {product.name}
         </Typography>
         {product.type === 'Livro' && product.bookInfo && product.bookInfo.author && (
-          <Typography variant='subtitle1' component='h3' color='textSecondary'>
+          <Typography
+            variant='subtitle1'
+            component='h3'
+            color='textSecondary'
+            className={classes.bookAuthor}
+          >
             {product.bookInfo.author}
           </Typography>
         )}
