@@ -41,7 +41,7 @@ OrderPaymentGatewayInfo.propTypes = {
       reference: PropTypes.string,
       price: PropTypes.number,
     }),
-    mbWayPhone: PropTypes.number,
+    mbWayPhone: PropTypes.string,
   }),
 };
 

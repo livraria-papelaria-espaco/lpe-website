@@ -28,7 +28,7 @@ const CheckoutAddress = ({ value, setValue, setReady, disabled }) => {
       isValidName(firstName) &&
         isValidName(lastName) &&
         isValidAddress(address1) &&
-        isValidAddress(address2) &&
+        (!address2 || isValidAddress(address2)) &&
         isValidCity &&
         isValidPostalCode
     );
