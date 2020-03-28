@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 import Cookies from 'js-cookie';
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
+import PropTypes from 'prop-types';
 
 const initialState = fromJS({ items: [], total: 0, count: 0, default: true });
 const CartContext = createContext(initialState);
@@ -21,48 +22,51 @@ const refreshMeta = (state) => {
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
-  const [state, dispatch] = useReducer((state, action) => {
+  const [state, dispatch] = useReducer((reducerState, action) => {
     switch (action.type) {
       case 'LOAD_CART':
         return action.data;
       case 'ADD_ITEM':
-        return state
+        return reducerState
           .update('items', (items) => {
             const key = items.findKey((item) => item.get('id') === action.item.id);
             if (key !== undefined)
               return items.update(key, (item) => item.update('quantity', (qnt) => qnt + 1));
-            else return items.push(fromJS({ ...action.item, quantity: 1 }));
+            return items.push(fromJS({ ...action.item, quantity: 1 }));
           })
           .update(refreshMeta);
       case 'INCREASE_QUANTITY':
-        return state
+        return reducerState
           .update('items', (items) => {
             const key = items.findKey((item) => item.get('id') === action.id);
             if (key !== undefined)
               return items.update(key, (item) => item.update('quantity', (qnt) => qnt + 1));
+            return items;
           })
           .update(refreshMeta);
       case 'DECREASE_QUANTITY':
-        return state
+        return reducerState
           .update('items', (items) => {
             const key = items.findKey((item) => item.get('id') === action.id);
             if (key !== undefined)
               return items.update(key, (item) =>
                 item.update('quantity', (qnt) => (qnt > 1 ? qnt - 1 : 1))
               );
+            return items;
           })
           .update(refreshMeta);
       case 'REMOVE_ITEM':
-        return state
+        return reducerState
           .update('items', (items) => {
             const key = items.findKey((item) => item.get('id') === action.id);
             if (key !== undefined) return items.delete(key);
+            return items;
           })
           .update(refreshMeta);
       case 'RESET_CART':
         return initialState.set('default', false);
       default:
-        return state;
+        return reducerState;
     }
   }, initialState);
 
@@ -80,4 +84,8 @@ export const CartProvider = ({ children }) => {
   }, [state, dispatch]);
 
   return <CartContext.Provider value={{ state, dispatch }}>{children}</CartContext.Provider>;
+};
+
+CartProvider.propTypes = {
+  children: PropTypes.element.isRequired,
 };

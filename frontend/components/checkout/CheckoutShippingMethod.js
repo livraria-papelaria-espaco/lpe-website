@@ -1,4 +1,5 @@
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@material-ui/core';
+import { FormControl, FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 const CheckoutShippingMethod = ({ value, handleChange }) => {
@@ -7,7 +8,7 @@ const CheckoutShippingMethod = ({ value, handleChange }) => {
       <RadioGroup
         aria-label='store pickup'
         name='storePickup'
-        value={String(value)}
+        value={value}
         onChange={handleChange}
       >
         <FormControlLabel
@@ -19,6 +20,15 @@ const CheckoutShippingMethod = ({ value, handleChange }) => {
       </RadioGroup>
     </FormControl>
   );
+};
+
+CheckoutShippingMethod.propTypes = {
+  value: PropTypes.oneOf(['', 'STORE_PICKUP', 'CTT']),
+  handleChange: PropTypes.func.isRequired,
+};
+
+CheckoutShippingMethod.defaultProps = {
+  value: '',
 };
 
 export default CheckoutShippingMethod;

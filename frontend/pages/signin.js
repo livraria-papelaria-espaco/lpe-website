@@ -15,7 +15,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Layout from '~/components/Layout';
 import { useAuth } from '~/hooks/useAuth';
-import LogoSvg from '../assets/logo.svg'; //TODO fix relative import
+import LogoSvg from '../assets/logo.svg'; // TODO fix relative import
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -91,7 +91,7 @@ const SignIn = () => {
     setLoading(true);
     try {
       await login(email, password);
-    } catch (e) {
+    } catch {
       setError(true);
       setLoading(false);
     }

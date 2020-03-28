@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-props-no-spreading */
+import PropTypes from 'prop-types';
 import React from 'react';
 
 const StockBadge = ({ stock, component: Component = 'span', ...props }) => {
@@ -26,6 +28,15 @@ const StockBadge = ({ stock, component: Component = 'span', ...props }) => {
       </Component>
     );
   return <Component {...props}>Desconhecido</Component>;
+};
+
+StockBadge.propTypes = {
+  stock: PropTypes.string.isRequired,
+  component: PropTypes.elementType,
+};
+
+StockBadge.defaultProps = {
+  component: 'span',
 };
 
 export default StockBadge;

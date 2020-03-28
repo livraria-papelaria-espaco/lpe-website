@@ -1,4 +1,6 @@
 import { Typography } from '@material-ui/core';
+import { Map } from 'immutable';
+import PropTypes from 'prop-types';
 import React from 'react';
 import CartItem from './CartItem';
 
@@ -14,5 +16,12 @@ const CartSummary = ({ data, dispatch }) => {
     </>
   );
 };
+
+CartSummary.propTypes = {
+  data: PropTypes.instanceOf(Map).isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
+
+CartSummary.defaultProps = {};
 
 export default CartSummary;

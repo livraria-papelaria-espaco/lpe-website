@@ -17,9 +17,9 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Layout from '~/components/Layout';
 import { useAuth } from '~/hooks/useAuth';
-import LogoSvg from '../assets/logo.svg'; //TODO fix relative import
+import LogoSvg from '../assets/logo.svg'; // TODO fix relative import
 
-const emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const emailRegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const usernameRegExp = /^[A-Za-z0-9_ ]{4,}$/;
 const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/;
 
@@ -125,8 +125,8 @@ const SignUp = () => {
     setLoading(true);
     try {
       await register(username, password, email);
-    } catch (e) {
-      //TODO get errors from backend
+    } catch {
+      // TODO get errors from backend
       setError('Email e/ou username já em uso');
       setLoading(false);
     }

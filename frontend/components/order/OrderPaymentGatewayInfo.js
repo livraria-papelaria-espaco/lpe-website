@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 const OrderPaymentGatewayInfo = ({ gateway, orderData }) => {
@@ -30,6 +31,22 @@ const OrderPaymentGatewayInfo = ({ gateway, orderData }) => {
       {info}
     </div>
   );
+};
+
+OrderPaymentGatewayInfo.propTypes = {
+  gateway: PropTypes.oneOf(['IN_STORE', 'MB', 'MBWAY']).isRequired,
+  orderData: PropTypes.shape({
+    multibanco: PropTypes.shape({
+      entity: PropTypes.number,
+      reference: PropTypes.number,
+      price: PropTypes.number,
+    }),
+    mbWayPhone: PropTypes.number,
+  }),
+};
+
+OrderPaymentGatewayInfo.defaultProps = {
+  orderData: {},
 };
 
 export default OrderPaymentGatewayInfo;

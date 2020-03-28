@@ -1,4 +1,5 @@
 import { Slider, Typography } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 const valuetext = (value) => `${value} €`;
@@ -24,6 +25,15 @@ const ProductFilterPrice = ({ value, setValue }) => {
       />
     </div>
   );
+};
+
+ProductFilterPrice.propTypes = {
+  value: PropTypes.arrayOf(PropTypes.number),
+  setValue: PropTypes.func.isRequired,
+};
+
+ProductFilterPrice.defaultProps = {
+  value: [0, 100],
 };
 
 export default ProductFilterPrice;

@@ -28,6 +28,7 @@
     "markdown-to-jsx": "^6.11.0",
     "next": "^9.3.2",
     "next-cookies": "^2.0.3",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-cookie-banner": "^4.1.0",
     "react-dom": "^16.13.1"
@@ -35,9 +36,22 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "NODE_ENV=production next start"
+    "start": "NODE_ENV=production next start",
+    "lint": "eslint --ext .jsx --ext .js ."
   },
   "devDependencies": {
-    "babel-plugin-inline-react-svg": "^1.1.1"
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-inline-react-svg": "^1.1.1",
+    "babel-plugin-root-import": "^6.5.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-import-resolver-babel-plugin-root-import": "^1.1.1",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^3.0.0",
+    "prettier": "^2.0.2"
   }
 }

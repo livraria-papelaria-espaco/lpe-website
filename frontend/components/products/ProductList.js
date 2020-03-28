@@ -1,4 +1,5 @@
 import { Grid } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import React from 'react';
 import ProductCard from './ProductCard';
 import ProductSkeleton from './ProductSkeleton';
@@ -8,6 +9,7 @@ const ProductList = ({ products, loading }) => {
     return (
       <Grid container direction='row' justify='flex-start' alignItems='center' spacing={3}>
         {[...Array(3)].map((_, i) => (
+          // eslint-disable-next-line react/no-array-index-key
           <Grid item xs={6} md={4} lg={3} key={i}>
             <ProductSkeleton />
           </Grid>
@@ -27,6 +29,15 @@ const ProductList = ({ products, loading }) => {
       ))}
     </Grid>
   );
+};
+
+ProductList.propTypes = {
+  products: PropTypes.arrayOf(PropTypes.object).isRequired,
+  loading: PropTypes.bool,
+};
+
+ProductList.defaultProps = {
+  loading: false,
 };
 
 export default ProductList;

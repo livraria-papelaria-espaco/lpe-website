@@ -3,11 +3,18 @@ import { Button, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
 import gql from 'graphql-tag';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
+import PropTypes from 'prop-types';
 import React from 'react';
 import CartItem from '~/components/cart/CartItem';
 import { useCart } from '~/hooks/useCart';
 import CheckoutSubmit from './CheckoutSubmit';
+
+const CALCULATE_SHIPING_QUERY = gql`
+  query($postalCode: String!, $shippingMethod: ENUM_ORDER_SHIPPINGMETHOD!, $items: JSON!) {
+    calculateShipping(postalCode: $postalCode, shippingMethod: $shippingMethod, items: $items)
+  }
+`;
 
 const useStyles = makeStyles((theme) => ({
   buttonArea: {
@@ -93,6 +100,7 @@ const CheckoutSummary = ({ state, goBack }) => {
             `${state.getIn(['billingAddress', 'postalCode'])}, 
             ${state.getIn(['billingAddress', 'city'])}`,
           ].map((v, i) => (
+            // eslint-disable-next-line react/no-array-index-key
             <span key={i}>
               {i !== 0 && <br />}
               {v}
@@ -116,6 +124,7 @@ const CheckoutSummary = ({ state, goBack }) => {
             `${state.getIn([shippingAddressKey, 'postalCode'])}, 
             ${state.getIn([shippingAddressKey, 'city'])}`,
           ].map((v, i) => (
+            // eslint-disable-next-line react/no-array-index-key
             <span key={i}>
               {i !== 0 && <br />}
               {v}
@@ -180,6 +189,11 @@ const CheckoutSummary = ({ state, goBack }) => {
   );
 };
 
+CheckoutSummary.propTypes = {
+  state: PropTypes.instanceOf(Map).isRequired,
+  goBack: PropTypes.func.isRequired,
+};
+
 const Field = ({ title, value, assert = true, xs = 12, md = 6, lg = 4 }) => {
   if (!assert) return null;
 
@@ -193,10 +207,20 @@ const Field = ({ title, value, assert = true, xs = 12, md = 6, lg = 4 }) => {
   );
 };
 
-const CALCULATE_SHIPING_QUERY = gql`
-  query($postalCode: String!, $shippingMethod: ENUM_ORDER_SHIPPINGMETHOD!, $items: JSON!) {
-    calculateShipping(postalCode: $postalCode, shippingMethod: $shippingMethod, items: $items)
-  }
-`;
+Field.propTypes = {
+  title: PropTypes.node.isRequired,
+  value: PropTypes.node.isRequired,
+  assert: PropTypes.bool,
+  xs: PropTypes.number,
+  md: PropTypes.number,
+  lg: PropTypes.number,
+};
+
+Field.defaultProps = {
+  assert: true,
+  xs: 12,
+  md: 6,
+  lg: 4,
+};
 
 export default CheckoutSummary;

@@ -1,8 +1,8 @@
+import { Container } from '@material-ui/core';
 import React from 'react';
 import CheckoutStepper from '~/components/checkout/CheckoutStepper';
 import Layout from '~/components/Layout';
 import { useAuth } from '~/hooks/useAuth';
-import { Container } from '@material-ui/core';
 
 const CheckoutPage = () => {
   useAuth({ secure: true });

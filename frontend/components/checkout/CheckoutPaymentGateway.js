@@ -1,4 +1,6 @@
-import { FormControl, FormControlLabel, Radio, RadioGroup, Collapse } from '@material-ui/core';
+import { Collapse, FormControl, FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
+import { Map } from 'immutable';
+import PropTypes from 'prop-types';
 import React from 'react';
 import CheckoutMbWayPhone from './CheckoutMbWayPhone';
 
@@ -45,6 +47,12 @@ const CheckoutPaymentGateway = ({ state, dispatch, children }) => {
       {children(!paymentGateway || (paymentGateway === 'MBWAY' && !isValidMbWayPhone))}
     </div>
   );
+};
+
+CheckoutPaymentGateway.propTypes = {
+  state: PropTypes.instanceOf(Map).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  children: PropTypes.func.isRequired,
 };
 
 export default CheckoutPaymentGateway;

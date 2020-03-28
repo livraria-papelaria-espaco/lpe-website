@@ -37,7 +37,7 @@ const OrderList = () => {
   const classes = useStyles();
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {JSON.stringify(error)}</p>;
-  const orders = data.orders;
+  const { orders } = data;
   if (!orders) return <p>No orders</p>;
   return (
     <TableContainer component={Paper}>

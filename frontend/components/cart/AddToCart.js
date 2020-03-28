@@ -1,9 +1,10 @@
 import { Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import CartIcon from '@material-ui/icons/AddShoppingCartRounded';
+import DoneIcon from '@material-ui/icons/DoneRounded';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useCart } from '~/hooks/useCart';
-import CartIcon from '@material-ui/icons/AddShoppingCartRounded';
-import { makeStyles } from '@material-ui/core/styles';
-import DoneIcon from '@material-ui/icons/DoneRounded';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddToCart = ({ item, ...props }) => {
+const AddToCart = ({ item, disabled }) => {
   const classes = useStyles();
   const { dispatch } = useCart();
   const timer = React.useRef();
@@ -66,13 +67,26 @@ const AddToCart = ({ item, ...props }) => {
           root: `${classes.button} ${success ? classes.success : ''}`,
           disabled: classes.buttonDisabled,
         }}
-        {...props}
+        disabled={disabled}
       >
         Adicionar ao Carrinho
       </Button>
       {success && <DoneIcon size={24} className={classes.successIcon} />}
     </div>
   );
+};
+
+AddToCart.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.string.isRequired, // MongoDB ID
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+  }).isRequired,
+  disabled: PropTypes.bool,
+};
+
+AddToCart.defaultProps = {
+  disabled: false,
 };
 
 export default AddToCart;

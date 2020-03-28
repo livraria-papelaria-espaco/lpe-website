@@ -1,6 +1,7 @@
 import { Link, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import ReactMarkdown from 'markdown-to-jsx';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 const styles = (theme) => ({
@@ -29,6 +30,7 @@ const markdownOptions = {
     li: {
       component: withStyles(styles)(({ classes, ...props }) => (
         <li className={classes.listItem}>
+          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
           <Typography component='span' {...props} />
         </li>
       )),
@@ -36,6 +38,19 @@ const markdownOptions = {
   },
 };
 
-const Markdown = (props) => <ReactMarkdown options={markdownOptions} {...props} />;
+const Markdown = ({ children, className }) => (
+  <ReactMarkdown options={markdownOptions} className={className}>
+    {children}
+  </ReactMarkdown>
+);
+
+Markdown.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+};
+
+Markdown.defaultProps = {
+  className: '',
+};
 
 export default Markdown;

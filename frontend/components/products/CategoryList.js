@@ -1,8 +1,23 @@
-import React from 'react';
-import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
-import Link from 'next/link';
 import { Link as MUILink } from '@material-ui/core';
+import gql from 'graphql-tag';
+import Link from 'next/link';
+import PropTypes from 'prop-types';
+import React from 'react';
+
+const GET_CATEGORIES = gql`
+  query GET_CATEGORIES($where: JSON!) {
+    categories(where: $where) {
+      name
+      slug
+      categories {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
 
 const CategoryList = ({ parent }) => {
   const { data, loading, error } = useQuery(GET_CATEGORIES, {
@@ -32,18 +47,12 @@ const CategoryList = ({ parent }) => {
   );
 };
 
-const GET_CATEGORIES = gql`
-  query GET_CATEGORIES($where: JSON!) {
-    categories(where: $where) {
-      name
-      slug
-      categories {
-        id
-        name
-        slug
-      }
-    }
-  }
-`;
+CategoryList.propTypes = {
+  parent: PropTypes.string, // MongoDB ID
+};
+
+CategoryList.defaultProps = {
+  parent: null,
+};
 
 export default CategoryList;

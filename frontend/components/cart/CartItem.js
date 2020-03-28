@@ -6,14 +6,30 @@ import RemoveIcon from '@material-ui/icons/RemoveRounded';
 import DeleteIcon from '@material-ui/icons/RemoveShoppingCartRounded';
 import { Skeleton } from '@material-ui/lab';
 import gql from 'graphql-tag';
+import { Map } from 'immutable';
 import getConfig from 'next/config';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import React from 'react';
 import LogoSvg from '../../assets/logo.svg';
 
 const { publicRuntimeConfig } = getConfig();
 
 const IMAGE_SIZE = 100;
+
+const GET_CART_PRODUCT_INFO = gql`
+  query GET_CART_PRODUCT_INFO($id: ID!) {
+    product(id: $id) {
+      name
+      slug
+      reference
+      price
+      images(limit: 1) {
+        url
+      }
+    }
+  }
+`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -122,18 +138,9 @@ const CartItem = ({ item, dispatch }) => {
   );
 };
 
-const GET_CART_PRODUCT_INFO = gql`
-  query GET_CART_PRODUCT_INFO($id: ID!) {
-    product(id: $id) {
-      name
-      slug
-      reference
-      price
-      images(limit: 1) {
-        url
-      }
-    }
-  }
-`;
+CartItem.propTypes = {
+  item: PropTypes.instanceOf(Map).isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
 
 export default CartItem;

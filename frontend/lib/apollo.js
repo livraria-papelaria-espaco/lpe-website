@@ -1,3 +1,7 @@
+/* eslint-disable no-multi-assign */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-use-before-define */
+/* eslint-disable react/prop-types */
 import { ApolloProvider } from '@apollo/react-hooks';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
@@ -21,7 +25,7 @@ let globalApolloClient = null;
  * @param {Object} [config]
  * @param {Boolean} [config.ssr=true]
  */
-export function withApollo(PageComponent, { ssr = true } = {}) {
+export const withApollo = (PageComponent, { ssr = true } = {}) => {
   const WithApollo = ({ apolloClient, apolloState, ...pageProps }) => {
     const client = apolloClient || initApolloClient(apolloState);
     return (
@@ -101,7 +105,7 @@ export function withApollo(PageComponent, { ssr = true } = {}) {
   }
 
   return WithApollo;
-}
+};
 
 /**
  * Always creates a new apollo client on the server
@@ -133,7 +137,7 @@ function createApolloClient(initialState = {}) {
     ssrMode: typeof window === 'undefined', // Disables forceFetch on the server (so queries are only run once)
     link: authLink.concat(
       new HttpLink({
-        uri: (publicRuntimeConfig.apiUrl || 'http://localhost:3337') + '/graphql', // Server URL (must be absolute)
+        uri: `${publicRuntimeConfig.apiUrl || 'http://localhost:3337'}/graphql`, // Server URL (must be absolute)
         credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
         fetch,
       })
@@ -153,3 +157,5 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
+
+export default withApollo;

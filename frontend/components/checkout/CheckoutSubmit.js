@@ -1,10 +1,44 @@
 import { useMutation } from '@apollo/react-hooks';
-import { Button, Typography, CircularProgress } from '@material-ui/core';
-import gql from 'graphql-tag';
-import { List } from 'immutable';
-import { useRouter } from 'next/router';
-import React from 'react';
+import { Button, CircularProgress, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import gql from 'graphql-tag';
+import { List, Map } from 'immutable';
+import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
+import React from 'react';
+
+const CREATE_ORDER = gql`
+  mutation createOrder(
+    $price: Float!
+    $shippingCost: Float!
+    $shippingMethod: ENUM_ORDER_SHIPPINGMETHOD!
+    $shippingAddress: ComponentCheckoutAddressInput
+    $billingAddress: ComponentCheckoutAddressInput!
+    $paymentGateway: ENUM_ORDER_PAYMENTGATEWAY!
+    $orderData: JSON!
+    $nif: Long
+  ) {
+    createOrder(
+      input: {
+        data: {
+          price: $price
+          shippingCost: $shippingCost
+          status: WAITING_PAYMENT
+          paymentGateway: $paymentGateway
+          shippingMethod: $shippingMethod
+          shippingAddress: $shippingAddress
+          billingAddress: $billingAddress
+          orderData: $orderData
+          nif: $nif
+        }
+      }
+    ) {
+      order {
+        id
+      }
+    }
+  }
+`;
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -21,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CheckoutSubmit = ({ state, itemsState, shippingCost = 0, ...props }) => {
+const CheckoutSubmit = ({ state, itemsState, shippingCost = 0, disabled, className }) => {
   const router = useRouter();
   const [createOrder] = useMutation(CREATE_ORDER);
   const [error, setError] = React.useState(false);
@@ -59,8 +93,7 @@ const CheckoutSubmit = ({ state, itemsState, shippingCost = 0, ...props }) => {
           },
         },
       });
-      //setLoading(false);
-      router.push('/checkout/success/[orderId]', `/checkout/success/${data.createOrder.order._id}`);
+      router.push('/checkout/success/[orderId]', `/checkout/success/${data.createOrder.order.id}`);
     } catch (e) {
       console.error(e);
       setError(true);
@@ -71,7 +104,13 @@ const CheckoutSubmit = ({ state, itemsState, shippingCost = 0, ...props }) => {
   return (
     <>
       <div className={classes.wrapper}>
-        <Button variant='contained' color='primary' onClick={onClick} disabled={loading} {...props}>
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={onClick}
+          disabled={loading || disabled}
+          className={className}
+        >
           Encomendar
         </Button>
         {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
@@ -85,37 +124,18 @@ const CheckoutSubmit = ({ state, itemsState, shippingCost = 0, ...props }) => {
   );
 };
 
-const CREATE_ORDER = gql`
-  mutation createOrder(
-    $price: Float!
-    $shippingCost: Float!
-    $shippingMethod: ENUM_ORDER_SHIPPINGMETHOD!
-    $shippingAddress: ComponentCheckoutAddressInput
-    $billingAddress: ComponentCheckoutAddressInput!
-    $paymentGateway: ENUM_ORDER_PAYMENTGATEWAY!
-    $orderData: JSON!
-    $nif: Long
-  ) {
-    createOrder(
-      input: {
-        data: {
-          price: $price
-          shippingCost: $shippingCost
-          status: WAITING_PAYMENT
-          paymentGateway: $paymentGateway
-          shippingMethod: $shippingMethod
-          shippingAddress: $shippingAddress
-          billingAddress: $billingAddress
-          orderData: $orderData
-          nif: $nif
-        }
-      }
-    ) {
-      order {
-        _id
-      }
-    }
-  }
-`;
+CheckoutSubmit.propTypes = {
+  state: PropTypes.instanceOf(Map).isRequired,
+  itemsState: PropTypes.instanceOf(Map).isRequired,
+  shippingCost: PropTypes.number,
+  disabled: PropTypes.bool,
+  className: PropTypes.string,
+};
+
+CheckoutSubmit.defaultProps = {
+  shippingCost: 0,
+  disabled: false,
+  className: '',
+};
 
 export default CheckoutSubmit;

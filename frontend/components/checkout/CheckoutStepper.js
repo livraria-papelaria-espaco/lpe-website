@@ -1,4 +1,4 @@
-import { Button, Paper, Step, StepContent, StepLabel, Stepper, Collapse } from '@material-ui/core';
+import { Button, Collapse, Paper, Step, StepContent, StepLabel, Stepper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { fromJS } from 'immutable';
 import React, { useReducer, useState } from 'react';

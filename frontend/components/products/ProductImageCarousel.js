@@ -1,9 +1,10 @@
-import getConfig from 'next/config';
-import React, { useState } from 'react';
+import { Button, Fade, MobileStepper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import { MobileStepper, Button, Fade } from '@material-ui/core';
+import getConfig from 'next/config';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -49,11 +50,12 @@ const ProductImageCarousel = ({ images }) => {
     <div className={classes.root}>
       <div className={classes.imagesContainer}>
         {images.map((img, i) => (
-          <Fade key={i} in={activeStep === i}>
+          <Fade key={img.url} in={activeStep === i}>
             <img
               className={classes.image}
               key={img.url}
               src={`${publicRuntimeConfig.apiUrl}${img.url}`}
+              alt={`Imagem ${i + 1} do produto`}
             />
           </Fade>
         ))}
@@ -79,6 +81,20 @@ const ProductImageCarousel = ({ images }) => {
       )}
     </div>
   );
+};
+
+ProductImageCarousel.propTypes = {
+  images: PropTypes.arrayOf(
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        url: PropTypes.string,
+      })
+    )
+  ),
+};
+
+ProductImageCarousel.defaultProps = {
+  images: [],
 };
 
 export default ProductImageCarousel;

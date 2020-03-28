@@ -11,6 +11,14 @@ import SearchBar from '~/components/products/SearchBar';
 
 const priceRange = [0, 100];
 
+const GET_CATEGORY_FROM_SLUG = gql`
+  query GET_CATEGORY_FROM_SLUG($category: String!) {
+    categoryBySlug(slug: $category) {
+      name
+    }
+  }
+`;
+
 const CategoryPage = () => {
   const [priceFilter, setPriceFilter] = useState(priceRange);
   const [search, setSearch] = useState('');
@@ -42,13 +50,5 @@ const CategoryPage = () => {
     </Layout>
   );
 };
-
-const GET_CATEGORY_FROM_SLUG = gql`
-  query GET_CATEGORY_FROM_SLUG($category: String!) {
-    categoryBySlug(slug: $category) {
-      name
-    }
-  }
-`;
 
 export default CategoryPage;

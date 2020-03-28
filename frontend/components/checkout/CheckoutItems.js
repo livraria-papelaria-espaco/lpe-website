@@ -1,8 +1,9 @@
+import { Link as MUILink, Typography } from '@material-ui/core';
+import Link from 'next/link';
+import PropTypes from 'prop-types';
 import React from 'react';
 import CartSummary from '~/components/cart/CartSummary';
 import { useCart } from '~/hooks/useCart';
-import { Typography, Link as MUILink } from '@material-ui/core';
-import Link from 'next/link';
 
 const CheckoutItems = ({ children }) => {
   const { state, dispatch } = useCart();
@@ -24,6 +25,10 @@ const CheckoutItems = ({ children }) => {
       {children(empty)}
     </div>
   );
+};
+
+CheckoutItems.propTypes = {
+  children: PropTypes.func.isRequired,
 };
 
 export default CheckoutItems;

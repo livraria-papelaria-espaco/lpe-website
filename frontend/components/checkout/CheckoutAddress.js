@@ -1,4 +1,5 @@
 import { FormControl, Grid, TextField } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 
 const nameRegex = /\d/;
@@ -16,8 +17,8 @@ const CheckoutAddress = ({ value, setValue, setReady, disabled }) => {
   const city = value.get('city', '');
   const postalCode = value.get('postalCode', '');
 
-  const isValidName = (value) => !!value && value.length <= 20 && !nameRegex.test(value);
-  const isValidAddress = (value) => !!value && value.length <= 50;
+  const isValidName = (val) => !!val && val.length <= 20 && !nameRegex.test(val);
+  const isValidAddress = (val) => !!val && val.length <= 50;
   const isValidCity = !!city && city.length <= 50;
   const isValidPostalCode = !!postalCode && postalCodeRegex.test(postalCode);
 
@@ -97,9 +98,7 @@ const CheckoutAddress = ({ value, setValue, setReady, disabled }) => {
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-          {
-            //TODO auto -
-          }
+          {/* TODO auto "-" symbol */}
           <TextField
             error={postalCode.length !== 0 && !isValidPostalCode}
             required
@@ -125,6 +124,17 @@ const CheckoutAddress = ({ value, setValue, setReady, disabled }) => {
       </Grid>
     </FormControl>
   );
+};
+
+CheckoutAddress.propTypes = {
+  value: PropTypes.instanceOf(Map).isRequired,
+  setValue: PropTypes.func.isRequired,
+  setReady: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+};
+
+CheckoutAddress.defaultProps = {
+  disabled: false,
 };
 
 export default CheckoutAddress;

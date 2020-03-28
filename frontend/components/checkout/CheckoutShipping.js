@@ -1,4 +1,6 @@
 import { Checkbox, Collapse, FormControlLabel } from '@material-ui/core';
+import { Map } from 'immutable';
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import CheckoutAddress from './CheckoutAddress';
 import CheckoutShippingMethod from './CheckoutShippingMethod';
@@ -38,6 +40,12 @@ const CheckoutShipping = ({ state, dispatch, children }) => {
       {children(!addressReady && !useSameAddress)}
     </div>
   );
+};
+
+CheckoutShipping.propTypes = {
+  state: PropTypes.instanceOf(Map).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  children: PropTypes.func.isRequired,
 };
 
 export default CheckoutShipping;

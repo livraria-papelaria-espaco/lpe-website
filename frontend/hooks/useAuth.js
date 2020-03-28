@@ -2,16 +2,40 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
+const ME_QUERY = gql`
+  query ME_QUERY {
+    me {
+      username
+    }
+  }
+`;
+
+const LOGIN_MUTATION = gql`
+  mutation LOGIN_MUTATION($identifier: String!, $password: String!) {
+    login(input: { identifier: $identifier, password: $password }) {
+      jwt
+      user {
+        username
+      }
+    }
+  }
+`;
+
+const REGISTER_MUTATION = gql`
+  mutation REGISTER_MUTATION($name: String!, $password: String!, $email: String!) {
+    register(input: { username: $name, password: $password, email: $email }) {
+      jwt
+      user {
+        username
+      }
+    }
+  }
+`;
+
 const authContext = createContext();
-
-export const AuthProvider = ({ /*data,*/ children }) => {
-  const auth = useAuthProvider(/*data*/);
-  return <authContext.Provider value={auth}>{children}</authContext.Provider>;
-};
-
-//AuthProvider.getInitialProps = (ctx) => Cookies(ctx).jwt;
 
 export const useAuth = ({ secure = false } = {}) => {
   const router = useRouter();
@@ -35,19 +59,19 @@ const useAuthProvider = () => {
   const [requestRegister] = useMutation(REGISTER_MUTATION);
 
   const login = async (identifier, password) => {
-    const { data } = await requestLogin({ variables: { identifier, password } });
-    Cookies.set('jwt', data.login.jwt);
-    setUsername(data.login.user.username);
+    const { data: res } = await requestLogin({ variables: { identifier, password } });
+    Cookies.set('jwt', res.login.jwt);
+    setUsername(res.login.user.username);
     window.localStorage.setItem('login', Date.now());
-    return data;
+    return res;
   };
 
-  const register = async (username, password, email) => {
-    const { data } = await requestRegister({ variables: { username, password, email } });
-    Cookies.set('jwt', data.register.jwt);
-    setUsername(data.register.user.username);
+  const register = async (name, password, email) => {
+    const { data: res } = await requestRegister({ variables: { name, password, email } });
+    Cookies.set('jwt', res.register.jwt);
+    setUsername(res.register.user.username);
     window.localStorage.setItem('login', Date.now());
-    return data;
+    return res;
   };
 
   const logout = () => {
@@ -59,8 +83,8 @@ const useAuthProvider = () => {
   const syncAuth = async (event) => {
     if (event.key === 'logout') setUsername(null);
     if (event.key === 'login') {
-      const { data } = await refetch();
-      if (data) setUsername(data.me.username);
+      const { data: res } = await refetch();
+      if (res) setUsername(res.me.username);
     }
   };
 
@@ -88,32 +112,11 @@ const useAuthProvider = () => {
   };
 };
 
-const ME_QUERY = gql`
-  query ME_QUERY {
-    me {
-      username
-    }
-  }
-`;
+export const AuthProvider = ({ children }) => {
+  const auth = useAuthProvider();
+  return <authContext.Provider value={auth}>{children}</authContext.Provider>;
+};
 
-const LOGIN_MUTATION = gql`
-  mutation LOGIN_MUTATION($identifier: String!, $password: String!) {
-    login(input: { identifier: $identifier, password: $password }) {
-      jwt
-      user {
-        username
-      }
-    }
-  }
-`;
-
-const REGISTER_MUTATION = gql`
-  mutation REGISTER_MUTATION($username: String!, $password: String!, $email: String!) {
-    register(input: { username: $username, password: $password, email: $email }) {
-      jwt
-      user {
-        username
-      }
-    }
-  }
-`;
+AuthProvider.propTypes = {
+  children: PropTypes.element.isRequired,
+};

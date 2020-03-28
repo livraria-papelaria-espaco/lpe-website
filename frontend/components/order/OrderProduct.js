@@ -1,8 +1,9 @@
 import { Link as MuiLink } from '@material-ui/core';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import React from 'react';
 
-const OrderProduct = ({ name, slug, priceUnity, price, quantity, reference }) => {
+const OrderProduct = ({ item: { name, slug, priceUnity, price, quantity, reference } }) => {
   return (
     <Link href='/product/[slug]' as={`/product/${slug}`}>
       <MuiLink>
@@ -19,5 +20,18 @@ const OrderProduct = ({ name, slug, priceUnity, price, quantity, reference }) =>
     </Link>
   );
 };
+
+OrderProduct.propTypes = {
+  item: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
+    priceUnity: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+    quantity: PropTypes.number.isRequired,
+    reference: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+OrderProduct.defaultProps = {};
 
 export default OrderProduct;

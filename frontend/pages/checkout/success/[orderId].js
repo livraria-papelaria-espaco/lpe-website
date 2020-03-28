@@ -1,10 +1,10 @@
 import { Typography } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { useCart } from '~/hooks/useCart';
 import Layout from '~/components/Layout';
 import OrderSummary from '~/components/order/OrderSummary';
 import { useAuth } from '~/hooks/useAuth';
+import { useCart } from '~/hooks/useCart';
 
 const OrderSucessful = () => {
   useAuth({ secure: true });

@@ -1,5 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 const CartDialog = ({ open, onClose, children }) => (
@@ -16,5 +17,16 @@ const CartDialog = ({ open, onClose, children }) => (
     </DialogActions>
   </Dialog>
 );
+
+CartDialog.propTypes = {
+  open: PropTypes.bool,
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.node,
+};
+
+CartDialog.defaultProps = {
+  open: false,
+  children: null,
+};
 
 export default CartDialog;

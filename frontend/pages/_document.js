@@ -27,6 +27,7 @@ export default class MyDocument extends Document {
               {/* Global Site Tag (gtag.js) - Google Analytics */}
               <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
               <script
+                // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{
                   __html: `
             window.dataLayer = window.dataLayer || [];
@@ -48,6 +49,7 @@ export default class MyDocument extends Document {
             <script
               async
               type='text/javascript'
+              // eslint-disable-next-line react/no-danger
               dangerouslySetInnerHTML={{
                 __html: `
               var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -98,6 +100,7 @@ MyDocument.getInitialProps = async (ctx) => {
 
   ctx.renderPage = () =>
     originalRenderPage({
+      // eslint-disable-next-line react/jsx-props-no-spreading
       enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
     });
 

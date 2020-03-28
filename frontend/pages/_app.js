@@ -22,6 +22,7 @@ let theme = createMuiTheme({
 });
 theme = responsiveFontSizes(theme);
 
+// eslint-disable-next-line react/prop-types
 const MyApp = ({ Component, pageProps }) => (
   <AuthProvider>
     <CartProvider>
@@ -30,6 +31,7 @@ const MyApp = ({ Component, pageProps }) => (
           {/* PWA primary color */}
           <meta name='theme-color' content={theme.palette.primary.main} />
         </Head>
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <Component {...pageProps} />
       </ThemeProvider>
     </CartProvider>

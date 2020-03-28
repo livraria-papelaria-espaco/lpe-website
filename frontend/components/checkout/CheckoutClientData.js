@@ -1,5 +1,7 @@
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Map } from 'immutable';
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import CheckoutAddress from './CheckoutAddress';
 
@@ -44,6 +46,12 @@ const CheckoutClientData = ({ state, dispatch, children }) => {
       {children(!addressReady || (nif.length !== 0 && !isValidNif))}
     </div>
   );
+};
+
+CheckoutClientData.propTypes = {
+  state: PropTypes.instanceOf(Map).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  children: PropTypes.func.isRequired,
 };
 
 export default CheckoutClientData;

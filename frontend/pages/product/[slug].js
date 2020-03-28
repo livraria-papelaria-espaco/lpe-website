@@ -25,6 +25,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const GET_PRODUCT_INFO = gql`
+  query GET_PRODUCT_BY_SLUG($slug: String!) {
+    productBySlug(slug: $slug) {
+      id
+      name
+      description
+      shortDescription
+      images {
+        url
+        id
+      }
+      price
+      reference
+      type
+      bookInfo {
+        author
+        edition
+        publisher
+      }
+      category {
+        slug
+        name
+      }
+      stockStatus
+    }
+  }
+`;
+
 const Product = () => {
   const classes = useStyles();
   const router = useRouter();
@@ -104,38 +132,10 @@ const Product = () => {
             />
           </Grid>
         </Grid>
-        <Markdown children={product.description} />
+        <Markdown>{product.description}</Markdown>
       </Paper>
     </Layout>
   );
 };
-
-const GET_PRODUCT_INFO = gql`
-  query GET_PRODUCT_BY_SLUG($slug: String!) {
-    productBySlug(slug: $slug) {
-      id
-      name
-      description
-      shortDescription
-      images {
-        url
-        id
-      }
-      price
-      reference
-      type
-      bookInfo {
-        author
-        edition
-        publisher
-      }
-      category {
-        slug
-        name
-      }
-      stockStatus
-    }
-  }
-`;
 
 export default Product;

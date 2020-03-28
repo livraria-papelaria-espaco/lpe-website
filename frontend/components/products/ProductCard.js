@@ -2,6 +2,7 @@ import { Typography } from '@material-ui/core';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import getConfig from 'next/config';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import React from 'react';
 import LogoSvg from '../../assets/logo.svg';
 import StockBadge from './StockBadge';
@@ -15,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     padding: theme.spacing(1),
     borderRadius: theme.shape.borderRadius,
-    //maxWidth: 250,
     margin: 'auto',
     '&:hover': {
       backgroundColor: fade(theme.palette.secondary.light, theme.palette.action.hoverOpacity),
@@ -73,6 +73,22 @@ const ProductCard = ({ product }) => {
       </div>
     </Link>
   );
+};
+
+ProductCard.propTypes = {
+  product: PropTypes.shape({
+    images: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf([null])]),
+    type: PropTypes.oneOf(['Livro', 'Outro']).isRequired,
+    slug: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    bookInfo: PropTypes.shape({
+      author: PropTypes.string,
+    }),
+    reference: PropTypes.string.isRequired,
+    shortDescription: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    stockStatus: PropTypes.oneOf(['IN_STOCK', 'LOW_STOCK', 'ORDER_ONLY', 'UNAVAILABLE']).isRequired,
+  }).isRequired,
 };
 
 export default ProductCard;
