@@ -4,7 +4,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import getConfig from 'next/config';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -36,15 +36,31 @@ const useStyles = makeStyles((theme) => ({
 const ProductImageCarousel = ({ images }) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
+  const timer = useRef();
   const maxSteps = images.length;
 
+  const resetTimer = () => {
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setInterval(() => {
+      setActiveStep((currentStep) => (currentStep === maxSteps - 1 ? 0 : currentStep + 1));
+    }, 5000);
+  };
+
   const handleNext = () => {
+    resetTimer();
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
+    resetTimer();
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+
+  // Clear timer on unmount
+  useEffect(() => {
+    resetTimer();
+    return () => timer.current && clearTimeout(timer.current);
+  }, []);
 
   return (
     <div className={classes.root}>
