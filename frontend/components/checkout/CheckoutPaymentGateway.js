@@ -12,6 +12,8 @@ const CheckoutPaymentGateway = ({ state, dispatch, children }) => {
   };
 
   const paymentGateway = state.get('paymentGateway', '');
+  const invalidPaymentGatewayForShipping =
+    paymentGateway === 'IN_STORE' && state.get('shippingMethod', '') !== 'STORE_PICKUP';
   const mbWayPhone = state.get('mbWayPhone', '');
   const isValidMbWayPhone = mbWayPhoneRegex.test(mbWayPhone);
 
@@ -44,7 +46,11 @@ const CheckoutPaymentGateway = ({ state, dispatch, children }) => {
           error={!isValidMbWayPhone}
         />
       </Collapse>
-      {children(!paymentGateway || (paymentGateway === 'MBWAY' && !isValidMbWayPhone))}
+      {children(
+        !paymentGateway ||
+          (paymentGateway === 'MBWAY' && !isValidMbWayPhone) ||
+          invalidPaymentGatewayForShipping
+      )}
     </div>
   );
 };

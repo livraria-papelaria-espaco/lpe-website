@@ -95,7 +95,11 @@ const CartItem = ({ item, dispatch }) => {
           className={classes.image}
         />
       );
-    return <LogoSvg className={classes.image} />;
+    return (
+      <span>
+        <LogoSvg className={classes.image} />
+      </span>
+    );
   };
 
   return (
