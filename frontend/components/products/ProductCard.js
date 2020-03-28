@@ -4,7 +4,7 @@ import getConfig from 'next/config';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
-import LogoSvg from '../../assets/logo.svg';
+import LogoSvg from '~/assets/logo.svg';
 import StockBadge from './StockBadge';
 
 const { publicRuntimeConfig } = getConfig();

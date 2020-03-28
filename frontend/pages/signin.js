@@ -15,7 +15,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Layout from '~/components/Layout';
 import { useAuth } from '~/hooks/useAuth';
-import LogoSvg from '../assets/logo.svg'; // TODO fix relative import
+import LogoSvg from '~/assets/logo.svg';
 
 const useStyles = makeStyles((theme) => ({
   logo: {

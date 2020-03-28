@@ -5,7 +5,9 @@ import Head from 'next/head';
 import PropTypes from 'prop-types';
 import React from 'react';
 import CookieBanner from 'react-cookie-banner';
-import Navbar from './Navbar';
+import Navbar from './navbar/Navbar';
+
+const { publicRuntimeConfig } = getConfig();
 
 const useStyles = makeStyles((theme) => ({
   colorBackground: {
@@ -17,11 +19,21 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     background: `linear-gradient(45deg, ${theme.palette.primary.dark} 20%, ${theme.palette.primary.light} 70%)`,
   },
+  content: {
+    marginLeft: publicRuntimeConfig.appbar.drawerWidth,
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: 0,
+    },
+  },
 }));
 
-const { publicRuntimeConfig } = getConfig();
-
-const Layout = ({ title, children, hideNavbar = false, colorBackground = false }) => {
+const Layout = ({
+  title,
+  children,
+  hideNavbar = false,
+  showStoreNav = false,
+  colorBackground = false,
+}) => {
   const classes = useStyles();
 
   return (
@@ -34,8 +46,10 @@ const Layout = ({ title, children, hideNavbar = false, colorBackground = false }
         <title>{`${title ? `${title} | ` : ''}${publicRuntimeConfig.siteTitle}`}</title>
       </Head>
       <CssBaseline />
-      {!hideNavbar && <Navbar />}
-      <Container fixed>{children}</Container>
+      {!hideNavbar && <Navbar hideStoreNav={!showStoreNav} />}
+      <div className={!showStoreNav || hideNavbar ? '' : classes.content}>
+        <Container fixed>{children}</Container>
+      </div>
     </div>
   );
 };
@@ -44,12 +58,14 @@ Layout.propTypes = {
   title: PropTypes.string,
   children: PropTypes.node.isRequired,
   hideNavbar: PropTypes.bool,
+  showStoreNav: PropTypes.bool,
   colorBackground: PropTypes.bool,
 };
 
 Layout.defaultProps = {
   title: '',
   hideNavbar: false,
+  showStoreNav: false,
   colorBackground: false,
 };
 

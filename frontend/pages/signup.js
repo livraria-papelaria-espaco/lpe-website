@@ -17,7 +17,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Layout from '~/components/Layout';
 import { useAuth } from '~/hooks/useAuth';
-import LogoSvg from '../assets/logo.svg'; // TODO fix relative import
+import LogoSvg from '~/assets/logo.svg';
 
 const emailRegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const usernameRegExp = /^[A-Za-z0-9_ ]{4,}$/;

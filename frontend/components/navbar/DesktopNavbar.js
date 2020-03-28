@@ -1,29 +1,41 @@
 import { AppBar, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuIcon from '@material-ui/icons/Menu';
+import getConfig from 'next/config';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import React from 'react';
+import LogoSvg from '~/assets/logo.svg';
 import CartIcon from '~/components/cart/CartIcon';
 import { useAuth } from '~/hooks/useAuth';
+import SearchBar from './SearchBar';
+
+const { publicRuntimeConfig } = getConfig();
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     marginBottom: theme.spacing(4),
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  toolbar: {
+    height: publicRuntimeConfig.appbar.desktopHeight,
+  },
+  logo: {
+    height: publicRuntimeConfig.appbar.desktopHeight - 12,
+    fill: theme.palette.primary.contrastText,
+    verticalAlign: 'middle',
+    marginRight: theme.spacing(5),
   },
   menuButton: {
     marginRight: theme.spacing(2),
-  },
-  title: {
-    cursor: 'pointer',
   },
   grow: {
     flexGrow: 1,
   },
 }));
 
-const Navbar = () => {
+const DesktopNavbar = ({ hideSearchBar = false }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { username, logout } = useAuth();
@@ -38,16 +50,14 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position='static' className={classes.root}>
-      <Toolbar>
-        <IconButton edge='start' className={classes.menuButton} color='inherit' aria-label='menu'>
-          <MenuIcon />
-        </IconButton>
+    <AppBar position='sticky' className={classes.root}>
+      <Toolbar className={classes.toolbar}>
         <Link href='/'>
-          <Typography variant='h6' className={classes.title} component='a'>
-            Livraria e Papelaria Espaço
-          </Typography>
+          <a>
+            <LogoSvg className={classes.logo} />
+          </a>
         </Link>
+        {!hideSearchBar && <SearchBar />}
         <div className={classes.grow} />
         {username ? (
           <div>
@@ -98,4 +108,12 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+DesktopNavbar.propTypes = {
+  hideSearchBar: PropTypes.bool,
+};
+
+DesktopNavbar.defaultProps = {
+  hideSearchBar: false,
+};
+
+export default DesktopNavbar;
