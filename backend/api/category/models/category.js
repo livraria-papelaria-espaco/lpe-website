@@ -4,6 +4,24 @@
  * Lifecycle callbacks for the `category` model.
  */
 
+const handlePathUpdate = async (id, deep) => {
+  if (deep > 10)
+    throw new Error(
+      'Stack Overflow: Reached the maximum number of updates for this category. Maybe you have a loop inside the category schema?'
+    );
+  const category = await strapi.query('category').findOne({ _id: id });
+  let newPath = ',';
+  if (category.parent) {
+    newPath = category.parent.path || ',';
+  }
+  newPath += `${category.slug},`;
+  if (newPath !== category.path) {
+    await strapi.query('category').update({ _id: id }, { path: newPath });
+    if (category.categories)
+      await Promise.all(category.categories.map((cat) => handlePathUpdate(cat._id, deep + 1)));
+  }
+};
+
 module.exports = {
   // Before saving a value.
   // Fired before an `insert` or `update` query.
@@ -11,7 +29,12 @@ module.exports = {
 
   // After saving a value.
   // Fired after an `insert` or `update` query.
-  // afterSave: async (model, response, options) => {},
+  afterSave: async (model, response, options) => {
+    if (!model || !model._id) return;
+    if (!model.slug && !model.parent && !model.categories) return;
+
+    await handlePathUpdate(model._id, 0);
+  },
 
   // Before fetching a value.
   // Fired before a `fetch` operation.
@@ -43,7 +66,15 @@ module.exports = {
 
   // After updating a value.
   // Fired after an `update` query.
-  // afterUpdate: async (model, attrs, options) => {},
+  afterUpdate: async (model, attrs, options) => {
+    const query = model.getFilter();
+    const update = model.getUpdate();
+    if (!update) return;
+    const { $set: set } = update;
+    if (!set.slug && !set.parent && !set.categories) return;
+
+    await handlePathUpdate(query._id, 0);
+  },
 
   // Before destroying a value.
   // Fired before a `delete` query.

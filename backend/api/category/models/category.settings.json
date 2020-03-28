@@ -27,6 +27,10 @@
       "type": "uid",
       "targetField": "name",
       "required": true
+    },
+    "path": {
+      "type": "string",
+      "unique": true
     }
   }
 }
