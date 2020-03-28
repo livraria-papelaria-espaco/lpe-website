@@ -37,8 +37,8 @@ OrderPaymentGatewayInfo.propTypes = {
   gateway: PropTypes.oneOf(['IN_STORE', 'MB', 'MBWAY']).isRequired,
   orderData: PropTypes.shape({
     multibanco: PropTypes.shape({
-      entity: PropTypes.number,
-      reference: PropTypes.number,
+      entity: PropTypes.string,
+      reference: PropTypes.string,
       price: PropTypes.number,
     }),
     mbWayPhone: PropTypes.number,

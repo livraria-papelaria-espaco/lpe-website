@@ -85,11 +85,9 @@ const ProductImageCarousel = ({ images }) => {
 
 ProductImageCarousel.propTypes = {
   images: PropTypes.arrayOf(
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        url: PropTypes.string,
-      })
-    )
+    PropTypes.shape({
+      url: PropTypes.string,
+    })
   ),
 };
 

@@ -140,7 +140,11 @@ const CartItem = ({ item, dispatch }) => {
 
 CartItem.propTypes = {
   item: PropTypes.instanceOf(Map).isRequired,
-  dispatch: PropTypes.func.isRequired,
+  dispatch: PropTypes.func,
+};
+
+CartItem.defaultProps = {
+  dispatch: undefined,
 };
 
 export default CartItem;

@@ -32,11 +32,12 @@ const ProductList = ({ products, loading }) => {
 };
 
 ProductList.propTypes = {
-  products: PropTypes.arrayOf(PropTypes.object).isRequired,
+  products: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool,
 };
 
 ProductList.defaultProps = {
+  products: [],
   loading: false,
 };
 
