@@ -1,4 +1,5 @@
 import { Grid } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ProductCard from './ProductCard';
@@ -18,7 +19,11 @@ const ProductList = ({ products, loading }) => {
     );
 
   if (products.length === 0)
-    return <p>Não foram encontrados produtos. Experimente remover alguns filtros.</p>;
+    return (
+      <Alert severity='info'>
+        Não foram encontrados produtos. Experimente remover alguns filtros.
+      </Alert>
+    );
 
   return (
     <Grid container direction='row' justify='flex-start' alignItems='stretch' spacing={3}>

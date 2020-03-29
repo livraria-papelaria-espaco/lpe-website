@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/react-hooks';
+import { Alert } from '@material-ui/lab';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -29,7 +30,8 @@ const ProductQuery = ({ sort, priceRange, search, category }) => {
     variables: { search, sort, priceRange, category },
   });
   if (loading && !data) return <ProductList loading />;
-  if (error) return <p>Error loading products</p>;
+  if (error)
+    return <Alert severity='error'>Erro ao carregar produtos. Tente novamente mais tarde.</Alert>;
 
   return <ProductList products={data.productsSearch || []} />;
 };
