@@ -1,13 +1,11 @@
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React from 'react';
 import Layout from '~/components/Layout';
-import ProductFilterPrice from '~/components/products/ProductFilterPrice';
+import FilterToolbar from '~/components/products/filters/FilterToolbar';
 import ProductQuery from '~/components/products/ProductQuery';
-import { useSearch } from '~/hooks/useSearch';
-
-const priceRange = [0, 100];
+import { useProductFilters } from '~/hooks/useProductFilters';
 
 const GET_CATEGORY_FROM_SLUG = gql`
   query GET_CATEGORY_FROM_SLUG($category: String!) {
@@ -18,8 +16,7 @@ const GET_CATEGORY_FROM_SLUG = gql`
 `;
 
 const CategoryPage = () => {
-  const [priceFilter, setPriceFilter] = useState(priceRange);
-  const { delayedSearch } = useSearch();
+  const { delayedSearch, priceRange, sort } = useProductFilters();
   const router = useRouter();
   const { category } = router.query;
   const { data } = useQuery(GET_CATEGORY_FROM_SLUG, { variables: { category } });
@@ -30,11 +27,11 @@ const CategoryPage = () => {
 
   return (
     <Layout title={categoryTitle} showStoreNav>
-      <ProductFilterPrice value={priceRange} setValue={setPriceFilter} />
+      <FilterToolbar />
       <ProductQuery
-        sort='createdAt:desc'
-        priceRange={priceFilter}
+        priceRange={priceRange}
         search={delayedSearch}
+        sort={sort}
         category={category}
       />
     </Layout>

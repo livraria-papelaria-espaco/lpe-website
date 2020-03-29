@@ -2,15 +2,15 @@ import { InputBase } from '@material-ui/core';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import React from 'react';
-import { useSearch } from '~/hooks/useSearch';
+import { useProductFilters } from '~/hooks/useProductFilters';
 
 const useStyles = makeStyles((theme) => ({
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.black, 0.05),
+    backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.black, 0.1),
+      backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchBar = () => {
   const classes = useStyles();
-  const { search, setSearch } = useSearch();
+  const { search, setSearch } = useProductFilters();
 
   const handleChange = (e) => {
     setSearch(e.target.value);

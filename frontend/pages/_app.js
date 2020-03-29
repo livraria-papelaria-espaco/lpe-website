@@ -6,7 +6,7 @@ import { AuthProvider } from '~/hooks/useAuth';
 import { CartProvider } from '~/hooks/useCart';
 import { withApollo } from '~/lib/apollo';
 import * as gtag from '../lib/gtag';
-import { SearchProvider } from '~/hooks/useSearch';
+import { ProductFiltersProvider } from '~/hooks/useProductFilters';
 
 let theme = createMuiTheme({
   palette: {
@@ -27,7 +27,7 @@ theme = responsiveFontSizes(theme);
 const MyApp = ({ Component, pageProps }) => (
   <AuthProvider>
     <CartProvider>
-      <SearchProvider>
+      <ProductFiltersProvider>
         <ThemeProvider theme={theme}>
           <Head>
             {/* PWA primary color */}
@@ -36,7 +36,7 @@ const MyApp = ({ Component, pageProps }) => (
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
           <Component {...pageProps} />
         </ThemeProvider>
-      </SearchProvider>
+      </ProductFiltersProvider>
     </CartProvider>
   </AuthProvider>
 );

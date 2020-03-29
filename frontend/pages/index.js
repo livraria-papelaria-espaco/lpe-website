@@ -1,19 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
+import FilterToolbar from '~/components/products/filters/FilterToolbar';
 import Layout from '~/components/Layout';
-import ProductFilterPrice from '~/components/products/ProductFilterPrice';
 import ProductQuery from '~/components/products/ProductQuery';
-import { useSearch } from '~/hooks/useSearch';
-
-const priceRange = [0, 100];
+import { useProductFilters } from '~/hooks/useProductFilters';
 
 const HomePage = () => {
-  const [priceFilter, setPriceFilter] = useState(priceRange);
-  const { delayedSearch } = useSearch();
+  const { delayedSearch, priceRange, sort } = useProductFilters();
 
   return (
     <Layout showStoreNav>
-      <ProductFilterPrice value={priceRange} setValue={setPriceFilter} />
-      <ProductQuery sort='createdAt:desc' priceRange={priceFilter} search={delayedSearch} />
+      <FilterToolbar />
+      <ProductQuery priceRange={priceRange} search={delayedSearch} sort={sort} />
     </Layout>
   );
 };

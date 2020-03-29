@@ -7,5 +7,8 @@ module.exports = {
       mobileHeight: 76,
       drawerWidth: 300,
     },
+    filters: {
+      priceRange: [0, 100],
+    },
   },
 };
