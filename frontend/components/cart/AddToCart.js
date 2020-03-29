@@ -13,13 +13,8 @@ const useStyles = makeStyles((theme) => ({
     width: 'fit-content',
   },
   button: {
-    background: `linear-gradient(45deg, ${theme.palette.primary.dark} 10%, ${theme.palette.primary.light} 50%)`,
-    '&$buttonDisabled': {
-      background: theme.palette.action.disabledBackground,
-    },
     transition: theme.transitions.create(['all'], { duration: 500 }),
   },
-  buttonDisabled: {},
   success: {
     background: theme.palette.success.main,
     color: theme.palette.success.main,
@@ -63,10 +58,7 @@ const AddToCart = ({ item, disabled }) => {
         onClick={addToCart}
         variant='contained'
         color='primary'
-        classes={{
-          root: `${classes.button} ${success ? classes.success : ''}`,
-          disabled: classes.buttonDisabled,
-        }}
+        className={`${classes.button} ${success ? classes.success : ''}`}
         disabled={disabled}
       >
         Adicionar ao Carrinho
