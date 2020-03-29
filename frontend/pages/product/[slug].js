@@ -47,6 +47,7 @@ const GET_PRODUCT_INFO = gql`
       category {
         slug
         name
+        path
       }
       stockStatus
     }
@@ -83,6 +84,7 @@ const Product = () => {
           <CategoryBreadcrumbs
             name={product.category.name}
             slug={product.category.slug}
+            path={product.category.path}
             className={classes.breadcrumbs}
           />
         )}
