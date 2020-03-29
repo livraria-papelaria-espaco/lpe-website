@@ -7,6 +7,7 @@ export const reducer = (categories, router) =>
     if (v.path.length === 1) {
       obj.name = v.name;
       obj.slug = v.slug;
+      obj.order = v.order;
     } else obj.children.push({ ...v, path: v.path.slice(1) });
     return acc;
   }, {});

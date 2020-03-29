@@ -9,13 +9,13 @@ import ErrorText from '../utils/ErrorText';
 import CategoryItem from './CategoryItem';
 import { reducer } from './reducer';
 
-// TODO sort by order
 const GET_CATEGORIES = gql`
   query GET_CATEGORIES {
     categories {
       name
       slug
       path
+      order
     }
   }
 `;
@@ -47,15 +47,17 @@ const CategoryList = () => {
 
   return (
     <List component='nav'>
-      {Object.values(categoriesMap).map((v) => (
-        <CategoryItem
-          key={v.slug}
-          defaultOpen={v.open}
-          name={v.name}
-          slug={v.slug}
-          subcategories={v.children}
-        />
-      ))}
+      {Object.values(categoriesMap)
+        .sort((a, b) => a.order - b.order)
+        .map((v) => (
+          <CategoryItem
+            key={v.slug}
+            defaultOpen={v.open}
+            name={v.name}
+            slug={v.slug}
+            subcategories={v.children}
+          />
+        ))}
     </List>
   );
 };

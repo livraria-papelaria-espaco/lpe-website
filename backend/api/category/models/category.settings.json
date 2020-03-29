@@ -31,6 +31,11 @@
     "path": {
       "type": "string",
       "unique": true
+    },
+    "order": {
+      "type": "integer",
+      "required": true,
+      "default": 0
     }
   }
 }

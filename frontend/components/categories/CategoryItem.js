@@ -46,16 +46,18 @@ const CategoryItem = ({ indent, defaultOpen, name, slug, subcategories }) => {
       </Link>
       {expandable && (
         <Collapse in={open} timeout='auto' unmountOnExit>
-          {Object.values(categoriesMap).map((v) => (
-            <CategoryItem
-              key={v.slug}
-              indent={indent + 1}
-              defaultOpen={v.open}
-              name={v.name}
-              slug={v.slug}
-              subcategories={v.children}
-            />
-          ))}
+          {Object.values(categoriesMap)
+            .sort((a, b) => a.order - b.order)
+            .map((v) => (
+              <CategoryItem
+                key={v.slug}
+                indent={indent + 1}
+                defaultOpen={v.open}
+                name={v.name}
+                slug={v.slug}
+                subcategories={v.children}
+              />
+            ))}
         </Collapse>
       )}
     </>
