@@ -2,8 +2,8 @@ import { Drawer } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import getConfig from 'next/config';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import CategoryList from '../products/CategoryList';
+import React from 'react';
+import CategoryList from '../categories/CategoryList';
 
 const { publicRuntimeConfig } = getConfig();
 
