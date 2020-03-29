@@ -3,6 +3,19 @@ import Document, { Head, Main, NextScript } from 'next/document';
 import React from 'react';
 import { GA_TRACKING_ID } from '~/lib/gtag';
 
+let prefixer;
+let cleanCSS;
+if (process.env.NODE_ENV === 'production') {
+  /* eslint-disable global-require */
+  const postcss = require('postcss');
+  const autoprefixer = require('autoprefixer');
+  const CleanCSS = require('clean-css');
+  /* eslint-enable global-require */
+
+  prefixer = postcss([autoprefixer]);
+  cleanCSS = new CleanCSS();
+}
+
 export default class MyDocument extends Document {
   render() {
     return (
@@ -106,9 +119,25 @@ MyDocument.getInitialProps = async (ctx) => {
 
   const initialProps = await Document.getInitialProps(ctx);
 
+  let css = sheets.toString();
+  // It might be undefined, e.g. after an error.
+  if (css && process.env.NODE_ENV === 'production') {
+    const result1 = await prefixer.process(css, { from: undefined });
+    css = result1.css;
+    css = cleanCSS.minify(css).styles;
+  }
+
   return {
     ...initialProps,
     // Styles fragment is rendered after the app and page rendering finish.
-    styles: [...React.Children.toArray(initialProps.styles), sheets.getStyleElement()],
+    styles: [
+      ...React.Children.toArray(initialProps.styles),
+      <style
+        id='jss-server-side'
+        key='jss-server-side'
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: css }}
+      />,
+    ],
   };
 };
