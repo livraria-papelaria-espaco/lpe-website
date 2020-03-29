@@ -11,7 +11,7 @@ import { ProductFiltersProvider } from '~/hooks/useProductFilters';
 let theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#03a9f4',
+      main: '#01579b',
     },
     secondary: {
       main: '#263238',
