@@ -1,7 +1,7 @@
 {
   "name": "livraria-espaco-api",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.4",
   "author": {
     "name": "A Strapi developer"
   },
