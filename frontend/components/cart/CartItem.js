@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/react-hooks';
-import { IconButton, Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/AddRounded';
 import RemoveIcon from '@material-ui/icons/RemoveRounded';
@@ -126,15 +126,15 @@ const CartItem = ({ item, dispatch }) => {
         </Typography>
         {dispatch && (
           <>
-            <IconButton onClick={decreaseQuantity} disabled={item.get('quantity') <= 1}>
+            <Button onClick={decreaseQuantity} disabled={item.get('quantity') <= 1} size='small'>
               <RemoveIcon />
-            </IconButton>
-            <IconButton onClick={increaseQuantity}>
+            </Button>
+            <Button onClick={increaseQuantity} size='small'>
               <AddIcon />
-            </IconButton>
-            <IconButton onClick={removeItem}>
+            </Button>
+            <Button onClick={removeItem} size='small'>
               <DeleteIcon />
-            </IconButton>
+            </Button>
           </>
         )}
       </div>
