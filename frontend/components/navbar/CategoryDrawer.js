@@ -1,8 +1,11 @@
-import { Drawer } from '@material-ui/core';
+import { Divider, Drawer, List, ListItem, ListItemText, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import getConfig from 'next/config';
+import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
+import Emoji from '~/components/utils/Emoji';
+import { useAuth } from '~/hooks/useAuth';
 import CategoryList from '../categories/CategoryList';
 
 const { publicRuntimeConfig } = getConfig();
@@ -11,6 +14,7 @@ const { drawerWidth } = publicRuntimeConfig.appbar;
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
+    overflow: 'hidden',
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
@@ -26,10 +30,20 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: drawerWidth,
   },
+  dividerFullWidth: {
+    margin: `5px 0 0 ${theme.spacing(2)}px`,
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  categoryList: {
+    overflow: 'auto',
+  },
 }));
 
 const CategoryDrawer = ({ mobile = false, mobileOpen = false, setOpen }) => {
   const classes = useStyles();
+  const { username, logout } = useAuth();
 
   const handleClose = () => setOpen(false);
 
@@ -44,9 +58,56 @@ const CategoryDrawer = ({ mobile = false, mobileOpen = false, setOpen }) => {
         onClose={handleClose}
       >
         <div className={classes.toolbar} />
-        <div>
+        <div className={classes.categoryList}>
           <CategoryList />
         </div>
+        <div className={classes.grow} />
+        {mobile && (
+          <List>
+            <Divider component='li' />
+            <li>
+              <Typography
+                className={classes.dividerFullWidth}
+                color='textSecondary'
+                display='block'
+                variant='caption'
+              >
+                Área Cliente
+              </Typography>
+            </li>
+            {username ? (
+              <>
+                <li>
+                  <Typography className={classes.dividerFullWidth} display='block' variant='h6'>
+                    {`Olá, ${username}!`}
+                    <Emoji symbol='👋' />
+                  </Typography>
+                </li>
+                <Link href='/dashboard'>
+                  <ListItem button>
+                    <ListItemText primary='Minha Conta' />
+                  </ListItem>
+                </Link>
+                <ListItem button onClick={logout}>
+                  <ListItemText primary='Sair' />
+                </ListItem>
+              </>
+            ) : (
+              <>
+                <Link href='/signin'>
+                  <ListItem button>
+                    <ListItemText primary='Iniciar Sessão' />
+                  </ListItem>
+                </Link>
+                <Link href='/signup'>
+                  <ListItem button>
+                    <ListItemText primary='Registar' />
+                  </ListItem>
+                </Link>
+              </>
+            )}
+          </List>
+        )}
       </Drawer>
     </nav>
   );

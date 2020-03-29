@@ -1,12 +1,13 @@
 import { AppBar, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import AccountIcon from '@material-ui/icons/PersonRounded';
 import getConfig from 'next/config';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
 import LogoSvg from '~/assets/logo.svg';
 import CartIcon from '~/components/cart/CartIcon';
+import Emoji from '~/components/utils/Emoji';
 import { useAuth } from '~/hooks/useAuth';
 import SearchBar from './SearchBar';
 
@@ -32,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
   },
   grow: {
     flexGrow: 1,
+  },
+  menuContent: {
+    padding: theme.spacing(1),
   },
 }));
 
@@ -68,13 +72,14 @@ const DesktopNavbar = ({ hideSearchBar = false }) => {
               onClick={handleMenu}
               color='inherit'
             >
-              <AccountCircle />
+              <AccountIcon />
             </IconButton>
             <Menu
               id='menu-appbar'
               anchorEl={anchorEl}
+              getContentAnchorEl={null}
               anchorOrigin={{
-                vertical: 'top',
+                vertical: 'bottom',
                 horizontal: 'right',
               }}
               keepMounted
@@ -84,8 +89,12 @@ const DesktopNavbar = ({ hideSearchBar = false }) => {
               }}
               open={open}
               onClose={handleClose}
+              classes={{ paper: classes.menuContent }}
             >
-              <Typography variant='h6' component='p'>{`Bem vindo(a), ${username}`}</Typography>
+              <Typography variant='h6' component='p'>
+                {`Olá, ${username} `}
+                <Emoji symbol='👋' />
+              </Typography>
               <Link href='/dashboard'>
                 <MenuItem>Minha conta</MenuItem>
               </Link>
