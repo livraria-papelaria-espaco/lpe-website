@@ -15,7 +15,7 @@ const { publicRuntimeConfig } = getConfig();
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 0,
     marginBottom: theme.spacing(4),
     zIndex: theme.zIndex.drawer + 1,
   },

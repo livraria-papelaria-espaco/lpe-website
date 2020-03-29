@@ -58,7 +58,7 @@ const Layout = ({
         <title>{`${title ? `${title} | ` : ''}${publicRuntimeConfig.siteTitle}`}</title>
       </Head>
       <CssBaseline />
-      <div className={classes.shrink}>{!hideNavbar && <Navbar hideStoreNav={!showStoreNav} />}</div>
+      {!hideNavbar && <Navbar hideStoreNav={!showStoreNav} />}
       <div
         className={`${classes.content} ${!showStoreNav || hideNavbar ? '' : classes.drawerPadding}`}
       >
