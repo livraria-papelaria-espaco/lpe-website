@@ -15,15 +15,14 @@ const addStockStatus = (entity) => {
   return { ...entity, stockStatus: stockStatus };
 };
 
+const escapeRegex = (str) => str.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
+
 module.exports = {
   async searchEnhanced(ctx) {
     const query = {};
-    if (ctx.query._category) {
-      const category = await strapi.services.category.findOne({ slug: ctx.query._category });
-      if (!category) throw ctx.badRequest('Invalid category');
-      query.category = category.id;
-    }
-    if (ctx.query._query) query.query = ctx.query._query.substring(0, 30);
+
+    if (ctx.query._category) query.category = ctx.query._category;
+    if (ctx.query._query) query.query = escapeRegex(ctx.query._query.substring(0, 30));
     if (ctx.query._sort) query.sort = ctx.query._sort;
     if (ctx.query._limit) query.limit = ctx.query._limit;
     if (ctx.query._start) query.start = ctx.query._start;
@@ -36,9 +35,9 @@ module.exports = {
 
     const entities = await strapi.services.product.searchEnhanced(query);
 
-    return entities
-      .filter((entity) => entity.show !== false)
-      .map((entity) => sanitizeEntity(addStockStatus(entity), { model: strapi.models.product }));
+    return entities.map((entity) =>
+      sanitizeEntity(addStockStatus(entity), { model: strapi.models.product })
+    );
   },
 
   find: undefined,

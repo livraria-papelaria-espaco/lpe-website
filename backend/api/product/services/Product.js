@@ -19,7 +19,7 @@ const convertSortQueryParams = (sortQuery) => {
       throw new Error('order can only be one of asc|desc|ASC|DESC');
     }
 
-    sortKeys[field] = order.toLowerCase();
+    sortKeys[field] = order.toLowerCase() === 'asc' ? 1 : -1;
   });
   return sortKeys;
 };
@@ -43,39 +43,67 @@ const convertLimitQueryParams = (limitQuery) => {
 module.exports = {
   searchEnhanced: (params) => {
     let searchQuery;
-    const filterQuery = {};
-
-    if (params.query)
-      searchQuery = [
-        { name: { $regex: params.query, $options: 'i' } },
-        { shortDescription: { $regex: params.query, $options: 'i' } },
-        { reference: { $regex: params.query, $options: 'i' } },
-        { 'bookInfo.publisher': { $regex: params.query, $options: 'i' } },
-      ];
+    const aggregate = [];
 
     if (params.minPrice !== undefined && params.maxPrice !== undefined)
-      filterQuery.price = { $gte: params.minPrice, $lte: params.maxPrice };
+      aggregate.push({
+        $match: { price: { $gte: params.minPrice, $lte: params.maxPrice }, show: true },
+      });
 
-    if (params.category) filterQuery.category = params.category;
-
-    const queryObject = {};
-
-    if (!!searchQuery || Object.keys(filterQuery).length !== 0) {
-      queryObject.$and = [];
-      if (!!searchQuery) queryObject.$and.push({ $or: searchQuery });
-      if (Object.keys(filterQuery).length !== 0) queryObject.$and.push(filterQuery);
+    if (params.category) {
+      aggregate.push({
+        $lookup: {
+          from: 'categories',
+          localField: 'category',
+          foreignField: '_id',
+          as: 'category',
+        },
+      });
+      aggregate.push({
+        $match: {
+          'category.path': { $regex: `,${params.category},` },
+        },
+      });
     }
 
-    const query = strapi.query('product').model.find(queryObject);
+    aggregate.push({
+      $lookup: {
+        from: 'components_meta_book_infos',
+        localField: 'bookInfo.ref',
+        foreignField: '_id',
+        as: 'bookInfo',
+      },
+    });
 
-    if (params.sort) query.sort(convertSortQueryParams(params.sort));
-    if (params.start) query.skip(convertStartQueryParams(params.start));
-    if (params.limit) {
-      const limit = convertLimitQueryParams(params.limit);
-      if (limit >= 0) query.limit(limit);
+    if (params.query) {
+      aggregate.push({
+        $match: {
+          $or: [
+            { name: { $regex: params.query, $options: 'i' } },
+            { shortDescription: { $regex: params.query, $options: 'i' } },
+            { reference: { $regex: params.query, $options: 'i' } },
+            { 'bookInfo.author': { $regex: params.query, $options: 'i' } },
+            { 'bookInfo.publisher': { $regex: params.query, $options: 'i' } },
+          ],
+        },
+      });
     }
 
-    return query.then((results) => results.map((result) => (result ? result.toObject() : null)));
+    aggregate.push({
+      $unwind: {
+        path: '$bookInfo',
+        preserveNullAndEmptyArrays: true,
+      },
+    });
+
+    if (params.sort) aggregate.push({ $sort: convertSortQueryParams(params.sort) });
+
+    if (params.start) aggregate.push({ $skip: convertStartQueryParams(params.start) });
+
+    const limit = params.limit !== undefined ? convertLimitQueryParams(params.limit) : -1;
+    aggregate.push({ $limit: limit < 0 ? 100 : limit });
+
+    return strapi.query('product').model.aggregate(aggregate);
   },
 
   decreaseStock: async ({ id, qnt }) => {
