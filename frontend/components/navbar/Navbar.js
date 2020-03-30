@@ -1,10 +1,11 @@
-import { useMediaQuery } from '@material-ui/core';
+import { useMediaQuery, Drawer, List } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import CategoryDrawer from './CategoryDrawer';
 import DesktopNavbar from './DesktopNavbar';
 import MobileNavbar from './MobileNavbar';
+import AccountMenu from './AccountMenu';
 
 const Navbar = ({ hideStoreNav = false }) => {
   const theme = useTheme();
@@ -22,6 +23,13 @@ const Navbar = ({ hideStoreNav = false }) => {
       {navComponent}
       {!hideStoreNav && (
         <CategoryDrawer mobile={isMobile} mobileOpen={drawerOpen} setOpen={setDrawerOpen} />
+      )}
+      {hideStoreNav && isMobile && (
+        <Drawer anchor='bottom' open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+          <List>
+            <AccountMenu />
+          </List>
+        </Drawer>
       )}
     </>
   );

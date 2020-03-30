@@ -39,13 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Layout = ({
-  title,
-  children,
-  hideNavbar = false,
-  showStoreNav = false,
-  colorBackground = false,
-}) => {
+const Layout = ({ title, children, hideNavbar, hideFooter, showStoreNav, colorBackground }) => {
   const classes = useStyles();
 
   return (
@@ -69,7 +63,7 @@ const Layout = ({
       <div
         className={`${classes.shrink} ${!showStoreNav || hideNavbar ? '' : classes.drawerPadding}`}
       >
-        <Footer />
+        {!hideFooter && <Footer />}
       </div>
     </div>
   );
@@ -79,6 +73,7 @@ Layout.propTypes = {
   title: PropTypes.string,
   children: PropTypes.node.isRequired,
   hideNavbar: PropTypes.bool,
+  hideFooter: PropTypes.bool,
   showStoreNav: PropTypes.bool,
   colorBackground: PropTypes.bool,
 };
@@ -86,6 +81,7 @@ Layout.propTypes = {
 Layout.defaultProps = {
   title: '',
   hideNavbar: false,
+  hideFooter: false,
   showStoreNav: false,
   colorBackground: false,
 };

@@ -12,7 +12,6 @@ const { publicRuntimeConfig } = getConfig();
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
     marginBottom: theme.spacing(4),
   },
   toolbar: {

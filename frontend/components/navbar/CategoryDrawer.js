@@ -1,12 +1,10 @@
-import { Divider, Drawer, List, ListItem, ListItemText, Typography } from '@material-ui/core';
+import { Divider, Drawer, List, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import getConfig from 'next/config';
-import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Emoji from '~/components/utils/Emoji';
-import { useAuth } from '~/hooks/useAuth';
 import CategoryList from '../categories/CategoryList';
+import AccountMenu from './AccountMenu';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -43,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
 
 const CategoryDrawer = ({ mobile = false, mobileOpen = false, setOpen }) => {
   const classes = useStyles();
-  const { username, logout } = useAuth();
 
   const handleClose = () => setOpen(false);
 
@@ -75,37 +72,7 @@ const CategoryDrawer = ({ mobile = false, mobileOpen = false, setOpen }) => {
                 Área Cliente
               </Typography>
             </li>
-            {username ? (
-              <>
-                <li>
-                  <Typography className={classes.dividerFullWidth} display='block' variant='h6'>
-                    {`Olá, ${username}!`}
-                    <Emoji symbol='👋' />
-                  </Typography>
-                </li>
-                <Link href='/dashboard'>
-                  <ListItem button>
-                    <ListItemText primary='Minha Conta' />
-                  </ListItem>
-                </Link>
-                <ListItem button onClick={logout}>
-                  <ListItemText primary='Sair' />
-                </ListItem>
-              </>
-            ) : (
-              <>
-                <Link href='/signin'>
-                  <ListItem button>
-                    <ListItemText primary='Iniciar Sessão' />
-                  </ListItem>
-                </Link>
-                <Link href='/signup'>
-                  <ListItem button>
-                    <ListItemText primary='Registar' />
-                  </ListItem>
-                </Link>
-              </>
-            )}
+            <AccountMenu />
           </List>
         )}
       </Drawer>
