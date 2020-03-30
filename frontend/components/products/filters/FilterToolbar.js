@@ -46,10 +46,9 @@ const FilterToolbar = () => {
           classes={{ root: classes.button, label: classes.buttonText }}
         >
           Filtro de Preço
-          <Typography
-            variant='caption'
-            component='p'
-          >{`${priceRange[0]} € - ${priceRange[1]} €`}</Typography>
+          <Typography variant='caption' component='p'>{`${priceRange ? priceRange[0] : 0} € - ${
+            priceRange ? priceRange[1] : 0
+          } €`}</Typography>
         </Button>
       </div>
       <Collapse in={showPriceRange}>
