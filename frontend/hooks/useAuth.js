@@ -44,7 +44,7 @@ export const useAuth = ({ secure = false } = {}) => {
   useEffect(() => {
     if (secure && !context.loading && !context.username)
       router.replace({
-        pathname: '/signin',
+        pathname: '/auth/signin',
         query: { redirect: router.asPath || '/' },
       });
   }, [context, router]);

@@ -244,7 +244,7 @@ const SignUp = () => {
           </form>
           <Typography variant='body2'>
             <Link
-              href={{ pathname: '/signin', query: { redirect: router.query.redirect || '/' } }}
+              href={{ pathname: '/auth/signin', query: { redirect: router.query.redirect || '/' } }}
               passHref
               replace
             >

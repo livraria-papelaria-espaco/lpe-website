@@ -35,12 +35,12 @@ const AccountMenu = () => {
     );
   return (
     <>
-      <Link href='/signin'>
+      <Link href='/auth/signin'>
         <ListItem button>
           <ListItemText primary='Iniciar Sessão' />
         </ListItem>
       </Link>
-      <Link href='/signup'>
+      <Link href='/auth/signup'>
         <ListItem button>
           <ListItemText primary='Registar' />
         </ListItem>

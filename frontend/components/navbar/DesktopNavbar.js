@@ -103,10 +103,10 @@ const DesktopNavbar = ({ hideSearchBar = false }) => {
           </div>
         ) : (
           <div>
-            <Link href='/signin'>
+            <Link href='/auth/signin'>
               <Button color='inherit'>Iniciar sessão</Button>
             </Link>
-            <Link href='/signup'>
+            <Link href='/auth/signup'>
               <Button color='inherit'>Registar</Button>
             </Link>
           </div>
