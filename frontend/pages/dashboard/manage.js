@@ -1,19 +1,21 @@
 import { Typography } from '@material-ui/core';
-import Link from 'next/link';
 import React from 'react';
-import PasswordChange from '~/components/account/PasswordChange';
 import Layout from '~/components/Layout';
+import BackArrow from '~/components/utils/BackArrow';
 
 const ManageAcount = () => {
   return (
     <Layout title='Gerir conta'>
-      <Link href='/dashboard/'>
-        <a>Voltar</a>
-      </Link>
-      <Typography variant='h4' component='h1'>
+      <BackArrow link='/dashboard' />
+      <Typography variant='h2' component='h1'>
         Gerir conta
       </Typography>
-      <PasswordChange />
+      <Typography>
+        Ainda estamos a finalizar o nosso site.
+        <br />
+        Por esse motivo, esta funcionalidade ainda não se encontra disponível.
+      </Typography>
+      {/* TODO <PasswordChange /> */}
     </Layout>
   );
 };
