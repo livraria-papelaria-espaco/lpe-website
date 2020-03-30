@@ -76,6 +76,9 @@
     "shippingCost": {
       "type": "decimal",
       "default": 0
+    },
+    "expiresAt": {
+      "type": "datetime"
     }
   }
 }

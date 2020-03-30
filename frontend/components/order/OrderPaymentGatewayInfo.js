@@ -1,35 +1,43 @@
+import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const OrderPaymentGatewayInfo = ({ gateway, orderData }) => {
+const OrderPaymentGatewayInfo = ({ gateway, orderData, expiresAt }) => {
   let info = null;
+
+  const date = new Date(expiresAt);
 
   if (gateway === 'IN_STORE') {
     info = <p>A pagar na loja</p>;
   } else if (gateway === 'MB') {
     info = (
-      <p>
+      <Typography>
         {`Entidade: ${orderData.multibanco.entity}`} <br />
         {`Referência: ${orderData.multibanco.reference}`} <br />
-        {`Valor: ${orderData.multibanco.price.toFixed(2)}`}
-        <br />A referência tem a validade de 24h. Após as 24h, deixa de ser possivel efetuar o
-        pagamento.
-      </p>
+        {`Valor: ${orderData.multibanco.price.toFixed(2)} €`}
+        <br />A validade da referência termina a <strong>{date.toLocaleString('pt-PT')}</strong>.
+        Após a validade expirar, deixa de ser possivel efetuar o pagamento e a encomenda será
+        cancelada.
+      </Typography>
     );
   } else if (gateway === 'MBWAY') {
     info = (
-      <p>
-        Recebeu uma notificação na conta MBWAY de {orderData.mbWayPhone}. O prazo para efetuar o
-        pagamento é de 15 minutos.
-      </p>
+      <Typography>
+        Recebeu uma notificação na conta MBWAY de <strong>{orderData.mbWayPhone}</strong>. O prazo
+        para efetuar o pagamento é de <strong>15 minutos</strong> (até{' '}
+        {date.toLocaleString('pt-PT')}). Após a validade expirar, deixa de ser possivel efetuar o
+        pagamento e a encomenda será cancelada.
+      </Typography>
     );
   }
 
   return (
-    <div>
-      <h3>Informação pagamento</h3>
+    <>
+      <Typography>
+        <strong>Informação de pagamento</strong>
+      </Typography>
       {info}
-    </div>
+    </>
   );
 };
 
@@ -43,10 +51,12 @@ OrderPaymentGatewayInfo.propTypes = {
     }),
     mbWayPhone: PropTypes.string,
   }),
+  expiresAt: PropTypes.string,
 };
 
 OrderPaymentGatewayInfo.defaultProps = {
   orderData: {},
+  expiresAt: '0',
 };
 
 export default OrderPaymentGatewayInfo;

@@ -8,7 +8,8 @@ const ErrorText = ({ error }) => {
 };
 
 ErrorText.propTypes = {
-  error: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
+  error: PropTypes.any,
 };
 
 ErrorText.defaultProps = {

@@ -1,3 +1,4 @@
+import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -6,12 +7,24 @@ const OrderAddress = ({
   address: { firstName, lastName, address1, address2, city, postalCode },
 }) => (
   <div>
-    <h3>{title}</h3>
-    <p>{`${firstName} ${lastName}`}</p>
-    <p>{address1}</p>
-    <p>{address2}</p>
-    <p>{`${city}, ${postalCode}`}</p>
-    <p>Portugal</p>
+    <Typography>
+      <strong>{title}</strong>
+    </Typography>
+    <Typography>
+      {`${firstName} ${lastName}`}
+      <br />
+      {address1}
+      <br />
+      {address2 && (
+        <>
+          {address2}
+          <br />
+        </>
+      )}
+      {`${city}, ${postalCode}`}
+      <br />
+      Portugal
+    </Typography>
   </div>
 );
 
