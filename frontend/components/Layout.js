@@ -5,8 +5,9 @@ import Head from 'next/head';
 import PropTypes from 'prop-types';
 import React from 'react';
 import CookieBanner from 'react-cookie-banner';
-import Navbar from './navbar/Navbar';
+import CookieAlert from './CookieAlert';
 import Footer from './Footer';
+import Navbar from './navbar/Navbar';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -45,7 +46,7 @@ const Layout = ({ title, children, hideNavbar, hideFooter, showStoreNav, colorBa
   return (
     <div className={classes.root}>
       <NoSsr>
-        <CookieBanner message='Este website utiliza cookies.' buttonMessage='Entendi' />
+        <CookieBanner>{(onAccept) => <CookieAlert onAccept={onAccept} />}</CookieBanner>
       </NoSsr>
       <div className={colorBackground ? classes.colorBackground : ''} />
       <Head>
