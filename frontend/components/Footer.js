@@ -1,13 +1,8 @@
 import { Container, Grid, Link as MUILink, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import getConfig from 'next/config';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
-
-const { publicRuntimeConfig } = getConfig();
-
-const config = publicRuntimeConfig.footer;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,26 +36,26 @@ const Footer = () => {
             <Typography variant='h5'>A nossa loja</Typography>
             <Typography variant='body1'>
               <MUILink
-                href={config.gmapsLink}
+                href={process.env.footer.gmapsLink}
                 target='_blank'
                 rel='noopenner noreferrer'
                 color='inherit'
               >
-                {config.address1}
+                {process.env.footer.address1}
                 <br />
-                {config.address2}
+                {process.env.footer.address2}
               </MUILink>
             </Typography>
             <Typography variant='body1'>
               Telefone:{' '}
-              <MUILink href={`tel:${config.phone}`} color='inherit'>
-                {config.phone}
+              <MUILink href={`tel:${process.env.footer.phone}`} color='inherit'>
+                {process.env.footer.phone}
               </MUILink>
             </Typography>
             <Typography variant='body1'>
               Email:{' '}
-              <MUILink href={`mailto:${config.email}`} color='inherit'>
-                {config.email}
+              <MUILink href={`mailto:${process.env.footer.email}`} color='inherit'>
+                {process.env.footer.email}
               </MUILink>
             </Typography>
           </Grid>
@@ -70,7 +65,7 @@ const Footer = () => {
         <Grid container component={Container} fixed>
           <Grid item xs={12} sm={6}>
             <Typography variant='body2'>{`\u00A9 ${new Date().getFullYear()} ${
-              publicRuntimeConfig.siteTitle
+              process.env.siteTitle
             }`}</Typography>
           </Grid>
           <Grid item xs={12} sm={6}>

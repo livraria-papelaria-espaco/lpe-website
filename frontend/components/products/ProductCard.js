@@ -1,13 +1,10 @@
 import { Typography } from '@material-ui/core';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import getConfig from 'next/config';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
 import LogoSvg from '~/assets/logo.svg';
 import StockBadge from './StockBadge';
-
-const { publicRuntimeConfig } = getConfig();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,7 +41,7 @@ const ProductCard = ({ product }) => {
     if (product.images && product.images[0] && product.images[0].url)
       return (
         <img
-          src={`${publicRuntimeConfig.apiUrl}${product.images[0].url}`}
+          src={`${process.env.apiUrl}${product.images[0].url}`}
           alt={product.name}
           className={classes.image}
         />

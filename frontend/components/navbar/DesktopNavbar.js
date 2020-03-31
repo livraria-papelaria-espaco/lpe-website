@@ -1,7 +1,6 @@
 import { AppBar, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AccountIcon from '@material-ui/icons/PersonRounded';
-import getConfig from 'next/config';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -11,8 +10,6 @@ import Emoji from '~/components/utils/Emoji';
 import { useAuth } from '~/hooks/useAuth';
 import SearchBar from './SearchBar';
 
-const { publicRuntimeConfig } = getConfig();
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 0,
@@ -20,10 +17,10 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
   },
   toolbar: {
-    height: publicRuntimeConfig.appbar.desktopHeight,
+    height: process.env.appbar.desktopHeight,
   },
   logo: {
-    height: publicRuntimeConfig.appbar.desktopHeight - 12,
+    height: process.env.appbar.desktopHeight - 12,
     fill: theme.palette.primary.contrastText,
     verticalAlign: 'middle',
     marginRight: theme.spacing(5),

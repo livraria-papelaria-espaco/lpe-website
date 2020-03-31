@@ -2,11 +2,8 @@ import { Button, Fade, MobileStepper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import getConfig from 'next/config';
 import PropTypes from 'prop-types';
 import React, { useState, useRef, useEffect } from 'react';
-
-const { publicRuntimeConfig } = getConfig();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,7 +67,7 @@ const ProductImageCarousel = ({ images }) => {
             <img
               className={classes.image}
               key={img.url}
-              src={`${publicRuntimeConfig.apiUrl}${img.url}`}
+              src={`${process.env.apiUrl}${img.url}`}
               alt={`Imagem ${i + 1} do produto`}
             />
           </Fade>

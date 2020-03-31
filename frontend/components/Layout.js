@@ -1,6 +1,5 @@
 import { Container, CssBaseline, NoSsr } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import getConfig from 'next/config';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -8,8 +7,6 @@ import CookieBanner from 'react-cookie-banner';
 import CookieAlert from './CookieAlert';
 import Footer from './Footer';
 import Navbar from './navbar/Navbar';
-
-const { publicRuntimeConfig } = getConfig();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     flex: '1 0 auto',
   },
   drawerPadding: {
-    marginLeft: publicRuntimeConfig.appbar.drawerWidth,
+    marginLeft: process.env.appbar.drawerWidth,
     [theme.breakpoints.down('sm')]: {
       marginLeft: 0,
     },
@@ -50,7 +47,7 @@ const Layout = ({ title, children, hideNavbar, hideFooter, showStoreNav, colorBa
       </NoSsr>
       <div className={colorBackground ? classes.colorBackground : ''} />
       <Head>
-        <title>{`${title ? `${title} | ` : ''}${publicRuntimeConfig.siteTitle}`}</title>
+        <title>{`${title ? `${title} | ` : ''}${process.env.siteTitle}`}</title>
       </Head>
       <CssBaseline />
       {!hideNavbar && <Navbar hideStoreNav={!showStoreNav} />}

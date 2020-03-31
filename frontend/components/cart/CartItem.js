@@ -7,13 +7,10 @@ import DeleteIcon from '@material-ui/icons/RemoveShoppingCartRounded';
 import { Skeleton } from '@material-ui/lab';
 import gql from 'graphql-tag';
 import { Map } from 'immutable';
-import getConfig from 'next/config';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
 import LogoSvg from '~/assets/logo.svg';
-
-const { publicRuntimeConfig } = getConfig();
 
 const IMAGE_SIZE = 100;
 
@@ -90,7 +87,7 @@ const CartItem = ({ item, dispatch }) => {
     if (data.product.images && data.product.images[0] && data.product.images[0].url)
       return (
         <img
-          src={`${publicRuntimeConfig.apiUrl}${data.product.images[0].url}`}
+          src={`${process.env.apiUrl}${data.product.images[0].url}`}
           alt={data.product.name}
           className={classes.image}
         />

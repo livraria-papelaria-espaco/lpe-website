@@ -1,9 +1,7 @@
 import { print } from 'graphql/language/printer';
 import 'isomorphic-unfetch';
-import getConfig from 'next/config';
 
-const { publicRuntimeConfig } = getConfig();
-const API_URL = `${publicRuntimeConfig.apiUrl || 'http://localhost:3337'}/graphql`;
+const API_URL = `${process.env.apiUrl || 'http://localhost:3337'}/graphql`;
 
 export const fetchAPI = async (query, { variables } = {}) => {
   const res = await fetch(API_URL, {

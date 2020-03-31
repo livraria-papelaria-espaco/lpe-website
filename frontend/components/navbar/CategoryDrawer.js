@@ -1,32 +1,27 @@
 import { Divider, Drawer, List, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import getConfig from 'next/config';
 import PropTypes from 'prop-types';
 import React from 'react';
 import CategoryList from '../categories/CategoryList';
 import AccountMenu from './AccountMenu';
 
-const { publicRuntimeConfig } = getConfig();
-
-const { drawerWidth } = publicRuntimeConfig.appbar;
-
 const useStyles = makeStyles((theme) => ({
   drawer: {
     overflow: 'hidden',
     [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
+      width: process.env.appbar.drawerWidth,
       flexShrink: 0,
     },
   },
   // necessary for content to be below app bar
   toolbar: {
-    height: publicRuntimeConfig.appbar.desktopHeight,
+    height: process.env.appbar.desktopHeight,
     [theme.breakpoints.down('sm')]: {
       height: 0,
     },
   },
   drawerPaper: {
-    width: drawerWidth,
+    width: process.env.appbar.drawerWidth,
   },
   dividerFullWidth: {
     margin: `5px 0 0 ${theme.spacing(2)}px`,

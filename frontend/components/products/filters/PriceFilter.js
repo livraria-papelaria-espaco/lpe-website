@@ -1,9 +1,6 @@
 import { Slider } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
-import getConfig from 'next/config';
-
-const { publicRuntimeConfig } = getConfig();
 
 const valuetext = (value) => `${value} €`;
 
@@ -15,7 +12,7 @@ const PriceFilter = ({ setValue }) => {
   return (
     <Slider
       step={5}
-      defaultValue={publicRuntimeConfig.filters.priceRange}
+      defaultValue={process.env.filters.priceRange}
       onChangeCommitted={handleChange}
       valueLabelDisplay='auto'
       valueLabelFormat={valuetext}

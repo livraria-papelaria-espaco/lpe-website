@@ -1,24 +1,21 @@
 import { AppBar, IconButton, Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
-import getConfig from 'next/config';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
 import LogoSvg from '~/assets/logo.svg';
 import CartIcon from '~/components/cart/CartIcon';
 
-const { publicRuntimeConfig } = getConfig();
-
 const useStyles = makeStyles((theme) => ({
   root: {
     marginBottom: theme.spacing(4),
   },
   toolbar: {
-    minHeight: publicRuntimeConfig.appbar.mobileHeight,
+    minHeight: process.env.appbar.mobileHeight,
   },
   logo: {
-    height: publicRuntimeConfig.appbar.mobileHeight - 12,
+    height: process.env.appbar.mobileHeight - 12,
     fill: theme.palette.primary.contrastText,
   },
   menuButton: {
