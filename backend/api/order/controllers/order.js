@@ -138,7 +138,7 @@ const parseOrderData = async (data, price) => {
     })
   );
 
-  if (totalPrice !== price)
+  if (totalPrice.toFixed(2) !== price.toFixed(2))
     throw strapi.errors.badRequest('Provided price does not match with calculated price.', {
       originalPrice: price,
       calculatedPrice: totalPrice,
@@ -267,6 +267,7 @@ module.exports = {
       });
     } catch (e) {
       strapi.log.error(
+        { error: e },
         `Failed to send order create email for order ${entity.invoiceId}: ${JSON.stringify(e)}`
       );
     }
