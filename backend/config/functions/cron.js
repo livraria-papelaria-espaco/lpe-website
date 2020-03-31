@@ -13,7 +13,10 @@ module.exports = {
    * Simple example.
    * Every monday at 1am.
    */
-  // '0 1 * * 1': () => {
-  //
-  // }
+  // Every minute
+  '* * * * *': () => {
+    if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE !== 0) return;
+
+    strapi.services.order.cancelExpiredOrders();
+  },
 };

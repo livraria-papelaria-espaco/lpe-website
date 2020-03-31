@@ -24,7 +24,7 @@ const OrderPaymentGatewayInfo = ({ gateway, orderData, expiresAt }) => {
     info = (
       <Typography>
         Recebeu uma notificação na conta MBWAY de <strong>{orderData.mbWayPhone}</strong>. O prazo
-        para efetuar o pagamento é de <strong>15 minutos</strong> (até{' '}
+        para efetuar o pagamento é de <strong>10 minutos</strong> (até{' '}
         {date.toLocaleString('pt-PT')}). Após a validade expirar, deixa de ser possivel efetuar o
         pagamento e a encomenda será cancelada.
       </Typography>

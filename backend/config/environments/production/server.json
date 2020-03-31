@@ -9,7 +9,7 @@
     "port": "${process.env.PROXY_PORT || 1337}"
   },
   "cron": {
-    "enabled": false
+    "enabled": true
   },
   "admin": {
     "autoOpen": false

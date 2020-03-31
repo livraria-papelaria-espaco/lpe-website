@@ -11,4 +11,40 @@ module.exports = {
     //TODO calculate based on weight and postalcode
     return 4.5;
   },
+
+  cancelExpiredOrders: async () => {
+    const expiredOrders = await strapi.services.order.find({
+      status: 'WAITING_PAYMENT',
+      expiresAt_lte: Date.now(),
+    });
+    await Promise.all(
+      expiredOrders.map(async (order) => {
+        try {
+          await strapi.services.order.update({ id: order.id }, { status: 'CANCELLED' });
+          await Promise.all(
+            order.orderData.items.map(async (item) => {
+              if (item.needsRestock - item.quantity === 0) return;
+              await strapi.services.product
+                .decreaseStock({ id: item.id, qnt: item.needsRestock - item.quantity })
+                .catch((e) => {
+                  strapi.log.error(
+                    { error: e, items, order },
+                    '[Order Cancel] Failed to increase stock for %s by %d',
+                    item.id,
+                    item.quantity - item.needsRestock
+                  );
+                  throw e;
+                });
+            })
+          );
+        } catch (e) {
+          strapi.log.error(
+            { error: e, order },
+            '[Order Cancel] Failed to change order status for #%s',
+            order.invoiceId
+          );
+        }
+      })
+    );
+  },
 };
