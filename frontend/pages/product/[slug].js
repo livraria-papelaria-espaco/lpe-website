@@ -1,9 +1,11 @@
 import { useQuery } from '@apollo/react-hooks';
 import { Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Skeleton } from '@material-ui/lab';
 import gql from 'graphql-tag';
 import ErrorPage from 'next/error';
 import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 import AddToCart from '~/components/cart/AddToCart';
 import CategoryBreadcrumbs from '~/components/categories/CategoryBreadcrumbs';
 import Layout from '~/components/Layout';
@@ -11,6 +13,7 @@ import ProductImageCarousel from '~/components/products/ProductImageCarousel';
 import StockBadge from '~/components/products/StockBadge';
 import Markdown from '~/components/text/Markdown';
 import LoadingPage from '~/components/utils/LoadingPage';
+import { fetchAPI } from '~/lib/graphql';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -54,7 +57,7 @@ const GET_PRODUCT_INFO = gql`
   }
 `;
 
-const Product = () => {
+const Product = ({ defaultData }) => {
   const classes = useStyles();
   const router = useRouter();
   const { slug } = router.query;
@@ -64,14 +67,15 @@ const Product = () => {
   });
 
   if (error) return <ErrorPage statusCode={500} />;
-  if (loading)
+
+  if (loading && !defaultData)
     return (
       <Layout>
         <LoadingPage />
       </Layout>
     );
 
-  const product = data.productBySlug;
+  const product = (data && data.productBySlug) || defaultData;
 
   if (!product) return <ErrorPage statusCode={404} />;
 
@@ -106,12 +110,16 @@ const Product = () => {
             <Typography variant='h4' component='p' color='secondary'>
               <strong>{product.price.toFixed(2)}€</strong>
             </Typography>
-            <StockBadge
-              stock={product.stockStatus}
-              component={Typography}
-              variant='h6'
-              gutterBottom
-            />
+            {loading ? (
+              <Skeleton width={100} />
+            ) : (
+              <StockBadge
+                stock={product.stockStatus}
+                component={Typography}
+                variant='h6'
+                gutterBottom
+              />
+            )}
             <Typography variant='body1' gutterBottom>
               {product.shortDescription}
             </Typography>
@@ -138,6 +146,52 @@ const Product = () => {
       </Paper>
     </Layout>
   );
+};
+
+Product.propTypes = {
+  defaultData: PropTypes.shape({
+    id: PropTypes.string.isRequired, // Mongodb ID
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    shortDescription: PropTypes.string.isRequired,
+    images: PropTypes.arrayOf(
+      PropTypes.shape({
+        url: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+      })
+    ),
+    price: PropTypes.number.isRequired,
+    reference: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    bookInfo: PropTypes.shape({
+      author: PropTypes.string.isRequired,
+      edition: PropTypes.string.isRequired,
+      publisher: PropTypes.string.isRequired,
+    }),
+    category: PropTypes.shape({
+      slug: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+    }),
+    stockStatus: PropTypes.string.isRequired,
+  }),
+};
+
+Product.defaultProps = {
+  defaultData: undefined,
+};
+
+export const getStaticPaths = async () => {
+  return { paths: [], fallback: true };
+};
+
+export const getStaticProps = async (context) => {
+  const data = await fetchAPI(GET_PRODUCT_INFO, {
+    variables: { slug: context.params.slug },
+  });
+  return {
+    props: { defaultData: data.productBySlug || null },
+  };
 };
 
 export default Product;
