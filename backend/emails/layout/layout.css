@@ -1,0 +1,101 @@
+html {
+  margin: 0;
+}
+
+body {
+  background-color: rgb(1, 87, 155);
+  background: linear-gradient(45deg, rgb(0, 60, 108) 20%, rgb(51, 120, 175) 70%);
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+
+a {
+  color: rgb(51, 120, 175);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.logo {
+  margin: 8px;
+}
+
+.container {
+  margin: auto;
+  max-width: 700px;
+  padding: 24px 8px;
+}
+
+.card {
+  background-color: rgb(255, 255, 255);
+  color: rgba(0, 0, 0, 0.87);
+  padding: 24px;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+}
+
+.center {
+  text-align: center;
+}
+
+.section {
+  margin-top: 32px;
+}
+
+.button {
+  margin: 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+  border-radius: 4px;
+  line-height: 1.75;
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 6px 16px;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  color: rgb(255, 255, 255);
+  background-color: rgb(1, 87, 155);
+}
+
+.table {
+  width: 100%;
+  border-spacing: 0;
+}
+
+.tr {
+  outline: 0;
+  vertical-align: middle;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.th {
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  padding: 16px;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+}
+
+.td {
+  padding: 16px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.43rem;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+}
+
+.ref {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.66;
+  margin: 0;
+}
+
+.right {
+  text-align: right;
+}
+
+.left {
+  text-align: left;
+}

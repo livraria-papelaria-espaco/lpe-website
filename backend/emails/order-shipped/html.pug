@@ -1,0 +1,28 @@
+extends ../layout/layout.pug
+
+block header
+  //- :package: emoji (Package)
+  h1 Encomenda enviada! &#x1F4E6;
+
+block prepend content
+  p Estimado(a) #{clientName},
+    br
+    | A sua encomenda foi enviada.
+    br
+    | Estima-se que a encomenda demore até 4 dias úteis a chegar ao seu destino.
+
+  p 
+    strong Morada de entrega:
+    br
+    | #{shippingName}
+    br
+    | #{shippingLine1}
+    if shippingLine2
+      br
+      | #{shippingLine2}
+    br
+    | #{shippingCity}
+
+block shippingInfo
+
+block paymentInfo

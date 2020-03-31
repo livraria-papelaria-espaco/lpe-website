@@ -49,6 +49,7 @@ const handleMultibancoPayment = async (query) => {
     });
   } catch (e) {
     strapi.log.error(
+      { error: e },
       `Failed to send order payment completed email for order ${order.invoiceId}: ${JSON.stringify(
         e
       )}`

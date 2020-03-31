@@ -1,0 +1,23 @@
+mixin item(slug, name, ref, qnt, priceUni, price)
+  tr.tr
+    td.td.left 
+      a(href=`${productUrlPrefix}${slug}`) #{name}
+      p.ref #{ref}
+    td.td.right= qnt
+    td.td.right #{priceUni.toFixed(2)} €
+    td.td.right #{price.toFixed(2)} €
+
+table.table
+  thead
+    tr.tr
+      th.th.left Produto
+      th.th.right Qnt
+      th.th.right Preço Uni.
+      th.th.right Subtotal
+  tbody
+    each item in items
+      +item(item.slug, item.name, item.reference, item.quantity, item.priceUnity, item.price)
+    tr.tr
+      td.td(colspan="2")
+      td.td.left Preço c/ IVA
+      td.td.right #{itemsPrice} €

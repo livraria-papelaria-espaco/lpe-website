@@ -1,0 +1,19 @@
+extends ../layout/layout.pug
+
+block header
+  //- :tada: emoji (Party Popper)
+  h1 Encomenda concluída! &#x1F389;
+
+block prepend content
+  p Estimado(a) #{clientName},
+    br
+    | Obrigado pela sua encomenda através da loja online Livraria e Papelaria Espaço. Poderá
+    | seguir a sua encomenda através da 
+    a(href=orderUrl) área cliente no nosso site
+    | .
+    |
+    case shippingMethod
+      when "STORE_PICKUP"
+        | Receberá um email quando a sua encomenda estiver pronta para recolha na nossa loja.
+      when "CTT"
+        | Receberá um email quando a sua encomenda for enviada.

@@ -1,0 +1,18 @@
+extends ../layout/layout.pug
+
+block header
+  //- :sob: emoji (Loudly Crying Face)
+  h1 Encomenda cancelada &#x1F62D;
+
+block prepend content
+  p Estimado(a) #{clientName},
+    br
+    | A sua encomenda ##{invoiceId} foi cancelada visto que não recebemos nenhum pagamento dentro do prazo indicado.
+
+block orderInfo
+
+block shippingInfo
+
+block paymentInfo
+
+block itemsInfo

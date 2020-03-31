@@ -37,6 +37,20 @@ module.exports = {
                 });
             })
           );
+
+          try {
+            strapi.services.email.sendOrderCancelledEmail({
+              order,
+              user: order.user,
+            });
+          } catch (e) {
+            strapi.log.error(
+              { error: e },
+              `Failed to send order cancelled email for order ${entity.invoiceId}: ${JSON.stringify(
+                e
+              )}`
+            );
+          }
         } catch (e) {
           strapi.log.error(
             { error: e, order },

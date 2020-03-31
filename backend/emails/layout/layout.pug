@@ -1,0 +1,98 @@
+doctype html
+html
+  head
+    style
+      include layout.css
+    body
+      .container
+        .card
+          .center
+            include logo.pug
+            block header
+          .content
+            .section
+              block content
+                .center
+                  a(href=orderUrl).button Seguir encomenda
+            block orderInfo
+              .section
+                h2 Resumo da Encomenda
+                p
+                  strong Número da encomenda:
+                  |
+                  | ##{invoiceId}
+                p
+                  strong Data de criação:
+                  |
+                  | #{createdAt}
+                p
+                  strong Total:
+                  |
+                  | #{price} €
+                p
+                  strong Estado da encomenda:
+                  |
+                  | #{statusText}
+                p
+                  strong NIF:
+                  |
+                  | #{nif}
+            block shippingInfo
+              .section
+                h2 Modo de entrega
+                case shippingMethod
+                  when "STORE_PICKUP"
+                    p A sua encomenda estará pronta para recolha na nossa loja
+                    include store-address.pug
+                  when "CTT"
+                    p A sua encomenda será entregue na seguinte morada:
+                    p #{shippingName}
+                      br
+                      | #{shippingLine1}
+                      if shippingLine2
+                        br
+                        | #{shippingLine2}
+                      br
+                      | #{shippingCity}
+            block paymentInfo
+              .section
+                h2 Informação de pagamento
+                if status === "WAITING_PAYMENT"
+                  p Aguardamos o pagamento da sua encomenda para prosseguirmos com a mesma.
+                p
+                  strong Meio de pagamento:
+                  |
+                  | #{paymentGatewayText}
+                case paymentGateway
+                  when "IN_STORE"
+                    p O pagamento será efetuado na loja no momento de recolha. Aceitamos dinheiro, Multibanco ou MBWay.
+                  when "MB"
+                    p
+                      strong Entidade:
+                      |
+                      | #{mbEntity}
+                    p
+                      strong Referência:
+                      |
+                      | #{mbReference}
+                    p
+                    strong Valor:
+                    |
+                    | #{price} €
+                    p Esta referência é válida até 
+                      strong #{expiresAt}
+                  when "MBWAY"
+                    if status === "WAITING_PAYMENT"
+                      p
+                        | Recebeu uma notificação na conta MBWAY de
+                        |
+                        strong #{mbWayPhone}
+                        | . O prazo para efetuar o pagamento é de
+                        |
+                        strong 10 minutos
+                        |
+                        | (até #{expiresAt}). Após a validade expirar, deixa de ser possivel efetuar o pagamento e a encomenda será cancelada.
+            block itemsInfo
+              .section
+                h2 Artigos encomendados
+                include items-table.pug

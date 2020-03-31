@@ -1,0 +1,17 @@
+extends ../layout/layout.pug
+
+block header
+  //- Shopping Cart emoji
+  h1 Encomenda pronta para recolha! &#x1F6D2;
+
+block prepend content
+  p Estimado(a) #{clientName},
+    br
+    | A sua encomenda está pronta para ser recolhida na nossa loja.
+    | Apenas necessita do número da encomenda para a levantar.
+  p: strong Morada da nossa loja:
+  include ../layout/store-address.pug
+
+block shippingInfo
+
+block paymentInfo
