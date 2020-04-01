@@ -14,6 +14,9 @@ const ManageAcount = () => {
         Ainda estamos a finalizar o nosso site.
         <br />
         Por esse motivo, esta funcionalidade ainda não se encontra disponível.
+        <br />
+        No entanto, é possível alterar a palavra-passe através do menu de início de sessão e
+        clicando em &quot;Repor palavra-passe&quot;.
       </Typography>
       {/* TODO <PasswordChange /> */}
     </Layout>

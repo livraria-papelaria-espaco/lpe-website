@@ -19,6 +19,7 @@ const LOGIN_MUTATION = gql`
       jwt
       user {
         username
+        confirmed
       }
     }
   }
@@ -30,6 +31,39 @@ const REGISTER_MUTATION = gql`
       jwt
       user {
         username
+        confirmed
+      }
+    }
+  }
+`;
+
+const EMAIL_CONFIRMATION_MUTATION = gql`
+  mutation EMAIL_CONFIRMATION_MUTATION($code: String!) {
+    emailConfirmation(confirmation: $code) {
+      jwt
+      user {
+        username
+        confirmed
+      }
+    }
+  }
+`;
+
+const FORGOT_PASSWORD_MUTATION = gql`
+  mutation FORGOT_PASSWORD_MUTATION($email: String!) {
+    forgotPassword(email: $email) {
+      ok
+    }
+  }
+`;
+
+const CHANGE_PASSWORD_MUTATION = gql`
+  mutation CHANGE_PASSWORD_MUTATION($password: String!, $code: String!) {
+    changePassword(password: $password, passwordConfirmation: $password, code: $code) {
+      jwt
+      user {
+        username
+        confirmed
       }
     }
   }
@@ -57,9 +91,13 @@ const useAuthProvider = () => {
   const [username, setUsername] = useState(undefined);
   const [requestLogin] = useMutation(LOGIN_MUTATION);
   const [requestRegister] = useMutation(REGISTER_MUTATION);
+  const [requestEmailConfirmation] = useMutation(EMAIL_CONFIRMATION_MUTATION);
+  const [requestForgotPassword] = useMutation(FORGOT_PASSWORD_MUTATION);
+  const [requestChangePassword] = useMutation(CHANGE_PASSWORD_MUTATION);
 
   const login = async (identifier, password) => {
     const { data: res } = await requestLogin({ variables: { identifier, password } });
+    if (!res.login.user.confirmed) throw new Error('Auth.form.error.confirmed');
     Cookies.set('jwt', res.login.jwt);
     setUsername(res.login.user.username);
     window.localStorage.setItem('login', Date.now());
@@ -68,8 +106,32 @@ const useAuthProvider = () => {
 
   const register = async (name, password, email) => {
     const { data: res } = await requestRegister({ variables: { name, password, email } });
+    if (!res.register.user.confirmed) throw new Error('Auth.form.error.confirmed');
     Cookies.set('jwt', res.register.jwt);
     setUsername(res.register.user.username);
+    window.localStorage.setItem('login', Date.now());
+    return res;
+  };
+
+  const confirmEmail = async (code) => {
+    const { data: res } = await requestEmailConfirmation({ variables: { code } });
+    if (!res.emailConfirmation.user.confirmed) throw new Error('Auth.form.error.confirmed');
+    Cookies.set('jwt', res.emailConfirmation.jwt);
+    setUsername(res.emailConfirmation.user.username);
+    window.localStorage.setItem('login', Date.now());
+    return res;
+  };
+
+  const forgotPassword = async (email) => {
+    const { data: res } = await requestForgotPassword({ variables: { email } });
+    return res.forgotPassword.ok;
+  };
+
+  const changePassword = async (password, code) => {
+    const { data: res } = await requestChangePassword({ variables: { password, code } });
+    if (!res.changePassword.user.confirmed) throw new Error('Auth.form.error.confirmed');
+    Cookies.set('jwt', res.changePassword.jwt);
+    setUsername(res.changePassword.user.username);
     window.localStorage.setItem('login', Date.now());
     return res;
   };
@@ -108,6 +170,9 @@ const useAuthProvider = () => {
     username,
     login,
     register,
+    confirmEmail,
+    forgotPassword,
+    changePassword,
     logout,
   };
 };

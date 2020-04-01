@@ -52,38 +52,23 @@ const useStyles = makeStyles((theme) => ({
 const SignUp = () => {
   const classes = useStyles();
   const router = useRouter();
-  const { register } = useAuth();
+  const { changePassword } = useAuth();
 
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [acceptTos, setAcceptTos] = useState(false);
+  const [warning, setWarning] = useState('');
 
-  const onUsernameChange = (evt) => setUsername(evt.target.value);
-  const onEmailChange = (evt) => setEmail(evt.target.value);
+  const { code } = router.query;
+
   const onPasswordChange = (evt) => setPassword(evt.target.value);
   const onPasswordConfirmationChange = (evt) => setPasswordConfirmation(evt.target.value);
-  const onAcceptTosChange = (evt) => setAcceptTos(evt.target.checked);
 
-  const usernameError = !usernameRegExp.test(username);
-  const emailError = !emailRegExp.test(email);
   const passwordError = !passwordRegExp.test(password);
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (usernameError) {
-      setError(
-        'O nome de utilizador tem de ter, no mínimo, 4 catacteres e só pode conter letras, números, _ e espaços'
-      );
-      return;
-    }
-    if (emailError) {
-      setError('Email inválido');
-      return;
-    }
     if (passwordError) {
       setError('A palavra-passe deverá conter, pelo menos, 8 caracteres e um dígito');
       return;
@@ -94,56 +79,37 @@ const SignUp = () => {
     }
     setLoading(true);
     try {
-      await register(username, password, email);
+      await changePassword(password, code);
     } catch (ex) {
       if (
         ex.message === 'Auth.form.error.confirmed' ||
         JSON.stringify(ex).indexOf('Auth.form.error.confirmed') !== -1
       ) {
-        router.replace({
-          pathname: '/auth/account-created',
-          query: { redirect: router.query.redirect || '/' },
-        });
+        setWarning(
+          'A sua palavra-passe foi alterada mas o email da sua conta ainda não foi confirmado.'
+        );
+        setLoading(false);
         return;
       }
       // TODO get errors from backend
-      setError('Email e/ou username já em uso');
+      setError('Ocorreu um erro ao alterar a palavra-passe!');
       setLoading(false);
     }
   };
 
   return (
-    <AuthPageLayout title='Registar' cardTitle='Registar'>
+    <AuthPageLayout title='Reposição da palavra-passe' cardTitle='Reposição da palavra-passe'>
+      {!!warning && (
+        <Alert onClose={() => setWarning('')} severity='warning' className={classes.alert}>
+          {warning}
+        </Alert>
+      )}
       {!!error && (
         <Alert onClose={() => setError('')} severity='error' className={classes.alert}>
           {error}
         </Alert>
       )}
       <form noValidate>
-        <div className={classes.fieldDiv}>
-          <TextField
-            id='username'
-            label='Nome de utilizador'
-            value={username}
-            onChange={onUsernameChange}
-            type='text'
-            variant='outlined'
-            fullWidth
-            error={username.length > 0 && usernameError}
-          />
-        </div>
-        <div className={classes.fieldDiv}>
-          <TextField
-            id='email'
-            label='Email'
-            value={email}
-            onChange={onEmailChange}
-            type='email'
-            variant='outlined'
-            fullWidth
-            error={email.length > 0 && emailError}
-          />
-        </div>
         <div className={classes.fieldDiv}>
           <TextField
             id='password'
@@ -155,6 +121,7 @@ const SignUp = () => {
             fullWidth
             error={password.length > 0 && passwordError}
             helperText='Deverá conter, pelo menos, 8 caracteres e um dígito'
+            disabled={loading}
           />
         </div>
         <div className={classes.fieldDiv}>
@@ -167,23 +134,7 @@ const SignUp = () => {
             variant='outlined'
             fullWidth
             error={passwordConfirmation.length > 0 && passwordConfirmation !== password}
-          />
-        </div>
-        <div className={classes.fieldDiv}>
-          <FormControlLabel
-            control={<Checkbox checked={acceptTos} onChange={onAcceptTosChange} color='primary' />}
-            label={
-              <span>
-                Li e aceito os{' '}
-                <Link href='/legal/tos' passHref>
-                  <MUILink>Termos de Serviço</MUILink>
-                </Link>{' '}
-                e a{' '}
-                <Link href='/legal/privacy' passHref>
-                  <MUILink>Política de Privacidade</MUILink>
-                </Link>
-              </span>
-            }
+            disabled={loading}
           />
         </div>
         <div className={classes.buttonArea}>
@@ -197,9 +148,9 @@ const SignUp = () => {
               root: classes.submitButton,
               disabled: classes.buttonDisabled,
             }}
-            disabled={!acceptTos || loading}
+            disabled={loading}
           >
-            Criar Conta
+            Alterar palavra-passe
           </Button>
           {loading && <CircularProgress size={24} className={classes.loading} />}
         </div>
@@ -211,7 +162,17 @@ const SignUp = () => {
           replace
         >
           <MUILink>
-            <strong>Já tem uma conta? Inicie sessão!</strong>
+            <strong>Iniciar Sessão</strong>
+          </MUILink>
+        </Link>
+        {' | '}
+        <Link
+          href={{ pathname: '/auth/signup', query: { redirect: router.query.redirect || '/' } }}
+          passHref
+          replace
+        >
+          <MUILink>
+            <strong>Registar</strong>
           </MUILink>
         </Link>
       </Typography>
