@@ -275,6 +275,10 @@ module.exports = {
     return sanitizeOrderData(sanitizeEntity(entity, { model: strapi.models.order }));
   },
 
+  async count(ctx) {
+    return await strapi.services.order.count({ user: ctx.state.user.id });
+  },
+
   async find(ctx) {
     let entities;
     if (ctx.query._q) {
