@@ -9,7 +9,7 @@ import {
 import { Alert } from '@material-ui/lab';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AuthPageLayout from '~/components/auth/AuthPageLayout';
 import { useAuth } from '~/hooks/useAuth';
 

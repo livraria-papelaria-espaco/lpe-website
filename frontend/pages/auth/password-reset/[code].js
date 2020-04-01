@@ -1,8 +1,6 @@
 import {
   Button,
-  Checkbox,
   CircularProgress,
-  FormControlLabel,
   Link as MUILink,
   makeStyles,
   TextField,
@@ -15,8 +13,6 @@ import React, { useState } from 'react';
 import AuthPageLayout from '~/components/auth/AuthPageLayout';
 import { useAuth } from '~/hooks/useAuth';
 
-const emailRegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const usernameRegExp = /^[A-Za-z0-9_ ]{4,}$/;
 const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/;
 
 const useStyles = makeStyles((theme) => ({

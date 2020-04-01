@@ -1,8 +1,6 @@
 import {
   Button,
-  Checkbox,
   CircularProgress,
-  FormControlLabel,
   Link as MUILink,
   makeStyles,
   TextField,

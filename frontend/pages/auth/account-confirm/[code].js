@@ -20,7 +20,6 @@ const AccountConfirm = () => {
       try {
         await confirmEmail(code);
       } catch (e) {
-        console.log(e);
         if (valid) setError(true);
       }
     };
