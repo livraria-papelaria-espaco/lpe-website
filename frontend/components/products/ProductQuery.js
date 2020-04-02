@@ -2,12 +2,27 @@ import { useQuery } from '@apollo/react-hooks';
 import { Alert } from '@material-ui/lab';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
+import LoadMore from './LoadMore';
 import ProductList from './ProductList';
 
 const PRODUCTS_QUERY = gql`
-  query SEARCH_PRODUCTS($search: String, $sort: String, $priceRange: [Int], $category: String) {
-    productsSearch(query: $search, sort: $sort, priceRange: $priceRange, category: $category) {
+  query SEARCH_PRODUCTS(
+    $search: String
+    $sort: String
+    $priceRange: [Int]
+    $category: String
+    $limit: Int
+    $start: Int
+  ) {
+    productsSearch(
+      query: $search
+      sort: $sort
+      priceRange: $priceRange
+      category: $category
+      limit: $limit
+      start: $start
+    ) {
       name
       shortDescription
       images(limit: 1) {
@@ -25,15 +40,44 @@ const PRODUCTS_QUERY = gql`
   }
 `;
 
+const limit = 24; // TODO decide whether to increase to 36 or not
+
 const ProductQuery = ({ sort, priceRange, search, category }) => {
-  const { loading, error, data } = useQuery(PRODUCTS_QUERY, {
-    variables: { search, sort, priceRange, category },
+  const [hasMoreToLoad, setHasMoreToLoad] = useState(true);
+  const { loading, error, data, fetchMore } = useQuery(PRODUCTS_QUERY, {
+    variables: { search, sort, priceRange, category, limit, start: 0 },
+    fetchPolicy: 'cache-and-network',
   });
+
   if (loading && !data) return <ProductList loading />;
   if (error)
     return <Alert severity='error'>Erro ao carregar produtos. Tente novamente mais tarde.</Alert>;
 
-  return <ProductList products={data.productsSearch || []} />;
+  const loadMore = () =>
+    fetchMore({
+      variables: {
+        start: data.productsSearch.length,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        if (fetchMoreResult.productsSearch.length === 0) setHasMoreToLoad(false);
+        return {
+          ...prev,
+          productsSearch: [...prev.productsSearch, ...fetchMoreResult.productsSearch],
+        };
+      },
+    });
+
+  return (
+    <>
+      <ProductList products={data.productsSearch || []} />
+      <LoadMore
+        onClick={loadMore}
+        hide={data.productsSearch.length % limit !== 0 || !hasMoreToLoad}
+        loading={loading}
+      />
+    </>
+  );
 };
 
 ProductQuery.propTypes = {
