@@ -47,16 +47,21 @@ const OrderInfo = ({ id }) => {
       </LoadingWrapper>
     );
 
-  const needsRestock = () => data.orderData.items.some((v) => v.needsRestock > 0);
+  const needsRestock = data.orderData.items.some((v) => v.needsRestock > 0);
 
   const handleNextStep = async () => {
     toggleNextStepPopup();
     try {
-      await request(`/order-management/order/nextstep/${id}?status=${data.status}`, {
-        method: 'POST',
-      });
+      await request(
+        `/order-management/order/nextstep/${id}?status=${data.status}${
+          needsRestock ? `&nextStatus=WAITING_ITEMS` : ''
+        }`,
+        {
+          method: 'POST',
+        }
+      );
 
-      strapi.notification.success(getTrad(`Action.sucess.order.nextstep`));
+      strapi.notification.success(getTrad(`Action.success.order.nextstep`));
 
       fetchData();
     } catch (e) {
@@ -71,7 +76,7 @@ const OrderInfo = ({ id }) => {
     data.status === 'WAITING_ITEMS'
       ? [
           {
-            disabled: needsRestock(),
+            disabled: data.status === 'WAITING_ITEMS' && needsRestock,
             onClick: () => {
               toggleNextStepPopup();
             },
@@ -79,7 +84,9 @@ const OrderInfo = ({ id }) => {
             label: formatMessage({
               id: getTrad(
                 `List.content.orders.${
-                  data.status === 'READY_TO_PICKUP'
+                  data.status === 'PROCESSING' && needsRestock
+                    ? `markAsWaitingItems`
+                    : data.status === 'READY_TO_PICKUP'
                     ? `markAsPickedUp`
                     : data.shippingMethod === 'STORE_PICKUP'
                     ? `markAsReadyToPickup`
@@ -210,7 +217,7 @@ const OrderInfo = ({ id }) => {
         </SectionTitle>
         <SectionTitle title='items'>
           {data.orderData.items.map((item) => (
-            <Item key={item.slug} item={item} />
+            <Item key={item.slug} item={item} orderId={data.id} setData={setData} />
           ))}
         </SectionTitle>
       </Wrapper>

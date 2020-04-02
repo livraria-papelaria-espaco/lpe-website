@@ -25,3 +25,9 @@ export const FieldTitle = styled.p`
 export const FieldValue = styled.p`
   color: #000;
 `;
+
+export const ItemsField = styled(Field)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;

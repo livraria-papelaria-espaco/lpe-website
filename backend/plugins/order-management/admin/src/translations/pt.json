@@ -28,12 +28,14 @@
   "OrderPage.content.field.shippingMethod": "Tipo de Encomenda",
   "OrderPage.content.field.shippingMethod.STORE_PICKUP": "Levantamento em Loja",
   "OrderPage.content.field.shippingMethod.CTT": "Envio por CTT",
+  "OrderPage.content.field.shippingCost": "Custo de Envio",
   "OrderPage.content.field.shippingAddress": "Morada de Envio",
   "OrderPage.content.field.item.priceUnity": "Preço Unitário: {price} €",
   "OrderPage.content.field.item.price": "Preço: {price} €",
   "OrderPage.content.field.item.ref": "Ref: {ref}",
   "OrderPage.content.field.item.restock.singular": "{count} item precisa de ser encomendado",
   "OrderPage.content.field.item.restock.plural": "{count} itens precisam de ser encomendados",
+  "OrderPage.content.field.item.restock.update": "Guardar",
   "OrderPage.content.gatewayBadge.IN_STORE": "Em Loja",
   "OrderPage.content.gatewayBadge.MB": "Multibanco",
   "OrderPage.content.gatewayBadge.MBWAY": "MBWay",
@@ -51,6 +53,7 @@
   "List.content.orders.statusBadge.DELIVERED": "Entregue",
   "List.content.orders.statusBadge.WAITING_ITEMS": "À espera de items",
   "List.content.orders.markAsReadyToPickup": "Marcar como Pronto para Recolha",
+  "List.content.orders.markAsWaitingItems": "Marcar como À Espera de Items",
   "List.content.orders.markAsShipped": "Marcar como Enviado",
   "List.content.orders.markAsPickedUp": "Marcar como Entregue",
 
@@ -59,8 +62,10 @@
   "PopUpWarning.button.cancel": "Cancelar",
   "PopUpWarning.button.confirm": "Confirmar",
 
-  "Action.sucess.order.nextstep": "Estado da encomenda alterado com sucesso.",
+  "Action.success.order.nextstep": "Estado da encomenda alterado com sucesso.",
   "Action.error.order.nextstep": "Erro ao alterar estado da encomenda.",
+  "Action.success.order.changeRestockCount": "Número de items que precisa de restock atualizado com sucesso.",
+  "Action.error.order.changeRestockCount": "Erro ao alterar o número de items que precisa de restock.",
 
   "plugin.name": "Gestão de encomendas",
   "plugin.description.short": "Gestão de encomendas da Livraria e Papelaria Espaço"
