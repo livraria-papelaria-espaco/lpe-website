@@ -29,7 +29,8 @@ const orderCreateSchema = Joi.object({
   billingAddress: Joi.link('#address').required(),
   paymentGateway: Joi.string()
     .valid('IN_STORE', 'MB', 'MBWAY')
-    .required(),
+    .required()
+    .when('shippingMethod', { not: 'STORE_PICKUP', then: Joi.invalid('IN_STORE') }),
   status: Joi.string().valid('WAITING_PAYMENT'),
   nif: Joi.number()
     .integer()
