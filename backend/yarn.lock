@@ -6991,7 +6991,7 @@ nodemailer@6.4.0:
   resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.4.0.tgz#91482ebc09d39156d933eb9e6159642cd27bf02c"
   integrity sha512-UBqPOfQGD1cM3HnjhuQe+0u3DWx47WWK7lBjG5UtPnGOysr7oDK5lNCzcjK6zzeBSdTk4m1tGx1xNbWFZQmMNA==
 
-nodemailer@^6.3.1, nodemailer@^6.4.2:
+nodemailer@^6.3.0, nodemailer@^6.3.1, nodemailer@^6.4.2:
   version "6.4.6"
   resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.4.6.tgz#d37f504f6560b36616f646a606894fe18819107f"
   integrity sha512-/kJ+FYVEm2HuUlw87hjSqTss+GU35D4giOpdSfGp7DO+5h6RlJj7R94YaYHOkoxu1CSaM0d3WRBtCzwXrY6MKA==
@@ -9584,6 +9584,13 @@ strapi-provider-email-sendmail@3.0.0-beta.19.5:
   dependencies:
     lodash "^4.17.11"
     sendmail "^1.2.0"
+
+strapi-provider-email-vlkmailer@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/strapi-provider-email-vlkmailer/-/strapi-provider-email-vlkmailer-1.1.1.tgz#d8beecc8cd89aab8ce0468d150dae4b6c483dc75"
+  integrity sha512-bM3CyQqXNEF9zjAZYDkX2B7TGiSkqkpeySv5ssxGaMcbUzhZz4EtRa9Fgs0I1pwgjkZIxc7w4U4jztmVAWNSbA==
+  dependencies:
+    nodemailer "^6.3.0"
 
 strapi-provider-upload-local@3.0.0-beta.19.5:
   version "3.0.0-beta.19.5"

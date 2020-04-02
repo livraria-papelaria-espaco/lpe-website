@@ -60,6 +60,7 @@ a {
 .table {
   width: 100%;
   border-spacing: 0;
+  overflow: auto;
 }
 
 .tr {
