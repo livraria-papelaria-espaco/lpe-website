@@ -1,12 +1,14 @@
 {
   "name": "livraria-espaco-api",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
-    "name": "A Strapi developer"
+    "name": "Diogo Correia",
+    "email": "me@diogotc.com",
+    "url": "https://diogotc.com"
   },
   "license": "MIT",
-  "description": "A Strapi application",
+  "description": "Back for the Livraria e Papelaria Espaço's website. Built using Strapi.",
   "scripts": {
     "dev": "strapi develop",
     "start": "strapi start",
