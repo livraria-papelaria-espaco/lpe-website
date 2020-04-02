@@ -189,44 +189,56 @@ const getEuPagoEndpoint = (path) =>
   }.eupago.pt/clientes/rest_api${path}`;
 
 const handleMB = async (entity) => {
-  //TODO add try/catch
-  const expiresAt = new Date(Date.now() + 86400000);
-  expiresAt.setHours(23, 59, 59); // 23:59:59 of the next day
-  const response = await axios.post(getEuPagoEndpoint('/multibanco/create'), {
-    chave: strapi.config.currentEnvironment.euPagoToken,
-    valor: entity.price,
-    id: entity.invoiceId,
-    data_fim: expiresAt.toISOString().split('T')[0], // 1 day from now in YYYY-MM-DD
-    per_dup: 0,
-  });
-  if (response.data.sucesso != true)
+  try {
+    const expiresAt = new Date(Date.now() + 86400000);
+    expiresAt.setHours(23, 59, 59); // 23:59:59 of the next day
+    const response = await axios.post(getEuPagoEndpoint('/multibanco/create'), {
+      chave: strapi.config.currentEnvironment.euPagoToken,
+      valor: entity.price,
+      id: entity.invoiceId,
+      data_fim: expiresAt.toISOString().split('T')[0], // 1 day from now in YYYY-MM-DD
+      per_dup: 0,
+    });
+    if (response.data.sucesso != true) {
+      strapi.log.error({ response }, 'An error occurred in the payment gateway');
+      throw strapi.errors.badGateway('An error occurred in the payment gateway');
+    }
+    const gatewayData = {
+      reference: `${response.data.referencia}`,
+      entity: `${response.data.entidade}`,
+      price: parseFloat(response.data.valor),
+    };
+    return { ...entity, expiresAt, orderData: { ...entity.orderData, multibanco: gatewayData } };
+  } catch (error) {
+    strapi.log.error({ error }, 'An error occurred connecting to the payment gateway');
     throw strapi.errors.badGateway('An error occurred in the payment gateway');
-  const gatewayData = {
-    reference: `${response.data.referencia}`,
-    entity: `${response.data.entidade}`,
-    price: parseFloat(response.data.valor),
-  };
-  return { ...entity, expiresAt, orderData: { ...entity.orderData, multibanco: gatewayData } };
+  }
 };
 
 const handleMBWay = async (entity) => {
-  //TODO add try/catch
-  const expiresAt = new Date(Date.now() + 600000); // 10 min
-  const response = await axios.post(getEuPagoEndpoint('/mbway/create'), {
-    chave: strapi.config.currentEnvironment.euPagoToken,
-    valor: entity.price,
-    id: entity.invoiceId,
-    alias: entity.orderData.mbWayPhone,
-    descricao: `Encomenda #${entity.invoiceId}`,
-  });
-  if (response.data.sucesso != true)
+  try {
+    const expiresAt = new Date(Date.now() + 600000); // 10 min
+    const response = await axios.post(getEuPagoEndpoint('/mbway/create'), {
+      chave: strapi.config.currentEnvironment.euPagoToken,
+      valor: entity.price,
+      id: entity.invoiceId,
+      alias: entity.orderData.mbWayPhone,
+      descricao: `Encomenda #${entity.invoiceId}`,
+    });
+    if (response.data.sucesso != true) {
+      strapi.log.error({ response }, 'An error occurred in the payment gateway');
+      throw strapi.errors.badGateway('An error occurred in the payment gateway');
+    }
+    const gatewayData = {
+      entity: '00000',
+      reference: `${response.data.referencia}`,
+      price: parseFloat(response.data.valor),
+    };
+    return { ...entity, expiresAt, orderData: { ...entity.orderData, multibanco: gatewayData } };
+  } catch (error) {
+    strapi.log.error({ error }, 'An error occurred connecting to the payment gateway');
     throw strapi.errors.badGateway('An error occurred in the payment gateway');
-  const gatewayData = {
-    entity: '00000',
-    reference: `${response.data.referencia}`,
-    price: parseFloat(response.data.valor),
-  };
-  return { ...entity, expiresAt, orderData: { ...entity.orderData, multibanco: gatewayData } };
+  }
 };
 
 const sanitizeOrderData = (entity) => {
