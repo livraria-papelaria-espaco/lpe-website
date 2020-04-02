@@ -144,23 +144,24 @@ const parseOrderData = async (data, price) => {
       calculatedPrice: totalPrice,
     });
 
-  await Promise.all(
-    items.map(async (item) =>
-      strapi.services.product
-        .decreaseStock({ id: item.id, qnt: item.quantity - item.needsRestock })
-        .catch((e) => {
-          strapi.log.error(
-            { error: e, items },
-            'Failed to decrease stock for %s by %d',
-            item.id,
-            item.quantity - item.needsRestock
-          );
-          throw e;
-        })
-    )
-  );
+  const executeStockReduction = async () =>
+    await Promise.all(
+      items.map(async (item) =>
+        strapi.services.product
+          .decreaseStock({ id: item.id, qnt: item.quantity - item.needsRestock })
+          .catch((e) => {
+            strapi.log.error(
+              { error: e, items },
+              'Failed to decrease stock for %s by %d',
+              item.id,
+              item.quantity - item.needsRestock
+            );
+            throw e;
+          })
+      )
+    );
 
-  return { ...data, items };
+  return { executeStockReduction, orderData: { ...data, items } };
 };
 
 const generateInvoiceId = () =>
@@ -264,13 +265,19 @@ module.exports = {
             request.orderData.items
           );
 
+    const { executeStockReduction, orderData } = await parseOrderData(
+      request.orderData,
+      request.price - shippingCost
+    );
     const entityData = {
       ...request,
-      orderData: await parseOrderData(request.orderData, request.price - shippingCost),
+      orderData,
       user: ctx.state.user.id,
       invoiceId: generateInvoiceId(),
     };
-    entity = await strapi.services.order.create(await handleGateway(entityData));
+    const payload = await handleGateway(entityData);
+    await executeStockReduction();
+    entity = await strapi.services.order.create(payload);
 
     try {
       strapi.services.email.sendOrderCreatedEmail({
