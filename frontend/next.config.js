@@ -12,10 +12,14 @@ module.exports = {
     },
     footer: {
       gmapsLink: 'https://g.page/livrariaepapelaria-espaco?share',
-      address1: 'Av. Combatentes da Grande Guerra 51',
+      address1: 'Av. Combatentes da Grande Guerra 51B',
       address2: '1495-039 Algés',
       phone: '214114076',
-      email: 'geral@lpespaco.pt',
+      phone2: '961312644',
+      email: 'livraria@lpespaco.pt',
+      facebook: 'https://facebook.com/livrariaepapelaria.espaco/',
+      instagram: 'https://instagram.com/livraria_espaco/',
+      facebookEvents: 'https://www.facebook.com/pg/livrariaepapelaria.espaco/events/',
     },
   },
 };

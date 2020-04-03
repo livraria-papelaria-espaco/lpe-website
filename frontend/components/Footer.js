@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
+import InstagramIcon from '~/assets/instagram.svg';
+import FacebookIcon from '~/assets/facebook.svg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,6 +21,16 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.getContrastText(theme.palette.primary.dark),
     padding: `${theme.spacing(1)}px 0px`,
   },
+  header: {
+    marginTop: theme.spacing(2),
+  },
+  socialIcon: {
+    fill: theme.palette.primary.contrastText,
+    width: 24,
+    verticalAlign: 'bottom',
+    marginTop: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
 }));
 const Footer = () => {
   const classes = useStyles();
@@ -27,13 +39,27 @@ const Footer = () => {
     <div className={classes.root}>
       <div className={classes.mainContent}>
         <Grid container component={Container} fixed>
-          <Grid item xs={12} sm={6}>
-            <Typography variant='h5'>Informações</Typography>
+          <Grid item xs={12} sm={4}>
+            <Typography variant='h5' className={classes.header}>
+              Informações
+            </Typography>
             <FooterLink href='/legal/tos' text='Termos e Condições' />
             <FooterLink href='/legal/privacy' text='Política de Privacidade' />
+            <Typography variant='body1'>
+              <MUILink
+                href={process.env.footer.facebookEvents}
+                color='inherit'
+                target='_blank'
+                rel='noopener'
+              >
+                Agenda de Eventos
+              </MUILink>
+            </Typography>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant='h5'>A nossa loja</Typography>
+          <Grid item xs={12} sm={4}>
+            <Typography variant='h5' className={classes.header}>
+              A nossa loja
+            </Typography>
             <Typography variant='body1'>
               <MUILink
                 href={process.env.footer.gmapsLink}
@@ -51,11 +77,42 @@ const Footer = () => {
               <MUILink href={`tel:${process.env.footer.phone}`} color='inherit'>
                 {process.env.footer.phone}
               </MUILink>
+              {' | '}
+              <MUILink href={`tel:${process.env.footer.phone2}`} color='inherit'>
+                {process.env.footer.phone2}
+              </MUILink>
             </Typography>
             <Typography variant='body1'>
               Email:{' '}
               <MUILink href={`mailto:${process.env.footer.email}`} color='inherit'>
                 {process.env.footer.email}
+              </MUILink>
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Typography variant='h5' className={classes.header}>
+              Redes sociais
+            </Typography>
+            <Typography variant='body1'>
+              <MUILink
+                href={process.env.footer.instagram}
+                color='inherit'
+                target='_blank'
+                rel='noopener'
+              >
+                <InstagramIcon className={classes.socialIcon} />
+                Instagram
+              </MUILink>
+            </Typography>
+            <Typography variant='body1'>
+              <MUILink
+                href={process.env.footer.facebook}
+                color='inherit'
+                target='_blank'
+                rel='noopener'
+              >
+                <FacebookIcon className={classes.socialIcon} />
+                Facebook
               </MUILink>
             </Typography>
           </Grid>
@@ -87,17 +144,24 @@ const Footer = () => {
   );
 };
 
-const FooterLink = ({ href, text }) => (
+const FooterLink = ({ href, icon, text }) => (
   <Typography variant='body1'>
     <Link href={href} passHref>
-      <MUILink color='inherit'>{text}</MUILink>
+      <MUILink color='inherit'>
+        {icon} {text}
+      </MUILink>
     </Link>
   </Typography>
 );
 
 FooterLink.propTypes = {
   href: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
+  icon: PropTypes.node,
+  text: PropTypes.node.isRequired,
+};
+
+FooterLink.defaultProps = {
+  icon: undefined,
 };
 
 export default Footer;
