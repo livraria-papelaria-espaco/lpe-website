@@ -7,6 +7,7 @@ const getColor = (status) => {
   if (status === 'IN_STORE') return '#1ac946';
   if (status === 'MB') return '#2968a9';
   if (status === 'MBWAY') return '#f10107';
+  if (status === 'BANK_TRANSFER') return '#1ed4ad';
   return '#000000';
 };
 

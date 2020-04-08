@@ -13,13 +13,7 @@ import SectionTitle from './SectionTitle';
 
 const orderType = 'application::order.order';
 
-const parseDate = (date) =>
-  date
-    ? moment
-        .parseZone(date)
-        .utc()
-        .format('LLL')
-    : '-';
+const parseDate = (date) => (date ? moment.parseZone(date).utc().format('LLL') : '-');
 
 const OrderInfo = ({ id }) => {
   const { formatMessage } = useGlobalContext();
@@ -71,6 +65,7 @@ const OrderInfo = ({ id }) => {
   };
 
   const headerActions =
+    data.status === 'WAITING_PAYMENT' ||
     data.status === 'READY_TO_PICKUP' ||
     data.status === 'PROCESSING' ||
     data.status === 'WAITING_ITEMS'
@@ -84,7 +79,9 @@ const OrderInfo = ({ id }) => {
             label: formatMessage({
               id: getTrad(
                 `List.content.orders.${
-                  data.status === 'PROCESSING' && needsRestock
+                  data.status === 'WAITING_PAYMENT'
+                    ? `markAsPaid`
+                    : data.status === 'PROCESSING' && needsRestock
                     ? `markAsWaitingItems`
                     : data.status === 'READY_TO_PICKUP'
                     ? `markAsPickedUp`

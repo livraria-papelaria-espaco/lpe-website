@@ -39,6 +39,7 @@
   "OrderPage.content.gatewayBadge.IN_STORE": "Em Loja",
   "OrderPage.content.gatewayBadge.MB": "Multibanco",
   "OrderPage.content.gatewayBadge.MBWAY": "MBWay",
+  "OrderPage.content.gatewayBadge.BANK_TRANSFER": "Transferência Bancária",
 
   "List.title.orders.singular": "{count} encomenda encontrada",
   "List.title.orders.plural": "{count} encomendas encontradas",
@@ -52,6 +53,7 @@
   "List.content.orders.statusBadge.CANCELLED": "Cancelado",
   "List.content.orders.statusBadge.DELIVERED": "Entregue",
   "List.content.orders.statusBadge.WAITING_ITEMS": "À espera de items",
+  "List.content.orders.markAsPaid": "Marcar como Paga",
   "List.content.orders.markAsReadyToPickup": "Marcar como Pronto para Recolha",
   "List.content.orders.markAsWaitingItems": "Marcar como À Espera de Items",
   "List.content.orders.markAsShipped": "Marcar como Enviado",

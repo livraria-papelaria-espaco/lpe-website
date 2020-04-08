@@ -39,6 +39,7 @@
   "OrderPage.content.gatewayBadge.IN_STORE": "In Store",
   "OrderPage.content.gatewayBadge.MB": "Multibanco",
   "OrderPage.content.gatewayBadge.MBWAY": "MBWay",
+  "OrderPage.content.gatewayBadge.BANK_TRANSFER": "Wire Transfer",
 
   "List.title.orders.singular": "{count} order found",
   "List.title.orders.plural": "{count} orders found",
@@ -52,6 +53,7 @@
   "List.content.orders.statusBadge.CANCELLED": "Cancelled",
   "List.content.orders.statusBadge.DELIVERED": "Delivered",
   "List.content.orders.statusBadge.WAITING_ITEMS": "Waiting Items",
+  "List.content.orders.markAsPaid": "Mark as Paid",
   "List.content.orders.markAsReadyToPickup": "Mark as Ready To Pickup",
   "List.content.orders.markAsWaitingItems": "Mark as Waiting Items",
   "List.content.orders.markAsShipped": "Mark as Shipped",

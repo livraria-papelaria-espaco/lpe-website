@@ -33,11 +33,15 @@ module.exports = {
     let finalStatus;
 
     switch (status) {
+      case 'WAITING_PAYMENT':
       case 'DELIVERY_FAILED':
       case 'PROCESSING':
       case 'WAITING_ITEMS':
         let sendEmail;
-        if (status === 'PROCESSING' && nextStatus === 'WAITING_ITEMS') {
+        if (status === 'WAITING_PAYMENT') {
+          finalStatus = 'PROCESSING';
+          sendEmail = strapi.services.email.sendOrderPaidEmail;
+        } else if (status === 'PROCESSING' && nextStatus === 'WAITING_ITEMS') {
           finalStatus = 'WAITING_ITEMS';
         } else if (order.shippingMethod === 'STORE_PICKUP') {
           finalStatus = 'READY_TO_PICKUP';
