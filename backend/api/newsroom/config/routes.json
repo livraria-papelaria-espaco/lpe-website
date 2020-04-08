@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/newsrooms",
+      "handler": "newsroom.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/newsrooms/count",
+      "handler": "newsroom.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/newsrooms/:id",
+      "handler": "newsroom.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/newsrooms",
+      "handler": "newsroom.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/newsrooms/:id",
+      "handler": "newsroom.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/newsrooms/:id",
+      "handler": "newsroom.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -67,10 +67,10 @@ const ProductCard = ({ product }) => {
           </Typography>
         )}
         <Typography gutterBottom variant='caption' component='p'>
-          {`${product.type === 'Livro' ? 'ISBN' : 'Ref'}: ${product.reference}`}
+          {`${product.type === 'Livro' ? 'ISBN' : 'Ref'}: ${product.reference || '-'}`}
         </Typography>
         <Typography variant='body2' color='textSecondary' component='p'>
-          {product.shortDescription}
+          {product.shortDescription || ''}
         </Typography>
         <Typography variant='body1' component='p' color='secondary'>
           {`${product.price.toFixed(2)}€ `}
@@ -90,8 +90,8 @@ ProductCard.propTypes = {
     bookInfo: PropTypes.shape({
       author: PropTypes.string,
     }),
-    reference: PropTypes.string.isRequired,
-    shortDescription: PropTypes.string.isRequired,
+    reference: PropTypes.string,
+    shortDescription: PropTypes.string,
     price: PropTypes.number.isRequired,
     stockStatus: PropTypes.oneOf(['IN_STOCK', 'LOW_STOCK', 'ORDER_ONLY', 'UNAVAILABLE']).isRequired,
   }).isRequired,

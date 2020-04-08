@@ -45,6 +45,7 @@ const Footer = () => {
             </Typography>
             <FooterLink href='/legal/tos' text='Termos e Condições' />
             <FooterLink href='/legal/privacy' text='Política de Privacidade' />
+            <FooterLink href='/newsroom' text='Destaques' />
           </Grid>
           <Grid item xs={12} sm={4}>
             <Typography variant='h5' className={classes.header}>

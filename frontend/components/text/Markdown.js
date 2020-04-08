@@ -8,6 +8,9 @@ const styles = (theme) => ({
   listItem: {
     marginTop: theme.spacing(1),
   },
+  img: {
+    maxWidth: '100%',
+  },
 });
 
 const markdownOptions = {
@@ -34,6 +37,14 @@ const markdownOptions = {
           <Typography component='span' {...props} />
         </li>
       )),
+    },
+    img: {
+      // eslint-disable-next-line react/prop-types
+      component: withStyles(styles)(({ classes, src, ...props }) => {
+        const newSrc = (src || '').startsWith('/') ? `${process.env.apiUrl}${src || ''}` : src;
+        // eslint-disable-next-line jsx-a11y/alt-text, react/jsx-props-no-spreading
+        return <img src={newSrc} {...props} className={`${classes.img} ${props.className}`} />;
+      }),
     },
   },
 };

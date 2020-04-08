@@ -1,7 +1,16 @@
-import { Divider, Drawer, List, Typography } from '@material-ui/core';
+import {
+  Divider,
+  Drawer,
+  List,
+  Typography,
+  ListItem,
+  ListItemText,
+  Link as MUILink,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
+import Link from 'next/link';
 import CategoryList from '../categories/CategoryList';
 import AccountMenu from './AccountMenu';
 
@@ -52,6 +61,14 @@ const CategoryDrawer = ({ mobile = false, mobileOpen = false, setOpen }) => {
         <div className={classes.toolbar} />
         <div className={classes.categoryList}>
           <CategoryList />
+          <Divider />
+          <List>
+            <Link href='/newsroom'>
+              <ListItem button component={MUILink} color='inherit'>
+                <ListItemText>Destaques</ListItemText>
+              </ListItem>
+            </Link>
+          </List>
         </div>
         <div className={classes.grow} />
         {mobile && (
