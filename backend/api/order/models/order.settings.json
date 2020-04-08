@@ -53,7 +53,8 @@
       "enum": [
         "IN_STORE",
         "MB",
-        "MBWAY"
+        "MBWAY",
+        "BANK_TRANSFER"
       ],
       "default": "IN_STORE",
       "required": true

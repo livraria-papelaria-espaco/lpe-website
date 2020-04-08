@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import CartItem from '~/components/cart/CartItem';
 import { useCart } from '~/hooks/useCart';
+import { paymentGatewayMap, shippingMethodMap } from '~/lib/orders';
 import CheckoutSubmit from './CheckoutSubmit';
 
 const CALCULATE_SHIPING_QUERY = gql`
@@ -35,17 +36,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline-block',
   },
 }));
-
-const paymentGatewayMapping = {
-  IN_STORE: 'Pagar em Loja',
-  MB: 'Referência Multibanco',
-  MBWAY: 'MBWay',
-};
-
-const shippingMethodMapping = {
-  STORE_PICKUP: 'Levantamento em Loja',
-  CTT: 'Envio via CTT',
-};
 
 const CheckoutSummary = ({ state, goBack }) => {
   const classes = useStyles();
@@ -113,7 +103,7 @@ const CheckoutSummary = ({ state, goBack }) => {
         Dados de Envio
       </Typography>
       <Grid container spacing={3}>
-        <Field title='Método de Envio' value={shippingMethodMapping[state.get('shippingMethod')]} />
+        <Field title='Método de Envio' value={shippingMethodMap[state.get('shippingMethod')]} />
         <Field
           title='Endereço de Envio'
           value={[
@@ -137,10 +127,7 @@ const CheckoutSummary = ({ state, goBack }) => {
         Dados de Pagamento
       </Typography>
       <Grid container spacing={3}>
-        <Field
-          title='Método de Pagamento'
-          value={paymentGatewayMapping[state.get('paymentGateway')]}
-        />
+        <Field title='Método de Pagamento' value={paymentGatewayMap[state.get('paymentGateway')]} />
         <Field
           title='Telemóvel MBWay'
           value={state.get('mbWayPhone')}

@@ -11,44 +11,27 @@ const crypto = require('crypto');
 const Joi = require('@hapi/joi');
 
 const orderCreateSchema = Joi.object({
-  price: Joi.number()
-    .positive()
-    .precision(2)
-    .required(),
-  shippingCost: Joi.number()
-    .precision(2)
-    .min(0)
-    .default(0),
-  shippingMethod: Joi.string()
-    .valid('STORE_PICKUP', 'CTT')
-    .required(),
+  price: Joi.number().positive().precision(2).required(),
+  shippingCost: Joi.number().precision(2).min(0).default(0),
+  shippingMethod: Joi.string().valid('STORE_PICKUP', 'CTT').required(),
   shippingAddress: Joi.link('#address').when('shippingMethod', {
     not: 'STORE_PICKUP',
     then: Joi.required(),
   }),
   billingAddress: Joi.link('#address').required(),
   paymentGateway: Joi.string()
-    .valid('IN_STORE', 'MB', 'MBWAY')
+    .valid('IN_STORE' /*, 'MB', 'MBWAY'*/, 'BANK_TRANSFER')
     .required()
     .when('shippingMethod', { not: 'STORE_PICKUP', then: Joi.invalid('IN_STORE') }),
   status: Joi.string().valid('WAITING_PAYMENT'),
-  nif: Joi.number()
-    .integer()
-    .min(100000000)
-    .max(999999999)
-    .default(0),
+  nif: Joi.number().integer().min(100000000).max(999999999).default(0),
   orderData: Joi.object()
     .keys({
       items: Joi.array()
         .items(
           Joi.object({
-            id: Joi.string()
-              .alphanum()
-              .required(),
-            quantity: Joi.number()
-              .integer()
-              .positive()
-              .required(),
+            id: Joi.string().alphanum().required(),
+            quantity: Joi.number().integer().positive().required(),
           })
         )
         .unique('id')
@@ -59,24 +42,11 @@ const orderCreateSchema = Joi.object({
     .when('paymentGateway', { is: 'MBWAY', then: Joi.object({ mbWayPhone: Joi.required() }) }),
 }).shared(
   Joi.object({
-    firstName: Joi.string()
-      .pattern(/\d+/, { invert: true })
-      .max(20)
-      .required(),
-    lastName: Joi.string()
-      .pattern(/\d+/, { invert: true })
-      .max(20)
-      .required(),
-    address1: Joi.string()
-      .max(100)
-      .required(),
-    address2: Joi.string()
-      .max(100)
-      .empty(''),
-    city: Joi.string()
-      .pattern(/\d+/, { invert: true })
-      .max(50)
-      .required(),
+    firstName: Joi.string().pattern(/\d+/, { invert: true }).max(20).required(),
+    lastName: Joi.string().pattern(/\d+/, { invert: true }).max(20).required(),
+    address1: Joi.string().max(100).required(),
+    address2: Joi.string().max(100).empty(''),
+    city: Joi.string().pattern(/\d+/, { invert: true }).max(50).required(),
     postalCode: Joi.string()
       .pattern(/^\d{4}-\d{3}$/)
       .required(),
@@ -87,19 +57,12 @@ const calculateShippingSchema = Joi.object({
   _postalCode: Joi.string()
     .pattern(/^\d{4}-\d{3}$/)
     .required(),
-  _shippingMethod: Joi.string()
-    .valid('CTT')
-    .required(),
+  _shippingMethod: Joi.string().valid('CTT').required(),
   _items: Joi.array()
     .items(
       Joi.object({
-        id: Joi.string()
-          .alphanum()
-          .required(),
-        quantity: Joi.number()
-          .integer()
-          .positive()
-          .required(),
+        id: Joi.string().alphanum().required(),
+        quantity: Joi.number().integer().positive().required(),
       })
     )
     .unique('id')
@@ -165,11 +128,7 @@ const parseOrderData = async (data, price) => {
   return { executeStockReduction, orderData: { ...data, items } };
 };
 
-const generateInvoiceId = () =>
-  crypto
-    .randomBytes(8)
-    .toString('hex')
-    .toUpperCase();
+const generateInvoiceId = () => crypto.randomBytes(8).toString('hex').toUpperCase();
 
 const handleGateway = (entity) => {
   switch (entity.paymentGateway) {
@@ -179,6 +138,8 @@ const handleGateway = (entity) => {
       return handleMB(entity);
     case 'MBWAY':
       return handleMBWay(entity);
+    case 'BANK_TRANSFER':
+      return { ...entity, expiresAt: new Date(Date.now() + 86400000 * 7) }; // 7 days from now
     default:
       // This should never trigger due to Joi verification
       return entity;

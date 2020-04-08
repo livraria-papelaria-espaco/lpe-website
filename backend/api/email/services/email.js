@@ -19,6 +19,7 @@ const paymentGatewayMap = {
   IN_STORE: 'Pagar em loja',
   MB: 'Multibanco',
   MBWAY: 'MBWay',
+  BANK_TRANSFER: 'Tranferência Bancária',
 };
 
 const sendOrderCreatedEmail = (data) => sendPugEmail(data, 'order-created');

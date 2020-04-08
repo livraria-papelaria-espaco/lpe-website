@@ -1,8 +1,8 @@
-import { Typography } from '@material-ui/core';
+import { Typography, Link } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const OrderPaymentGatewayInfo = ({ gateway, orderData, expiresAt }) => {
+const OrderPaymentGatewayInfo = ({ gateway, orderData, expiresAt, invoiceId }) => {
   let info = null;
 
   const date = new Date(expiresAt);
@@ -29,6 +29,20 @@ const OrderPaymentGatewayInfo = ({ gateway, orderData, expiresAt }) => {
         pagamento e a encomenda será cancelada.
       </Typography>
     );
+  } else if (gateway === 'BANK_TRANSFER') {
+    info = (
+      <Typography>
+        Efetue uma transferência bancária para o{' '}
+        <strong>IBAN PT50 0033 0000 5010 2292 076 05 Millennium Algés</strong> e envie o
+        comprovativo para{' '}
+        <Link
+          href={`mailto:encomendas@lpespaco.pt?subject=Comprovativo de pagamento da encomenda #${invoiceId}`}
+        >
+          encomendas@lpespaco.pt
+        </Link>
+        , juntamente com o número da sua encomenda.
+      </Typography>
+    );
   }
 
   return (
@@ -52,11 +66,13 @@ OrderPaymentGatewayInfo.propTypes = {
     mbWayPhone: PropTypes.string,
   }),
   expiresAt: PropTypes.string,
+  invoiceId: PropTypes.string,
 };
 
 OrderPaymentGatewayInfo.defaultProps = {
   orderData: {},
   expiresAt: '0',
+  invoiceId: '',
 };
 
 export default OrderPaymentGatewayInfo;

@@ -2,6 +2,7 @@ const paymentGatewayMap = {
   IN_STORE: 'Pagar em loja',
   MB: 'Multibanco',
   MBWAY: 'MBWay',
+  BANK_TRANSFER: 'Transferência Bancária',
 };
 
 const orderStatusMap = {

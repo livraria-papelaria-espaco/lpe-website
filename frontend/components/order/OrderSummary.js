@@ -127,6 +127,7 @@ const OrderSummary = ({ id }) => {
               gateway={order.paymentGateway}
               orderData={order.orderData}
               expiresAt={order.expiresAt}
+              invoiceId={order.invoiceId}
             />
           )}
         </Grid>

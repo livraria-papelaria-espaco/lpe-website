@@ -114,14 +114,14 @@ const Product = ({ defaultData }) => {
               <Skeleton width={100} />
             ) : (
               <StockBadge
-                stock={product.stockStatus}
+                stock={product.stockStatus || ''}
                 component={Typography}
                 variant='h6'
                 gutterBottom
               />
             )}
             <Typography variant='body1' gutterBottom>
-              {product.shortDescription}
+              {product.shortDescription || ''}
             </Typography>
             {product.type === 'Livro' && product.bookInfo && (
               <>
@@ -142,7 +142,7 @@ const Product = ({ defaultData }) => {
             />
           </Grid>
         </Grid>
-        <Markdown>{product.description}</Markdown>
+        <Markdown>{product.description || ''}</Markdown>
       </Paper>
     </Layout>
   );

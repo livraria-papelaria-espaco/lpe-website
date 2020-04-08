@@ -92,6 +92,17 @@ html
                         strong 10 minutos
                         |
                         | (até #{expiresAt}). Após a validade expirar, deixa de ser possivel efetuar o pagamento e a encomenda será cancelada.
+                  when "BANK_TRANSFER"
+                    if status === "WAITING_PAYMENT"
+                      p 
+                        | Efetue uma transferência bancária para o
+                        |
+                        strong IBAN PT50 0033 0000 5010 2292 076 05 Millennium Algés
+                        |
+                        | e envie o comprovativo para
+                        |
+                        a(href=`mailto:encomendas@lpespaco.pt?subject=Comprovativo de pagamento da encomenda #${invoiceId}`) encomendas@lpespaco.pt
+                        | , juntamente com o número da sua encomenda.
             block itemsInfo
               .section
                 h2 Artigos encomendados
