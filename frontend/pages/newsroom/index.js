@@ -35,11 +35,11 @@ const PrivacyPolicy = ({ defaultData }) => {
           Não existem destaques neste momento
         </Typography>
       )}
-      {content.map(({ content: markdown, title, createdAt }, i) => (
-        <>
+      {content.map(({ id, content: markdown, title, createdAt }, i) => (
+        <div key={id}>
           {i > 0 && <Divider />}
           <NewsArticle content={markdown} title={title} date={createdAt} />
-        </>
+        </div>
       ))}
     </Layout>
   );

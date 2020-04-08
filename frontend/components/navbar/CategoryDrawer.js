@@ -64,7 +64,7 @@ const CategoryDrawer = ({ mobile = false, mobileOpen = false, setOpen }) => {
           <Divider />
           <List>
             <Link href='/newsroom'>
-              <ListItem button component={MUILink} color='inherit'>
+              <ListItem button component={MUILink} color='inherit' underline='none'>
                 <ListItemText>Destaques</ListItemText>
               </ListItem>
             </Link>
