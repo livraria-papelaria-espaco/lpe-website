@@ -10,7 +10,7 @@ import { fetchAPI } from '~/lib/graphql';
 
 const NEWSROOM_QUERY = gql`
   query NEWSROOM_QUERY {
-    newsrooms {
+    newsrooms(sort: "createdAt:desc") {
       id
       title
       content
