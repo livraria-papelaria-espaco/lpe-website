@@ -45,16 +45,6 @@ const Footer = () => {
             </Typography>
             <FooterLink href='/legal/tos' text='Termos e Condições' />
             <FooterLink href='/legal/privacy' text='Política de Privacidade' />
-            <Typography variant='body1'>
-              <MUILink
-                href={process.env.footer.facebookEvents}
-                color='inherit'
-                target='_blank'
-                rel='noopener'
-              >
-                Agenda de Eventos
-              </MUILink>
-            </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
             <Typography variant='h5' className={classes.header}>
@@ -104,7 +94,7 @@ const Footer = () => {
                 Instagram
               </MUILink>
             </Typography>
-            <Typography variant='body1'>
+            <Typography variant='body1' gutterBottom>
               <MUILink
                 href={process.env.footer.facebook}
                 color='inherit'
@@ -113,6 +103,16 @@ const Footer = () => {
               >
                 <FacebookIcon className={classes.socialIcon} />
                 Facebook
+              </MUILink>
+            </Typography>
+            <Typography variant='body1'>
+              <MUILink
+                href={process.env.footer.facebookEvents}
+                color='inherit'
+                target='_blank'
+                rel='noopener'
+              >
+                Agenda de Eventos
               </MUILink>
             </Typography>
           </Grid>
