@@ -15,6 +15,15 @@
     },
     "publisher": {
       "type": "string"
+    },
+    "pages": {
+      "type": "integer"
+    },
+    "publishedDate": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string"
     }
   }
 }

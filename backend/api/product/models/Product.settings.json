@@ -36,7 +36,9 @@
       "private": true
     },
     "reference": {
-      "type": "string"
+      "type": "string",
+      "required": false,
+      "unique": true
     },
     "images": {
       "collection": "file",
