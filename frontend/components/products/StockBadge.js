@@ -17,7 +17,7 @@ const StockBadge = ({ stock, component: Component = 'span', ...props }) => {
     );
   if (stock === 'ORDER_ONLY')
     return (
-      <Component style={{ color: 'orange' }} {...props}>
+      <Component style={{ color: '#ff5200' }} {...props}>
         Por encomenda
       </Component>
     );
