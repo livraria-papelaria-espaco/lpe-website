@@ -24,6 +24,7 @@ const PRODUCTS_QUERY = gql`
       limit: $limit
       start: $start
     ) {
+      id
       name
       shortDescription
       images(limit: 1) {

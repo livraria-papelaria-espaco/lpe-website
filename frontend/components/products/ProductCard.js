@@ -49,9 +49,26 @@ const ProductCard = ({ product }) => {
     return <LogoSvg className={classes.image} />;
   };
 
+  const handleGA = () => {
+    if (window && window.gtag) {
+      window.gtag('event', 'select_content', {
+        content_type: 'product',
+        items: [
+          {
+            id: product.id,
+            name: product.name,
+            list_name: 'Product Listing',
+            price: product.price,
+          },
+        ],
+      });
+    }
+  };
+
   return (
     <Link href='/product/[slug]' as={`/product/${product.slug}`}>
-      <div className={classes.root}>
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
+      <div className={classes.root} onClick={handleGA}>
         <div className={classes.imageContainer}>{getImage()}</div>
         <Typography variant='h5' component='h2'>
           {product.name}
@@ -83,6 +100,7 @@ const ProductCard = ({ product }) => {
 
 ProductCard.propTypes = {
   product: PropTypes.shape({
+    id: PropTypes.string.isRequired, // MongoDB ID
     images: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf([null])]),
     type: PropTypes.oneOf(['Livro', 'Outro']).isRequired,
     slug: PropTypes.string.isRequired,

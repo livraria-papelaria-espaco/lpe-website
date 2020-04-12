@@ -6,6 +6,7 @@ import gql from 'graphql-tag';
 import ErrorPage from 'next/error';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import AddToCart from '~/components/cart/AddToCart';
 import CategoryBreadcrumbs from '~/components/categories/CategoryBreadcrumbs';
 import Layout from '~/components/Layout';
@@ -83,6 +84,12 @@ const Product = ({ defaultData }) => {
 
   return (
     <Layout title={product.name}>
+      <GAProduct
+        id={product.id}
+        name={product.name}
+        price={product.price}
+        category={product.category ? product.category.name : undefined}
+      />
       <Paper className={classes.paper}>
         {product.category && (
           <CategoryBreadcrumbs
@@ -192,6 +199,18 @@ export const getStaticProps = async (context) => {
   return {
     props: { defaultData: data.productBySlug || null },
   };
+};
+
+const GAProduct = ({ id, name, price, category }) => {
+  useEffect(() => {
+    if (window && window.gtag) {
+      window.gtag('event', 'view_item', {
+        items: [{ id, name, price, category }],
+      });
+    }
+  }, []);
+
+  return null;
 };
 
 export default Product;

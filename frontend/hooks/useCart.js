@@ -27,6 +27,19 @@ export const CartProvider = ({ children }) => {
       case 'LOAD_CART':
         return action.data;
       case 'ADD_ITEM':
+        if (window && window.gtag) {
+          window.gtag('event', 'add_to_cart', {
+            items: [
+              {
+                id: action.item.id,
+                name: action.item.name,
+                price: action.item.price,
+                quantity: action.item.quantity || 1,
+              },
+            ],
+          });
+        }
+
         return reducerState
           .update('items', (items) => {
             const key = items.findKey((item) => item.get('id') === action.item.id);
@@ -56,6 +69,16 @@ export const CartProvider = ({ children }) => {
           })
           .update(refreshMeta);
       case 'REMOVE_ITEM':
+        if (window && window.gtag) {
+          window.gtag('event', 'remove_from_cart', {
+            items: [
+              {
+                id: action.item.id,
+              },
+            ],
+          });
+        }
+
         return reducerState
           .update('items', (items) => {
             const key = items.findKey((item) => item.get('id') === action.id);
