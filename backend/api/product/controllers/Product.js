@@ -21,7 +21,7 @@ module.exports = {
   async searchEnhanced(ctx) {
     const query = {};
 
-    if (ctx.query._category) query.category = ctx.query._category;
+    if (ctx.query._category) query.category = escapeRegex(ctx.query._category);
     if (ctx.query._query) query.query = escapeRegex(ctx.query._query.substring(0, 30));
     if (ctx.query._sort) query.sort = ctx.query._sort;
     if (ctx.query._limit) query.limit = ctx.query._limit;

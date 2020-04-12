@@ -41,69 +41,49 @@ const convertLimitQueryParams = (limitQuery) => {
 };
 
 module.exports = {
-  searchEnhanced: (params) => {
+  searchEnhanced: async (params) => {
     let searchQuery;
-    const aggregate = [];
+    const filterQuery = {};
+
+    if (params.query)
+      searchQuery = [
+        { name: { $regex: params.query, $options: 'i' } },
+        { shortDescription: { $regex: params.query, $options: 'i' } },
+        { reference: { $regex: params.query, $options: 'i' } },
+      ];
 
     if (params.minPrice !== undefined && params.maxPrice !== undefined)
-      aggregate.push({
-        $match: { price: { $gte: params.minPrice, $lte: params.maxPrice }, show: true },
-      });
+      filterQuery.price = { $gte: params.minPrice, $lte: params.maxPrice };
 
     if (params.category) {
-      aggregate.push({
-        $lookup: {
-          from: 'categories',
-          localField: 'category',
-          foreignField: '_id',
-          as: 'category',
-        },
-      });
-      aggregate.push({
-        $match: {
-          'category.path': { $regex: `,${params.category},` },
-        },
-      });
+      const categories = await strapi
+        .query('category')
+        .model.find({ path: { $regex: `,${params.category},` } })
+        .select('_id')
+        .then((result) => result.map((v) => (v ? v.toObject()._id : null)));
+      filterQuery.category = { $in: categories };
     }
 
-    aggregate.push({
-      $lookup: {
-        from: 'components_meta_book_infos',
-        localField: 'bookInfo.ref',
-        foreignField: '_id',
-        as: 'bookInfo',
-      },
-    });
+    const queryObject = {};
 
-    if (params.query) {
-      aggregate.push({
-        $match: {
-          $or: [
-            { name: { $regex: params.query, $options: 'i' } },
-            { shortDescription: { $regex: params.query, $options: 'i' } },
-            { reference: { $regex: params.query, $options: 'i' } },
-            { 'bookInfo.author': { $regex: params.query, $options: 'i' } },
-            { 'bookInfo.publisher': { $regex: params.query, $options: 'i' } },
-          ],
-        },
-      });
+    if (!!searchQuery || Object.keys(filterQuery).length !== 0) {
+      queryObject.$and = [];
+      if (!!searchQuery) queryObject.$and.push({ $or: searchQuery });
+      if (Object.keys(filterQuery).length !== 0) queryObject.$and.push(filterQuery);
     }
 
-    aggregate.push({
-      $unwind: {
-        path: '$bookInfo',
-        preserveNullAndEmptyArrays: true,
-      },
-    });
+    const query = strapi.query('product').model.find(queryObject);
 
-    if (params.sort) aggregate.push({ $sort: convertSortQueryParams(params.sort) });
+    if (params.sort) query.sort(convertSortQueryParams(params.sort));
+    if (params.start) query.skip(convertStartQueryParams(params.start));
+    if (params.limit) {
+      const limit = convertLimitQueryParams(params.limit);
+      if (limit >= 0) query.limit(limit);
+    }
 
-    if (params.start) aggregate.push({ $skip: convertStartQueryParams(params.start) });
-
-    const limit = params.limit !== undefined ? convertLimitQueryParams(params.limit) : -1;
-    aggregate.push({ $limit: limit < 0 ? 100 : limit });
-
-    return strapi.query('product').model.aggregate(aggregate);
+    return query
+      .exec()
+      .then((results) => results.map((result) => (result ? result.toObject() : null)));
   },
 
   decreaseStock: async ({ id, qnt }) => {
