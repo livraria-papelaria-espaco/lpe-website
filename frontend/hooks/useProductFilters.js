@@ -40,24 +40,45 @@ export const ProductFiltersProvider = ({ children }) => {
           pathname: router.pathname,
           query: { ...router.query, search: value },
         },
-        undefined,
+        {
+          pathname: router.pathname.indexOf('[category]')
+            ? router.pathname.replace('[category]', router.query.category)
+            : router.pathname,
+          query: { ...router.query, search: value },
+        },
         { shallow: true }
       );
     }, 500);
   };
 
   const handlePriceRange = (value) => {
-    router.push({
-      pathname: router.pathname,
-      query: { ...router.query, minPrice: value[0], maxPrice: value[1] },
-    });
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { ...router.query, minPrice: value[0], maxPrice: value[1] },
+      },
+      {
+        pathname: router.pathname.indexOf('[category]')
+          ? router.pathname.replace('[category]', router.query.category)
+          : router.pathname,
+        query: { ...router.query, minPrice: value[0], maxPrice: value[1] },
+      }
+    );
   };
 
   const handleSort = (value) => {
-    router.push({
-      pathname: router.pathname,
-      query: { ...router.query, sort: value },
-    });
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { ...router.query, sort: value },
+      },
+      {
+        pathname: router.pathname.indexOf('[category]')
+          ? router.pathname.replace('[category]', router.query.category)
+          : router.pathname,
+        query: { ...router.query, sort: value },
+      }
+    );
   };
 
   return (
