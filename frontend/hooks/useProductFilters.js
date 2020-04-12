@@ -62,7 +62,8 @@ export const ProductFiltersProvider = ({ children }) => {
           ? router.pathname.replace('[category]', router.query.category)
           : router.pathname,
         query: { ...router.query, minPrice: value[0], maxPrice: value[1] },
-      }
+      },
+      { shallow: true }
     );
   };
 
@@ -77,7 +78,8 @@ export const ProductFiltersProvider = ({ children }) => {
           ? router.pathname.replace('[category]', router.query.category)
           : router.pathname,
         query: { ...router.query, sort: value },
-      }
+      },
+      { shallow: true }
     );
   };
 

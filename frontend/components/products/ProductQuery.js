@@ -3,6 +3,7 @@ import { Alert } from '@material-ui/lab';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { Fade, LinearProgress } from '@material-ui/core';
 import LoadMore from './LoadMore';
 import ProductList from './ProductList';
 
@@ -40,7 +41,7 @@ const PRODUCTS_QUERY = gql`
   }
 `;
 
-const limit = 24; // TODO decide whether to increase to 36 or not
+const limit = 24;
 
 const ProductQuery = ({ sort, priceRange, search, category }) => {
   const [hasMoreToLoad, setHasMoreToLoad] = useState(true);
@@ -70,6 +71,14 @@ const ProductQuery = ({ sort, priceRange, search, category }) => {
 
   return (
     <>
+      <Fade
+        in={loading}
+        style={{
+          transitionDelay: loading ? '200ms' : '0ms',
+        }}
+      >
+        <LinearProgress variant='query' />
+      </Fade>
       <ProductList products={data.productsSearch || []} />
       <LoadMore
         onClick={loadMore}
