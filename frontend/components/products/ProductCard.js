@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     borderRadius: theme.shape.borderRadius,
     margin: 'auto',
+    height: '100%',
     '&:hover': {
       backgroundColor: fade(theme.palette.secondary.light, theme.palette.action.hoverOpacity),
     },
@@ -91,7 +92,7 @@ const ProductCard = ({ product }) => {
         </Typography>
         <Typography variant='body1' component='p' color='secondary'>
           {`${product.price.toFixed(2)}€ `}
-          <StockBadge stock={product.stockStatus} />
+          {product.stockStatus && <StockBadge stock={product.stockStatus} />}
         </Typography>
       </div>
     </Link>
@@ -111,7 +112,7 @@ ProductCard.propTypes = {
     reference: PropTypes.string,
     shortDescription: PropTypes.string,
     price: PropTypes.number.isRequired,
-    stockStatus: PropTypes.oneOf(['IN_STOCK', 'LOW_STOCK', 'ORDER_ONLY', 'UNAVAILABLE']).isRequired,
+    stockStatus: PropTypes.oneOf(['IN_STOCK', 'LOW_STOCK', 'ORDER_ONLY', 'UNAVAILABLE']),
   }).isRequired,
 };
 

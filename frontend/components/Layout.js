@@ -37,7 +37,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Layout = ({ title, children, hideNavbar, hideFooter, showStoreNav, colorBackground }) => {
+const Layout = ({
+  title,
+  children,
+  hideNavbar,
+  hideFooter,
+  showStoreNav,
+  colorBackground,
+  outsideContainer,
+}) => {
   const classes = useStyles();
 
   return (
@@ -54,6 +62,7 @@ const Layout = ({ title, children, hideNavbar, hideFooter, showStoreNav, colorBa
       <div
         className={`${classes.content} ${!showStoreNav || hideNavbar ? '' : classes.drawerPadding}`}
       >
+        {outsideContainer}
         <Container fixed className={classes.body}>
           {children}
         </Container>
@@ -74,6 +83,7 @@ Layout.propTypes = {
   hideFooter: PropTypes.bool,
   showStoreNav: PropTypes.bool,
   colorBackground: PropTypes.bool,
+  outsideContainer: PropTypes.node,
 };
 
 Layout.defaultProps = {
@@ -82,6 +92,7 @@ Layout.defaultProps = {
   hideFooter: false,
   showStoreNav: false,
   colorBackground: false,
+  outsideContainer: null,
 };
 
 export default Layout;

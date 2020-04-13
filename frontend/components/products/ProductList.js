@@ -28,7 +28,7 @@ const ProductList = ({ products, loading }) => {
   return (
     <Grid container direction='row' justify='flex-start' alignItems='stretch' spacing={3}>
       {products.map((res) => (
-        <Grid item xs={6} md={4} lg={3} key={res.slug}>
+        <Grid item xs={6} md={4} lg={2} key={res.slug}>
           <ProductCard product={res} />
         </Grid>
       ))}
