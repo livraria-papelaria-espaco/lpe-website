@@ -6,11 +6,13 @@ import {
   ListItem,
   ListItemText,
   Link as MUILink,
+  Button,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'next/link';
+import CloseIcon from '@material-ui/icons/CloseRounded';
 import CategoryList from '../categories/CategoryList';
 import AccountMenu from './AccountMenu';
 import drawerHeaderUrl from '~/assets/drawerHeader.png';
@@ -19,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     overflow: 'hidden',
     [theme.breakpoints.up('sm')]: {
-      width: process.env.appbar.drawerWidth,
+      width: process.env.appbar.drawerWidthDesktop,
       flexShrink: 0,
     },
   },
@@ -27,7 +29,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   drawerPaper: {
-    width: process.env.appbar.drawerWidth,
+    width: process.env.appbar.drawerWidthDesktop,
+    [theme.breakpoints.down('sm')]: {
+      width: process.env.appbar.drawerWidthMobile,
+    },
   },
   dividerFullWidth: {
     margin: `5px 0 0 ${theme.spacing(2)}px`,
@@ -37,6 +42,10 @@ const useStyles = makeStyles((theme) => ({
   },
   categoryList: {
     overflow: 'auto',
+  },
+  closeButton: {
+    margin: theme.spacing(2),
+    color: theme.palette.text.secondary,
   },
 }));
 
@@ -54,9 +63,19 @@ const CategoryDrawer = ({ mobile, open, setOpen }) => {
         }}
         open={open}
         onClose={handleClose}
-        anchor='right'
+        anchor={mobile ? 'left' : 'right'}
       >
-        <img src={drawerHeaderUrl} alt='Categorias' className={classes.toolbar} />
+        <div className={classes.drawerHeader}>
+          <Button
+            onClick={handleClose}
+            startIcon={<CloseIcon />}
+            size='small'
+            className={classes.closeButton}
+          >
+            Fechar
+          </Button>
+          <img src={drawerHeaderUrl} alt='Categorias' className={classes.toolbar} />
+        </div>
         <div className={classes.categoryList}>
           <CategoryList />
           <Divider />

@@ -13,7 +13,7 @@ const Navbar = ({ hideStoreNav, homePage }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const navComponent = isMobile ? (
-    <MobileNavbar setDrawerOpen={setDrawerOpen} />
+    <MobileNavbar setDrawerOpen={setDrawerOpen} homePage={homePage} />
   ) : (
     <DesktopNavbar setDrawerOpen={setDrawerOpen} hideSearchBar={hideStoreNav} homePage={homePage} />
   );

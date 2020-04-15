@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     transform: 'translateX(-10%)',
   },
   container: {
-    // textAlign: 'center',
     flexGrow: 1,
     paddingTop: theme.spacing(35),
     paddingBottom: theme.spacing(6),

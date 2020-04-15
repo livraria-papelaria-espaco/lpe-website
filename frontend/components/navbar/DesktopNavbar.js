@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 0,
     marginBottom: theme.spacing(4),
-    zIndex: theme.zIndex.drawer + 1,
     color: theme.palette.primary.contrastText,
     transition: theme.transitions.create(['background', 'box-shadow']),
   },

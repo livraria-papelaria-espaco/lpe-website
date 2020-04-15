@@ -10,7 +10,8 @@ module.exports = withImages({
     appbar: {
       desktopHeight: 96,
       mobileHeight: 76,
-      drawerWidth: 300,
+      drawerWidthMobile: 300,
+      drawerWidthDesktop: '40vw',
     },
     filters: {
       priceRange: [0, 100],
