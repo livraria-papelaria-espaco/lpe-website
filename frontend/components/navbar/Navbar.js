@@ -7,7 +7,7 @@ import DesktopNavbar from './DesktopNavbar';
 import MobileNavbar from './MobileNavbar';
 import AccountMenu from './AccountMenu';
 
-const Navbar = ({ hideStoreNav = false }) => {
+const Navbar = ({ hideStoreNav, homePage }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -15,14 +15,14 @@ const Navbar = ({ hideStoreNav = false }) => {
   const navComponent = isMobile ? (
     <MobileNavbar setDrawerOpen={setDrawerOpen} />
   ) : (
-    <DesktopNavbar hideSearchBar={hideStoreNav} />
+    <DesktopNavbar setDrawerOpen={setDrawerOpen} hideSearchBar={hideStoreNav} homePage={homePage} />
   );
 
   return (
     <>
       {navComponent}
       {!hideStoreNav && (
-        <CategoryDrawer mobile={isMobile} mobileOpen={drawerOpen} setOpen={setDrawerOpen} />
+        <CategoryDrawer mobile={isMobile} open={drawerOpen} setOpen={setDrawerOpen} />
       )}
       {hideStoreNav && isMobile && (
         <Drawer anchor='bottom' open={drawerOpen} onClose={() => setDrawerOpen(false)}>
@@ -37,10 +37,12 @@ const Navbar = ({ hideStoreNav = false }) => {
 
 Navbar.propTypes = {
   hideStoreNav: PropTypes.bool,
+  homePage: PropTypes.bool,
 };
 
 Navbar.defaultProps = {
   hideStoreNav: false,
+  homePage: false,
 };
 
 export default Navbar;

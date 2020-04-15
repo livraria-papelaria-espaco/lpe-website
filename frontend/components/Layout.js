@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     flex: '1 0 auto',
   },
   drawerPadding: {
-    marginLeft: process.env.appbar.drawerWidth,
+    // marginLeft: process.env.appbar.drawerWidth,
     [theme.breakpoints.down('sm')]: {
       marginLeft: 0,
     },
@@ -42,9 +42,10 @@ const Layout = ({
   children,
   hideNavbar,
   hideFooter,
+  homePageNavbar,
   showStoreNav,
   colorBackground,
-  outsideContainer,
+  noContainer,
 }) => {
   const classes = useStyles();
 
@@ -58,14 +59,11 @@ const Layout = ({
         <title>{`${title ? `${title} | ` : ''}${process.env.siteTitle}`}</title>
       </Head>
       <CssBaseline />
-      {!hideNavbar && <Navbar hideStoreNav={!showStoreNav} />}
+      {!hideNavbar && <Navbar hideStoreNav={!showStoreNav} homePage={homePageNavbar} />}
       <div
         className={`${classes.content} ${!showStoreNav || hideNavbar ? '' : classes.drawerPadding}`}
       >
-        {outsideContainer}
-        <Container fixed className={classes.body}>
-          {children}
-        </Container>
+        {noContainer ? children : <Container fixed>{children}</Container>}
       </div>
       <div
         className={`${classes.shrink} ${!showStoreNav || hideNavbar ? '' : classes.drawerPadding}`}
@@ -81,18 +79,20 @@ Layout.propTypes = {
   children: PropTypes.node.isRequired,
   hideNavbar: PropTypes.bool,
   hideFooter: PropTypes.bool,
+  homePageNavbar: PropTypes.bool,
   showStoreNav: PropTypes.bool,
   colorBackground: PropTypes.bool,
-  outsideContainer: PropTypes.node,
+  noContainer: PropTypes.bool,
 };
 
 Layout.defaultProps = {
   title: '',
   hideNavbar: false,
   hideFooter: false,
+  homePageNavbar: false,
   showStoreNav: false,
   colorBackground: false,
-  outsideContainer: null,
+  noContainer: false,
 };
 
 export default Layout;

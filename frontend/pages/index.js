@@ -1,11 +1,13 @@
+import { Container } from '@material-ui/core';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import React from 'react';
+import AboutUs from '~/components/home/AboutUs';
 import Hero from '~/components/home/Hero';
 import Layout from '~/components/Layout';
+import HighlightRow from '~/components/productsHighlight/HighlightRow';
 import { fetchAPI } from '~/lib/graphql';
-import HighlightRow from './productsHighlight/HighlightRow';
 
 const HOME_PAGE_QUERY = gql`
   query HOME_PAGE_QUERY {
@@ -29,19 +31,26 @@ const HOME_PAGE_QUERY = gql`
         }
       }
     }
+    homePage {
+      about
+    }
   }
 `;
 
-const HomePage = ({ productHighlights }) => {
+const HomePage = ({ productHighlights, homePage }) => {
   const router = useRouter();
 
   if (router.isFallback) return null;
 
   return (
-    <Layout showStoreNav outsideContainer={<Hero />}>
-      {productHighlights.map((highlight) => (
-        <HighlightRow key={highlight.id} row={highlight} />
-      ))}
+    <Layout showStoreNav hideFooter homePageNavbar noContainer>
+      <Hero />
+      <Container fixed>
+        {productHighlights.map((highlight) => (
+          <HighlightRow key={highlight.id} row={highlight} />
+        ))}
+      </Container>
+      <AboutUs text={homePage.about} />
     </Layout>
   );
 };
@@ -73,6 +82,9 @@ HomePage.propTypes = {
       ),
     })
   ),
+  homePage: PropTypes.shape({
+    about: PropTypes.string,
+  }).isRequired,
 };
 
 HomePage.defaultProps = {
@@ -84,6 +96,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       productHighlights: data.productHighlights,
+      homePage: data.homePage,
     },
   };
 };

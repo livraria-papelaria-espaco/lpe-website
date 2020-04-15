@@ -30,6 +30,7 @@
     "markdown-to-jsx": "^6.11.1",
     "next": "^9.3.4",
     "next-cookies": "^2.0.3",
+    "next-images": "^1.4.0",
     "postcss": "^7.0.27",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",

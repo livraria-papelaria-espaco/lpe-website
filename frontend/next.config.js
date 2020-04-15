@@ -1,4 +1,9 @@
-module.exports = {
+const withImages = require('next-images');
+
+module.exports = withImages({
+  webpack(config) {
+    return config;
+  },
   env: {
     siteTitle: 'Livraria e Papelaria Espaço',
     apiUrl: process.env.API_URL || 'http://localhost:3337',
@@ -22,4 +27,4 @@ module.exports = {
       facebookEvents: 'https://www.facebook.com/pg/livrariaepapelaria.espaco/events/',
     },
   },
-};
+});

@@ -5,6 +5,10 @@ import PropTypes from 'prop-types';
 import ProductCard from '~/components/products/ProductCard';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
+  },
   titleContainer: {
     background: `linear-gradient(45deg, ${theme.palette.primary.dark} 20%, ${theme.palette.primary.light} 70%)`,
     WebkitBackgroundClip: 'text',
@@ -32,7 +36,7 @@ const HighlightRow = ({ row }) => {
   const { title, subtitle, products } = row;
 
   return (
-    <div>
+    <div className={classes.root}>
       <div className={classes.titleContainer}>
         <Typography variant='h2' component='h3'>
           {title}

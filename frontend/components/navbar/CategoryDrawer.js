@@ -13,6 +13,7 @@ import React from 'react';
 import Link from 'next/link';
 import CategoryList from '../categories/CategoryList';
 import AccountMenu from './AccountMenu';
+import drawerHeaderUrl from '~/assets/drawerHeader.png';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -22,12 +23,8 @@ const useStyles = makeStyles((theme) => ({
       flexShrink: 0,
     },
   },
-  // necessary for content to be below app bar
   toolbar: {
-    height: process.env.appbar.desktopHeight,
-    [theme.breakpoints.down('sm')]: {
-      height: 0,
-    },
+    width: '100%',
   },
   drawerPaper: {
     width: process.env.appbar.drawerWidth,
@@ -43,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CategoryDrawer = ({ mobile = false, mobileOpen = false, setOpen }) => {
+const CategoryDrawer = ({ mobile, open, setOpen }) => {
   const classes = useStyles();
 
   const handleClose = () => setOpen(false);
@@ -51,14 +48,15 @@ const CategoryDrawer = ({ mobile = false, mobileOpen = false, setOpen }) => {
   return (
     <nav className={classes.drawer}>
       <Drawer
-        variant={mobile ? 'temporary' : 'permanent'}
+        variant={mobile ? 'temporary' : 'temporary'}
         classes={{
           paper: classes.drawerPaper,
         }}
-        open={mobile ? mobileOpen : true}
+        open={open}
         onClose={handleClose}
+        anchor='right'
       >
-        <div className={classes.toolbar} />
+        <img src={drawerHeaderUrl} alt='Categorias' className={classes.toolbar} />
         <div className={classes.categoryList}>
           <CategoryList />
           <Divider />
@@ -94,13 +92,13 @@ const CategoryDrawer = ({ mobile = false, mobileOpen = false, setOpen }) => {
 
 CategoryDrawer.propTypes = {
   mobile: PropTypes.bool,
-  mobileOpen: PropTypes.bool,
+  open: PropTypes.bool,
   setOpen: PropTypes.func.isRequired,
 };
 
 CategoryDrawer.defaultProps = {
   mobile: false,
-  mobileOpen: false,
+  open: false,
 };
 
 export default CategoryDrawer;
