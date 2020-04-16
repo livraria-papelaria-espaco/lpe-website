@@ -14,7 +14,7 @@ module.exports = withImages({
       drawerWidthDesktop: '40vw',
     },
     filters: {
-      priceRange: [0, 100],
+      priceRange: [0, 140],
     },
     footer: {
       gmapsLink: 'https://g.page/livrariaepapelaria-espaco?share',

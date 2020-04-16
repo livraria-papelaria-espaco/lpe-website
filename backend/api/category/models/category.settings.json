@@ -36,6 +36,10 @@
       "type": "integer",
       "required": true,
       "default": 0
+    },
+    "productHighlights": {
+      "via": "category",
+      "collection": "product-highlights"
     }
   }
 }

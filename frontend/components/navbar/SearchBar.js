@@ -2,6 +2,7 @@ import { InputBase } from '@material-ui/core';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import React from 'react';
+import { useRouter } from 'next/router';
 import { useProductFilters } from '~/hooks/useProductFilters';
 
 const useStyles = makeStyles((theme) => ({
@@ -49,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchBar = () => {
   const classes = useStyles();
+  const router = useRouter();
   const { search, setSearch } = useProductFilters();
 
   const handleChange = (e) => {
@@ -61,6 +63,7 @@ const SearchBar = () => {
         <SearchIcon />
       </div>
       <InputBase
+        autoFocus={router.pathname === '/search'}
         value={search}
         onChange={handleChange}
         placeholder='Procurar na Espaço...'

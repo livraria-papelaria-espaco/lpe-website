@@ -1,4 +1,6 @@
 import { useQuery } from '@apollo/react-hooks';
+import { Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
@@ -6,6 +8,7 @@ import React from 'react';
 import Layout from '~/components/Layout';
 import FilterToolbar from '~/components/products/filters/FilterToolbar';
 import ProductQuery from '~/components/products/ProductQuery';
+import HighlightRow from '~/components/productsHighlight/HighlightRow';
 import { useProductFilters } from '~/hooks/useProductFilters';
 import { fetchAPI } from '~/lib/graphql';
 
@@ -13,6 +16,26 @@ const GET_CATEGORY_FROM_SLUG = gql`
   query GET_CATEGORY_FROM_SLUG($category: String!) {
     categoryBySlug(slug: $category) {
       name
+      productHighlights {
+        id
+        title
+        subtitle
+        products {
+          id
+          slug
+          reference
+          name
+          price
+          shortDescription
+          type
+          bookInfo {
+            author
+          }
+          images {
+            url
+          }
+        }
+      }
     }
   }
 `;
@@ -25,33 +48,75 @@ const GET_CATEGORIES = gql`
   }
 `;
 
-const CategoryPage = ({ categoryName }) => {
+const useStyles = makeStyles((theme) => ({
+  products: {
+    marginBottom: theme.spacing(4),
+  },
+}));
+
+const CategoryPage = ({ name, productHighlights }) => {
+  const classes = useStyles();
   const { delayedSearch, priceRange, sort } = useProductFilters();
   const router = useRouter();
   const { category } = router.query;
   const { data } = useQuery(GET_CATEGORY_FROM_SLUG, { variables: { category } });
 
-  const categoryTitle = (data && data.categoryBySlug && data.categoryBySlug.name) || categoryName;
+  const categoryTitle = (data && data.categoryBySlug && data.categoryBySlug.name) || name;
 
   return (
     <Layout title={categoryTitle} showStoreNav>
+      <Typography variant='h2' component='h1'>
+        {categoryTitle}
+      </Typography>
+      {productHighlights.map((highlight) => (
+        <HighlightRow key={highlight.id} row={highlight} />
+      ))}
       <FilterToolbar />
-      <ProductQuery
-        priceRange={priceRange}
-        search={delayedSearch}
-        sort={sort}
-        category={category}
-      />
+      <div className={classes.products}>
+        <ProductQuery
+          priceRange={priceRange}
+          search={delayedSearch}
+          sort={sort}
+          category={category}
+        />
+      </div>
     </Layout>
   );
 };
 
 CategoryPage.propTypes = {
-  categoryName: PropTypes.string,
+  name: PropTypes.string,
+  productHighlights: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired, // MongoDB ID
+      title: PropTypes.string.isRequired,
+      subtitle: PropTypes.string,
+      products: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string.isRequired, // MongoDB ID
+          slug: PropTypes.string.isRequired,
+          reference: PropTypes.string,
+          name: PropTypes.string.isRequired,
+          price: PropTypes.number.isRequired,
+          shortDescription: PropTypes.string,
+          type: PropTypes.oneOf(['Livro', 'Outro']).isRequired,
+          bookInfo: PropTypes.shape({
+            author: PropTypes.string,
+          }),
+          images: PropTypes.arrayOf(
+            PropTypes.shape({
+              url: PropTypes.string,
+            })
+          ),
+        })
+      ),
+    })
+  ),
 };
 
 CategoryPage.defaultProps = {
-  categoryName: undefined,
+  name: undefined,
+  productHighlights: [],
 };
 
 export const getStaticPaths = async () => {
@@ -65,7 +130,7 @@ export const getStaticProps = async (context) => {
     variables: { category: context.params.category },
   });
   return {
-    props: { categoryName: (data && data.categoryBySlug && data.categoryBySlug.name) || null },
+    props: (data && data.categoryBySlug) || {},
   };
 };
 

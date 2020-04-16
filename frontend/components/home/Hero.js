@@ -1,6 +1,7 @@
 import { Typography, Container, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
+import Link from 'next/link';
 import BackgroundImg from '~/assets/background.jpg';
 import LogoSvg from '~/assets/logo.svg';
 
@@ -53,14 +54,16 @@ const Hero = () => {
           Livraria e Papelaria Espaço
         </Typography>
         <div>
-          <Button
-            variant='contained'
-            color='default'
-            size='medium'
-            className={`${classes.button} ${classes.containedButton}`}
-          >
-            Visitar loja
-          </Button>
+          <Link href='/search' passHref>
+            <Button
+              variant='contained'
+              color='default'
+              size='medium'
+              className={`${classes.button} ${classes.containedButton}`}
+            >
+              Visitar loja
+            </Button>
+          </Link>
           <Button href='#about-us' variant='outlined' color='inherit' className={classes.button}>
             Sobre nós
           </Button>

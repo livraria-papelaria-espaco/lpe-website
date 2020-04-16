@@ -20,7 +20,8 @@
       "collection": "product"
     },
     "category": {
-      "model": "category"
+      "model": "category",
+      "via": "productHighlights"
     },
     "homePage": {
       "type": "boolean",

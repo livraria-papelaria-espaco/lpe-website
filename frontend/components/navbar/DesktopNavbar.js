@@ -1,20 +1,20 @@
 import {
   AppBar,
   Button,
+  Fade,
   IconButton,
   Menu,
   MenuItem,
   Toolbar,
   Typography,
   useScrollTrigger,
-  Fade,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
 import AccountIcon from '@material-ui/icons/PersonRounded';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
-import MenuIcon from '@material-ui/icons/Menu';
 import LogoSvg from '~/assets/logo.svg';
 import CartIcon from '~/components/cart/CartIcon';
 import Emoji from '~/components/utils/Emoji';

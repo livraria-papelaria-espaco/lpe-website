@@ -43,7 +43,7 @@ const HomePage = ({ productHighlights, homePage }) => {
   if (router.isFallback) return null;
 
   return (
-    <Layout showStoreNav hideFooter homePageNavbar noContainer>
+    <Layout showStoreNav homePageNavbar noContainer>
       <Hero />
       <Container fixed>
         {productHighlights.map((highlight) => (
