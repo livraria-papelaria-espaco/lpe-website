@@ -1,10 +1,8 @@
-import { AppBar, Fade, IconButton, Toolbar, useScrollTrigger } from '@material-ui/core';
+import { AppBar, IconButton, Toolbar, useScrollTrigger } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
-import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
-import LogoSvg from '~/assets/logo.svg';
 import CartIcon from '~/components/cart/CartIcon';
 import SearchBar from './SearchBar';
 
@@ -57,15 +55,6 @@ const MobileNavbar = ({ setDrawerOpen, homePage }) => {
         >
           <MenuIcon />
         </IconButton>
-        <Fade in={!transparentBackground}>
-          <div className={classes.logoDiv}>
-            <Link href='/'>
-              <a>
-                <LogoSvg className={classes.logo} />
-              </a>
-            </Link>
-          </div>
-        </Fade>
         <SearchBar />
         <CartIcon />
       </Toolbar>

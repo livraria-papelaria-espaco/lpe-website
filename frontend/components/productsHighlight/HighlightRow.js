@@ -1,8 +1,8 @@
-import React from 'react';
+import { Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Paper } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import ProductCard from '~/components/products/ProductCard';
+import React from 'react';
+import ProductList from '../products/ProductList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,13 +20,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-around',
     flexWrap: 'wrap',
-  },
-  productsItem: {
-    margin: theme.spacing(3),
-    flexGrow: 1,
-    flexBasis: 200,
-    minWidth: 200,
-    width: 200,
+    padding: theme.spacing(2),
   },
 }));
 
@@ -46,11 +40,7 @@ const HighlightRow = ({ row }) => {
         </Typography>
       </div>
       <Paper className={classes.container}>
-        {products.map((product) => (
-          <div key={product.id} className={classes.productsItem}>
-            <ProductCard product={product} />
-          </div>
-        ))}
+        <ProductList products={products} />
       </Paper>
     </div>
   );
