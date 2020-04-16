@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, listName }) => {
   const classes = useStyles();
 
   const getImage = () => {
@@ -58,7 +58,7 @@ const ProductCard = ({ product }) => {
           {
             id: product.id,
             name: product.name,
-            list_name: 'Product Listing',
+            list_name: listName,
             price: product.price,
           },
         ],
@@ -114,6 +114,11 @@ ProductCard.propTypes = {
     price: PropTypes.number.isRequired,
     stockStatus: PropTypes.oneOf(['IN_STOCK', 'LOW_STOCK', 'ORDER_ONLY', 'UNAVAILABLE']),
   }).isRequired,
+  listName: PropTypes.string,
+};
+
+ProductCard.defaultProps = {
+  listName: 'Unknown',
 };
 
 export default ProductCard;

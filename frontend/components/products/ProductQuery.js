@@ -44,6 +44,12 @@ const PRODUCTS_QUERY = gql`
 
 const limit = 24;
 
+const getListName = (search, category) => {
+  if (category) return 'Category Listing';
+  if (search) return 'Product Search';
+  return 'General Product Listing';
+};
+
 const ProductQuery = ({ sort, priceRange, search, category }) => {
   const [hasMoreToLoad, setHasMoreToLoad] = useState(true);
   const { loading, error, data, fetchMore } = useQuery(PRODUCTS_QUERY, {
@@ -80,7 +86,7 @@ const ProductQuery = ({ sort, priceRange, search, category }) => {
       >
         <LinearProgress variant='query' />
       </Fade>
-      <ProductList products={data.productsSearch || []} />
+      <ProductList products={data.productsSearch || []} listName={getListName(search, category)} />
       <LoadMore
         onClick={loadMore}
         hide={data.productsSearch.length % limit !== 0 || !hasMoreToLoad}

@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HighlightRow = ({ row }) => {
+const HighlightRow = ({ row, listName }) => {
   const classes = useStyles();
 
   const { title, subtitle, products } = row;
@@ -40,7 +40,7 @@ const HighlightRow = ({ row }) => {
         </Typography>
       </div>
       <Paper className={classes.container}>
-        <ProductList products={products} />
+        <ProductList products={products} listName={listName} />
       </Paper>
     </div>
   );
@@ -71,6 +71,11 @@ HighlightRow.propTypes = {
       })
     ),
   }).isRequired,
+  listName: PropTypes.string,
+};
+
+HighlightRow.defaultProps = {
+  listName: 'Product Highlights',
 };
 
 export default HighlightRow;

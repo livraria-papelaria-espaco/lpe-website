@@ -69,7 +69,7 @@ const CategoryPage = ({ name, productHighlights }) => {
         {categoryTitle}
       </Typography>
       {productHighlights.map((highlight) => (
-        <HighlightRow key={highlight.id} row={highlight} />
+        <HighlightRow key={highlight.id} row={highlight} listName='Category Product Highlights' />
       ))}
       <FilterToolbar />
       <div className={classes.products}>

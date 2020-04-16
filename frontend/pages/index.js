@@ -47,7 +47,7 @@ const HomePage = ({ productHighlights, homePage }) => {
       <Hero />
       <Container fixed>
         {productHighlights.map((highlight) => (
-          <HighlightRow key={highlight.id} row={highlight} />
+          <HighlightRow key={highlight.id} row={highlight} listName='Product Highlights' />
         ))}
       </Container>
       <AboutUs text={homePage.about} />
