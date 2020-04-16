@@ -5,25 +5,25 @@ import React from 'react';
 const StockBadge = ({ stock, component: Component = 'span', ...props }) => {
   if (stock === 'IN_STOCK')
     return (
-      <Component style={{ color: 'green' }} {...props}>
-        Em Stock
+      <Component style={{ fontWeight: 500, color: 'green' }} {...props}>
+        Em&nbsp;Stock
       </Component>
     );
   if (stock === 'LOW_STOCK')
     return (
-      <Component style={{ color: 'orange' }} {...props}>
-        Poucas unidades
+      <Component style={{ fontWeight: 500, color: 'orange' }} {...props}>
+        Poucas&nbsp;unidades
       </Component>
     );
   if (stock === 'ORDER_ONLY')
     return (
-      <Component style={{ color: '#ff5200' }} {...props}>
-        Por encomenda
+      <Component style={{ fontWeight: 500, color: '#ff6a00' }} {...props}>
+        Por&nbsp;encomenda
       </Component>
     );
   if (stock === 'UNAVAILABLE')
     return (
-      <Component style={{ color: 'red' }} {...props}>
+      <Component style={{ fontWeight: 500, color: '#e80000' }} {...props}>
         Indisponível
       </Component>
     );
