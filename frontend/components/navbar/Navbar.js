@@ -1,11 +1,10 @@
-import { useMediaQuery, Drawer, List } from '@material-ui/core';
+import { useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import CategoryDrawer from './CategoryDrawer';
 import DesktopNavbar from './DesktopNavbar';
 import MobileNavbar from './MobileNavbar';
-import AccountMenu from './AccountMenu';
 
 const Navbar = ({ hideStoreNav, homePage }) => {
   const theme = useTheme();
@@ -13,7 +12,7 @@ const Navbar = ({ hideStoreNav, homePage }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const navComponent = isMobile ? (
-    <MobileNavbar setDrawerOpen={setDrawerOpen} homePage={homePage} />
+    <MobileNavbar setDrawerOpen={setDrawerOpen} hideSearchBar={hideStoreNav} homePage={homePage} />
   ) : (
     <DesktopNavbar setDrawerOpen={setDrawerOpen} hideSearchBar={hideStoreNav} homePage={homePage} />
   );
@@ -21,16 +20,7 @@ const Navbar = ({ hideStoreNav, homePage }) => {
   return (
     <>
       {navComponent}
-      {!hideStoreNav && (
-        <CategoryDrawer mobile={isMobile} open={drawerOpen} setOpen={setDrawerOpen} />
-      )}
-      {hideStoreNav && isMobile && (
-        <Drawer anchor='bottom' open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-          <List>
-            <AccountMenu />
-          </List>
-        </Drawer>
-      )}
+      <CategoryDrawer mobile={isMobile} open={drawerOpen} setOpen={setDrawerOpen} />
     </>
   );
 };

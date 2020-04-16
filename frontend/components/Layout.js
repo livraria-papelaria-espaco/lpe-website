@@ -25,12 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flex: '1 0 auto',
-  },
-  drawerPadding: {
-    // marginLeft: process.env.appbar.drawerWidth,
-    [theme.breakpoints.down('sm')]: {
-      marginLeft: 0,
-    },
+    marginBottom: (props) => (props.noContainer ? 0 : theme.spacing(10)),
   },
   shrink: {
     flexShrink: 0,
@@ -47,7 +42,7 @@ const Layout = ({
   colorBackground,
   noContainer,
 }) => {
-  const classes = useStyles();
+  const classes = useStyles({ noContainer });
 
   return (
     <div className={classes.root}>
@@ -60,16 +55,10 @@ const Layout = ({
       </Head>
       <CssBaseline />
       {!hideNavbar && <Navbar hideStoreNav={!showStoreNav} homePage={homePageNavbar} />}
-      <div
-        className={`${classes.content} ${!showStoreNav || hideNavbar ? '' : classes.drawerPadding}`}
-      >
+      <div className={classes.content}>
         {noContainer ? children : <Container fixed>{children}</Container>}
       </div>
-      <div
-        className={`${classes.shrink} ${!showStoreNav || hideNavbar ? '' : classes.drawerPadding}`}
-      >
-        {!hideFooter && <Footer />}
-      </div>
+      <div className={classes.shrink}>{!hideFooter && <Footer />}</div>
     </div>
   );
 };

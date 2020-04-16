@@ -1,8 +1,10 @@
-import { AppBar, IconButton, Toolbar, useScrollTrigger } from '@material-ui/core';
+import { AppBar, Fade, IconButton, Toolbar, useScrollTrigger } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
+import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
+import LogoSvg from '~/assets/logo.svg';
 import CartIcon from '~/components/cart/CartIcon';
 import SearchBar from './SearchBar';
 
@@ -20,15 +22,19 @@ const useStyles = makeStyles((theme) => ({
     fill: theme.palette.primary.contrastText,
   },
   menuButton: {
-    // marginRight: theme.spacing(7.5),
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing(2.5),
+  },
+  grow: {
+    flexGrow: 1,
   },
   logoDiv: {
+    flexGrow: 1,
+    textAlign: 'center',
     marginRight: theme.spacing(1),
   },
 }));
 
-const MobileNavbar = ({ setDrawerOpen, homePage }) => {
+const MobileNavbar = ({ setDrawerOpen, homePage, hideSearchBar }) => {
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 220,
@@ -55,7 +61,22 @@ const MobileNavbar = ({ setDrawerOpen, homePage }) => {
         >
           <MenuIcon />
         </IconButton>
-        <SearchBar />
+        {hideSearchBar ? (
+          <Fade in={!transparentBackground}>
+            <div className={classes.logoDiv}>
+              <Link href='/'>
+                <a>
+                  <LogoSvg className={classes.logo} />
+                </a>
+              </Link>
+            </div>
+          </Fade>
+        ) : (
+          <>
+            <div className={classes.grow} />
+            <SearchBar />
+          </>
+        )}
         <CartIcon />
       </Toolbar>
     </AppBar>
@@ -65,10 +86,12 @@ const MobileNavbar = ({ setDrawerOpen, homePage }) => {
 MobileNavbar.propTypes = {
   setDrawerOpen: PropTypes.func.isRequired,
   homePage: PropTypes.bool,
+  hideSearchBar: PropTypes.bool,
 };
 
 MobileNavbar.defaultProps = {
   homePage: false,
+  hideSearchBar: false,
 };
 
 export default MobileNavbar;

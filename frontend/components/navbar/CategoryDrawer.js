@@ -13,6 +13,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'next/link';
 import CloseIcon from '@material-ui/icons/CloseRounded';
+import HomeIcon from '@material-ui/icons/HomeRounded';
+import { useRouter } from 'next/router';
 import CategoryList from '../categories/CategoryList';
 import AccountMenu from './AccountMenu';
 import drawerHeaderUrl from '~/assets/drawerHeader.png';
@@ -43,6 +45,10 @@ const useStyles = makeStyles((theme) => ({
   categoryList: {
     overflow: 'auto',
   },
+  buttonArea: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
   closeButton: {
     margin: theme.spacing(2),
     color: theme.palette.text.secondary,
@@ -51,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CategoryDrawer = ({ mobile, open, setOpen }) => {
   const classes = useStyles();
+  const router = useRouter();
 
   const handleClose = () => setOpen(false);
 
@@ -65,22 +72,31 @@ const CategoryDrawer = ({ mobile, open, setOpen }) => {
         onClose={handleClose}
         anchor={mobile ? 'left' : 'right'}
       >
-        <div className={classes.drawerHeader}>
-          <Button
-            onClick={handleClose}
-            startIcon={<CloseIcon />}
-            size='small'
-            className={classes.closeButton}
-          >
-            Fechar
-          </Button>
+        <div>
+          <div className={classes.buttonArea}>
+            <Button
+              onClick={handleClose}
+              startIcon={<CloseIcon />}
+              size='small'
+              className={classes.closeButton}
+            >
+              Fechar
+            </Button>
+            {router.pathname !== '/' && (
+              <Link href='/' passHref>
+                <Button startIcon={<HomeIcon />} size='small' className={classes.closeButton}>
+                  Início
+                </Button>
+              </Link>
+            )}
+          </div>
           <img src={drawerHeaderUrl} alt='Categorias' className={classes.toolbar} />
         </div>
         <div className={classes.categoryList}>
           <CategoryList />
           <Divider />
           <List>
-            <Link href='/newsroom'>
+            <Link href='/newsroom' passHref>
               <ListItem button component={MUILink} color='inherit' underline='none'>
                 <ListItemText>Destaques</ListItemText>
               </ListItem>

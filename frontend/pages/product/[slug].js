@@ -83,7 +83,7 @@ const Product = ({ defaultData }) => {
   const hasImage = product.images && product.images.length > 0;
 
   return (
-    <Layout title={product.name}>
+    <Layout title={product.name} showStoreNav>
       <GAProduct
         id={product.id}
         name={product.name}

@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/react-hooks';
 import { Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
@@ -48,14 +47,7 @@ const GET_CATEGORIES = gql`
   }
 `;
 
-const useStyles = makeStyles((theme) => ({
-  products: {
-    marginBottom: theme.spacing(4),
-  },
-}));
-
 const CategoryPage = ({ name, productHighlights }) => {
-  const classes = useStyles();
   const { delayedSearch, priceRange, sort } = useProductFilters();
   const router = useRouter();
   const { category } = router.query;
@@ -72,14 +64,12 @@ const CategoryPage = ({ name, productHighlights }) => {
         <HighlightRow key={highlight.id} row={highlight} listName='Category Product Highlights' />
       ))}
       <FilterToolbar />
-      <div className={classes.products}>
-        <ProductQuery
-          priceRange={priceRange}
-          search={delayedSearch}
-          sort={sort}
-          category={category}
-        />
-      </div>
+      <ProductQuery
+        priceRange={priceRange}
+        search={delayedSearch}
+        sort={sort}
+        category={category}
+      />
     </Layout>
   );
 };
