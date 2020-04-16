@@ -2,6 +2,7 @@ import { Typography, Container, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import Link from 'next/link';
+import AnchorLink from 'react-anchor-link-smooth-scroll';
 import BackgroundImg from '~/assets/background.jpg';
 import LogoSvg from '~/assets/logo.svg';
 
@@ -64,7 +65,14 @@ const Hero = () => {
               Visitar loja
             </Button>
           </Link>
-          <Button href='#about-us' variant='outlined' color='inherit' className={classes.button}>
+          <Button
+            href='#about-us'
+            offset={process.env.appbar.desktopHeight}
+            component={AnchorLink}
+            variant='outlined'
+            color='inherit'
+            className={classes.button}
+          >
             Sobre nós
           </Button>
         </div>

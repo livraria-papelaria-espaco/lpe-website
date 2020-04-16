@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { createContext, useContext, useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-const defaultPriceRange = [0, 100];
+const defaultPriceRange = process.env.filters.priceRange;
 const ProductFiltersContext = createContext({});
 
 export const useProductFilters = () => useContext(ProductFiltersContext);

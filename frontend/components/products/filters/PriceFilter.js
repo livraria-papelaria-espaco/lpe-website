@@ -12,6 +12,8 @@ const PriceFilter = ({ setValue }) => {
   return (
     <Slider
       step={5}
+      min={process.env.filters.priceRange[0]}
+      max={process.env.filters.priceRange[1]}
       defaultValue={process.env.filters.priceRange}
       onChangeCommitted={handleChange}
       valueLabelDisplay='auto'
