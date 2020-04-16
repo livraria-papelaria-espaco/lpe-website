@@ -40,6 +40,23 @@ module.exports = {
     );
   },
 
+  async newProducts() {
+    const { newProductDays } = await strapi.services['home-page'].find();
+
+    const limitDate = new Date(Date.now() - 86400000 * newProductDays);
+    limitDate.setHours(0, 0, 0); // 00:00:00 of X days before
+
+    const entities = await strapi.services.product.find({
+      createdAt_gte: limitDate,
+      _sort: 'createdAt:desc',
+      _limit: 18,
+    });
+
+    return entities.map((entity) =>
+      sanitizeEntity(addStockStatus(entity), { model: strapi.models.product })
+    );
+  },
+
   find: undefined,
 
   async findOne(ctx) {

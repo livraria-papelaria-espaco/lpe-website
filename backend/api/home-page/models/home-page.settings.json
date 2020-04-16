@@ -12,6 +12,12 @@
   "attributes": {
     "about": {
       "type": "richtext"
+    },
+    "newProductDays": {
+      "type": "integer",
+      "default": 7,
+      "private": true,
+      "min": 1
     }
   }
 }
