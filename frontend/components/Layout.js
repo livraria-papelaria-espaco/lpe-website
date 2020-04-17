@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flex: '1 0 auto',
-    marginBottom: (props) => (props.noContainer ? 0 : theme.spacing(10)),
+    marginBottom: (props) => (props.noContainer || props.hideFooter ? 0 : theme.spacing(10)),
   },
   shrink: {
     flexShrink: 0,
@@ -42,12 +42,14 @@ const Layout = ({
   colorBackground,
   noContainer,
 }) => {
-  const classes = useStyles({ noContainer });
+  const classes = useStyles({ noContainer, hideFooter });
 
   return (
     <div className={classes.root}>
       <NoSsr>
-        <CookieBanner>{(onAccept) => <CookieAlert onAccept={onAccept} />}</CookieBanner>
+        <CookieBanner dismissOnScrollThreshold={1000}>
+          {(onAccept) => <CookieAlert onAccept={onAccept} />}
+        </CookieBanner>
       </NoSsr>
       <div className={colorBackground ? classes.colorBackground : ''} />
       <Head>

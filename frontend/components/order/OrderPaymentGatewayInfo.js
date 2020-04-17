@@ -56,7 +56,7 @@ const OrderPaymentGatewayInfo = ({ gateway, orderData, expiresAt, invoiceId }) =
 };
 
 OrderPaymentGatewayInfo.propTypes = {
-  gateway: PropTypes.oneOf(['IN_STORE', 'MB', 'MBWAY']).isRequired,
+  gateway: PropTypes.oneOf(['IN_STORE', 'MB', 'MBWAY', 'BANK_TRANSFER']).isRequired,
   orderData: PropTypes.shape({
     multibanco: PropTypes.shape({
       entity: PropTypes.string,
