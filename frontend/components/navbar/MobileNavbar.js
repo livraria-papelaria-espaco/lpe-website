@@ -1,4 +1,4 @@
-import { AppBar, IconButton, Toolbar } from '@material-ui/core';
+import { AppBar, Fade, IconButton, Toolbar, useScrollTrigger } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import Link from 'next/link';
@@ -6,10 +6,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import LogoSvg from '~/assets/logo.svg';
 import CartIcon from '~/components/cart/CartIcon';
+import SearchBar from './SearchBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     marginBottom: theme.spacing(4),
+    color: theme.palette.primary.contrastText,
+    transition: theme.transitions.create(['background', 'box-shadow']),
   },
   toolbar: {
     minHeight: process.env.appbar.mobileHeight,
@@ -19,21 +22,35 @@ const useStyles = makeStyles((theme) => ({
     fill: theme.palette.primary.contrastText,
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2.5),
   },
   grow: {
     flexGrow: 1,
+  },
+  logoDiv: {
+    flexGrow: 1,
     textAlign: 'center',
+    marginRight: theme.spacing(1),
   },
 }));
 
-const MobileNavbar = ({ setDrawerOpen }) => {
+const MobileNavbar = ({ setDrawerOpen, homePage, hideSearchBar }) => {
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 220,
+  });
+  const transparentBackground = homePage && !trigger;
   const classes = useStyles();
 
   const toggleDrawer = () => setDrawerOpen((v) => !v);
 
   return (
-    <AppBar position='sticky' className={classes.root}>
+    <AppBar
+      position={homePage ? 'fixed' : 'sticky'}
+      elevation={transparentBackground ? 0 : 1}
+      className={classes.root}
+      color={transparentBackground ? 'transparent' : 'primary'}
+    >
       <Toolbar className={classes.toolbar}>
         <IconButton
           edge='start'
@@ -44,13 +61,22 @@ const MobileNavbar = ({ setDrawerOpen }) => {
         >
           <MenuIcon />
         </IconButton>
-        <div className={classes.grow}>
-          <Link href='/'>
-            <a>
-              <LogoSvg className={classes.logo} />
-            </a>
-          </Link>
-        </div>
+        {hideSearchBar ? (
+          <Fade in={!transparentBackground}>
+            <div className={classes.logoDiv}>
+              <Link href='/'>
+                <a>
+                  <LogoSvg className={classes.logo} />
+                </a>
+              </Link>
+            </div>
+          </Fade>
+        ) : (
+          <>
+            <div className={classes.grow} />
+            <SearchBar />
+          </>
+        )}
         <CartIcon />
       </Toolbar>
     </AppBar>
@@ -59,6 +85,13 @@ const MobileNavbar = ({ setDrawerOpen }) => {
 
 MobileNavbar.propTypes = {
   setDrawerOpen: PropTypes.func.isRequired,
+  homePage: PropTypes.bool,
+  hideSearchBar: PropTypes.bool,
+};
+
+MobileNavbar.defaultProps = {
+  homePage: false,
+  hideSearchBar: false,
 };
 
 export default MobileNavbar;

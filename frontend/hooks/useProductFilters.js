@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { createContext, useContext, useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-const defaultPriceRange = [0, 100];
+const defaultPriceRange = process.env.filters.priceRange;
 const ProductFiltersContext = createContext({});
 
 export const useProductFilters = () => useContext(ProductFiltersContext);
@@ -16,9 +16,9 @@ export const ProductFiltersProvider = ({ children }) => {
   const timer = useRef();
 
   useEffect(() => {
-    setSearch(router.query.search || '');
-    setDelayedSearch(router.query.search || '');
-  }, [router.query.search]);
+    setSearch(router.query.q || '');
+    setDelayedSearch(router.query.q || '');
+  }, [router.query.q]);
 
   useEffect(() => {
     setPriceRange([
@@ -35,19 +35,10 @@ export const ProductFiltersProvider = ({ children }) => {
     setSearch(value);
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => {
-      router.push(
-        {
-          pathname: router.pathname,
-          query: { ...router.query, search: value },
-        },
-        {
-          pathname: router.pathname.indexOf('[category]')
-            ? router.pathname.replace('[category]', router.query.category)
-            : router.pathname,
-          query: { ...router.query, search: value },
-        },
-        { shallow: true }
-      );
+      router.push({
+        pathname: '/search',
+        query: { q: value },
+      });
     }, 500);
   };
 

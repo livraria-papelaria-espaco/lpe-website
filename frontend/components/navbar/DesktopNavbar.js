@@ -1,5 +1,16 @@
-import { AppBar, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core';
+import {
+  AppBar,
+  Button,
+  Fade,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+  useScrollTrigger,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
 import AccountIcon from '@material-ui/icons/PersonRounded';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
@@ -14,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 0,
     marginBottom: theme.spacing(4),
-    zIndex: theme.zIndex.drawer + 1,
+    color: theme.palette.primary.contrastText,
+    transition: theme.transitions.create(['background', 'box-shadow']),
   },
   toolbar: {
     height: process.env.appbar.desktopHeight,
@@ -26,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(5),
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(2),
   },
   grow: {
     flexGrow: 1,
@@ -36,11 +48,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DesktopNavbar = ({ hideSearchBar = false }) => {
+const DesktopNavbar = ({ hideSearchBar, homePage, setDrawerOpen }) => {
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 220,
+  });
+  const transparentBackground = homePage && !trigger;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { username, logout } = useAuth();
   const open = Boolean(anchorEl);
+
+  const toggleDrawer = () => setDrawerOpen((v) => !v);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -51,15 +70,24 @@ const DesktopNavbar = ({ hideSearchBar = false }) => {
   };
 
   return (
-    <AppBar position='sticky' className={classes.root}>
+    <AppBar
+      position={homePage ? 'fixed' : 'sticky'}
+      className={classes.root}
+      elevation={transparentBackground ? 0 : 1}
+      color={transparentBackground ? 'transparent' : 'primary'}
+    >
       <Toolbar className={classes.toolbar}>
-        <Link href='/'>
-          <a>
-            <LogoSvg className={classes.logo} />
-          </a>
-        </Link>
-        {!hideSearchBar && <SearchBar />}
+        <Fade in={!transparentBackground}>
+          <div>
+            <Link href='/'>
+              <a>
+                <LogoSvg className={classes.logo} />
+              </a>
+            </Link>
+          </div>
+        </Fade>
         <div className={classes.grow} />
+        {!hideSearchBar && <SearchBar />}
         {username ? (
           <div>
             <IconButton
@@ -109,6 +137,15 @@ const DesktopNavbar = ({ hideSearchBar = false }) => {
           </div>
         )}
         <CartIcon />
+        <IconButton
+          edge='start'
+          className={classes.menuButton}
+          color='inherit'
+          aria-label='menu'
+          onClick={toggleDrawer}
+        >
+          <MenuIcon />
+        </IconButton>
       </Toolbar>
     </AppBar>
   );
@@ -116,10 +153,13 @@ const DesktopNavbar = ({ hideSearchBar = false }) => {
 
 DesktopNavbar.propTypes = {
   hideSearchBar: PropTypes.bool,
+  homePage: PropTypes.bool,
+  setDrawerOpen: PropTypes.func.isRequired,
 };
 
 DesktopNavbar.defaultProps = {
   hideSearchBar: false,
+  homePage: false,
 };
 
 export default DesktopNavbar;

@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "connection": "default",
+  "collectionName": "product_highlights",
+  "info": {
+    "name": "productHighlights"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "products": {
+      "collection": "product"
+    },
+    "category": {
+      "model": "category",
+      "via": "productHighlights"
+    },
+    "homePage": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    }
+  }
+}

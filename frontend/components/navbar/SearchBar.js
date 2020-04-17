@@ -2,6 +2,7 @@ import { InputBase } from '@material-ui/core';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import React from 'react';
+import { useRouter } from 'next/router';
 import { useProductFilters } from '~/hooks/useProductFilters';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,14 +39,18 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
     width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
+    [theme.breakpoints.up('sm')]: {
+      width: '18ch',
+      '&:focus': {
+        width: '36ch',
+      },
     },
   },
 }));
 
 const SearchBar = () => {
   const classes = useStyles();
+  const router = useRouter();
   const { search, setSearch } = useProductFilters();
 
   const handleChange = (e) => {
@@ -58,6 +63,7 @@ const SearchBar = () => {
         <SearchIcon />
       </div>
       <InputBase
+        autoFocus={router.pathname === '/search'}
         value={search}
         onChange={handleChange}
         placeholder='Procurar na Espaço...'

@@ -1,0 +1,23 @@
+{
+  "kind": "singleType",
+  "connection": "default",
+  "collectionName": "home_pages",
+  "info": {
+    "name": "Home Page"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "about": {
+      "type": "richtext"
+    },
+    "newProductDays": {
+      "type": "integer",
+      "default": 7,
+      "private": true,
+      "min": 1
+    }
+  }
+}

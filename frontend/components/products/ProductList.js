@@ -5,7 +5,7 @@ import React from 'react';
 import ProductCard from './ProductCard';
 import ProductSkeleton from './ProductSkeleton';
 
-const ProductList = ({ products, loading }) => {
+const ProductList = ({ products, loading, listName }) => {
   if (loading)
     return (
       <Grid container direction='row' justify='flex-start' alignItems='center' spacing={3}>
@@ -28,8 +28,8 @@ const ProductList = ({ products, loading }) => {
   return (
     <Grid container direction='row' justify='flex-start' alignItems='stretch' spacing={3}>
       {products.map((res) => (
-        <Grid item xs={6} md={4} lg={3} key={res.slug}>
-          <ProductCard product={res} />
+        <Grid item xs={6} md={4} lg={2} key={res.slug}>
+          <ProductCard product={res} listName={listName} />
         </Grid>
       ))}
     </Grid>
@@ -39,11 +39,13 @@ const ProductList = ({ products, loading }) => {
 ProductList.propTypes = {
   products: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool,
+  listName: PropTypes.string,
 };
 
 ProductList.defaultProps = {
   products: [],
   loading: false,
+  listName: 'Unknown',
 };
 
 export default ProductList;
