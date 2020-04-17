@@ -1,10 +1,10 @@
-import { Container, Grid, Link as MUILink, Typography } from '@material-ui/core';
+import { Container, Link as MUILink, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
-import InstagramIcon from '~/assets/instagram.svg';
 import FacebookIcon from '~/assets/facebook.svg';
+import InstagramIcon from '~/assets/instagram.svg';
 
 const useStyles = makeStyles((theme) => ({
   root: {

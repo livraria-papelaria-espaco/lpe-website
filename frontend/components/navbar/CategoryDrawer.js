@@ -1,23 +1,23 @@
 import {
+  Button,
   Divider,
   Drawer,
+  Link as MUILink,
   List,
-  Typography,
   ListItem,
   ListItemText,
-  Link as MUILink,
-  Button,
+  Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
-import React from 'react';
-import Link from 'next/link';
 import CloseIcon from '@material-ui/icons/CloseRounded';
 import HomeIcon from '@material-ui/icons/HomeRounded';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
+import React from 'react';
 import CategoryList from '../categories/CategoryList';
 import AccountMenu from './AccountMenu';
-import drawerHeaderUrl from '~/assets/drawerHeader.png';
+// import drawerHeaderUrl from '~/assets/drawerHeader.png';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -82,7 +82,7 @@ const CategoryDrawer = ({ mobile, open, setOpen }) => {
             </Link>
           )}
         </div>
-        <img src={drawerHeaderUrl} alt='Categorias' className={classes.toolbar} />
+        {/* <img src={drawerHeaderUrl} alt='Categorias' className={classes.toolbar} /> */}
       </div>
       <div className={classes.categoryList}>
         <CategoryList />
