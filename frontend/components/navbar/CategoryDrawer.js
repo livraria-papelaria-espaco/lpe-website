@@ -20,13 +20,6 @@ import AccountMenu from './AccountMenu';
 import drawerHeaderUrl from '~/assets/drawerHeader.png';
 
 const useStyles = makeStyles((theme) => ({
-  drawer: {
-    overflow: 'hidden',
-    [theme.breakpoints.up('sm')]: {
-      width: process.env.appbar.drawerWidthDesktop,
-      flexShrink: 0,
-    },
-  },
   toolbar: {
     width: '100%',
   },
@@ -62,66 +55,64 @@ const CategoryDrawer = ({ mobile, open, setOpen }) => {
   const handleClose = () => setOpen(false);
 
   return (
-    <nav className={classes.drawer}>
-      <Drawer
-        variant={mobile ? 'temporary' : 'temporary'}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-        open={open}
-        onClose={handleClose}
-        anchor={mobile ? 'left' : 'right'}
-      >
-        <div>
-          <div className={classes.buttonArea}>
-            <Button
-              onClick={handleClose}
-              startIcon={<CloseIcon />}
-              size='small'
-              className={classes.closeButton}
-            >
-              Fechar
-            </Button>
-            {router.pathname !== '/' && (
-              <Link href='/' passHref>
-                <Button startIcon={<HomeIcon />} size='small' className={classes.closeButton}>
-                  Início
-                </Button>
-              </Link>
-            )}
-          </div>
-          <img src={drawerHeaderUrl} alt='Categorias' className={classes.toolbar} />
-        </div>
-        <div className={classes.categoryList}>
-          <CategoryList />
-          <Divider />
-          <List>
-            <Link href='/newsroom' passHref>
-              <ListItem button component={MUILink} color='inherit' underline='none'>
-                <ListItemText>Destaques</ListItemText>
-              </ListItem>
+    <Drawer
+      variant='temporary'
+      classes={{
+        paper: classes.drawerPaper,
+      }}
+      open={open}
+      onClose={handleClose}
+      anchor={mobile ? 'left' : 'right'}
+    >
+      <div>
+        <div className={classes.buttonArea}>
+          <Button
+            onClick={handleClose}
+            startIcon={<CloseIcon />}
+            size='small'
+            className={classes.closeButton}
+          >
+            Fechar
+          </Button>
+          {router.pathname !== '/' && (
+            <Link href='/' passHref>
+              <Button startIcon={<HomeIcon />} size='small' className={classes.closeButton}>
+                Início
+              </Button>
             </Link>
-          </List>
+          )}
         </div>
-        <div className={classes.grow} />
-        {mobile && (
-          <List>
-            <Divider component='li' />
-            <li>
-              <Typography
-                className={classes.dividerFullWidth}
-                color='textSecondary'
-                display='block'
-                variant='caption'
-              >
-                Área Cliente
-              </Typography>
-            </li>
-            <AccountMenu />
-          </List>
-        )}
-      </Drawer>
-    </nav>
+        <img src={drawerHeaderUrl} alt='Categorias' className={classes.toolbar} />
+      </div>
+      <div className={classes.categoryList}>
+        <CategoryList />
+      </div>
+      <Divider />
+      <List>
+        <Link href='/newsroom' passHref>
+          <ListItem button component={MUILink} color='inherit' underline='none'>
+            <ListItemText>Destaques</ListItemText>
+          </ListItem>
+        </Link>
+      </List>
+      <div className={classes.grow} />
+      {mobile && (
+        <List>
+          <Divider component='li' />
+          <li>
+            <Typography
+              className={classes.dividerFullWidth}
+              color='textSecondary'
+              display='block'
+              variant='caption'
+            >
+              Área Cliente
+            </Typography>
+          </li>
+          <AccountMenu />
+        </List>
+      )}
+    </Drawer>
   );
 };
 

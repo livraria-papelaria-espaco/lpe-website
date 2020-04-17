@@ -7,6 +7,7 @@ import CookieBanner from 'react-cookie-banner';
 import CookieAlert from './CookieAlert';
 import Footer from './Footer';
 import Navbar from './navbar/Navbar';
+import BackgroundImg from '~/assets/background.jpg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     left: 0,
     right: 0,
-    background: `linear-gradient(45deg, ${theme.palette.primary.dark} 20%, ${theme.palette.primary.light} 70%)`,
+    // background: `linear-gradient(45deg, ${theme.palette.primary.dark} 20%, ${theme.palette.primary.light} 70%)`,
+    background: `url(${BackgroundImg}) center right no-repeat fixed padding-box content-box`,
   },
   content: {
     flex: '1 0 auto',

@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
     background: `url(${BackgroundImg}) center right no-repeat fixed padding-box content-box`,
+    backgroundSize: 'cover',
     color: theme.palette.primary.contrastText,
     minHeight: '100vh',
     display: 'flex',
