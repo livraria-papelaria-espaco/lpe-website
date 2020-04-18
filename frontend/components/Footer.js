@@ -130,6 +130,11 @@ const Footer = () => {
           process.env.siteTitle
         }`}</Typography>
         <Typography variant='body2'>
+          <MUILink href='https://reli.pt' target='_blank' color='inherit' rel='noopener noreferrer'>
+            Livraria Associada à Rede de Livrarias Independentes
+          </MUILink>
+        </Typography>
+        <Typography variant='body2'>
           {`Website por `}
           <MUILink
             href='https://diogotc.com'
