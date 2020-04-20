@@ -159,8 +159,8 @@ Product.propTypes = {
   defaultData: PropTypes.shape({
     id: PropTypes.string.isRequired, // Mongodb ID
     name: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    shortDescription: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    shortDescription: PropTypes.string,
     images: PropTypes.arrayOf(
       PropTypes.shape({
         url: PropTypes.string.isRequired,
