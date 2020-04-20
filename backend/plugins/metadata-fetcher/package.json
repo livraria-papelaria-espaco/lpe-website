@@ -1,0 +1,27 @@
+{
+  "name": "strapi-plugin-metadata-fetcher",
+  "version": "0.0.1",
+  "description": "Insert or update products with metadata from external sources.",
+  "strapi": {
+    "name": "Metadata Fetcher",
+    "icon": "plug",
+    "description": "metadata-fetcher.plugin.description"
+  },
+  "author": {
+    "name": "Diogo Correia",
+    "email": "me@diogotc.com",
+    "url": "https://diogotc.com"
+  },
+  "maintainers": [
+    {
+      "name": "Diogo Correia",
+      "email": "me@diogotc.com",
+      "url": "https://diogotc.com"
+    }
+  ],
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}

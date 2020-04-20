@@ -1,0 +1,21 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/",
+      "handler": "metadata-fetcher.index",
+      "config": {
+        "policies": []
+      }
+    },
+
+    {
+      "method": "GET",
+      "path": "/fetchBook",
+      "handler": "metadata-fetcher.fetchBook",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -48,6 +48,7 @@ module.exports = {
 
     const entities = await strapi.services.product.find({
       createdAt_gte: limitDate,
+      show: true,
       _sort: 'createdAt:desc',
       _limit: 18,
     });

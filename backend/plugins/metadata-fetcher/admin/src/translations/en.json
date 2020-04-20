@@ -1,0 +1,14 @@
+{
+  "HomePage.header.title": "Metadata Fetcher",
+  "HomePage.header.description": "Fetch product data from external sources",
+
+  "HomePage.title.book": "Insert or update book",
+  "HomePage.warning.overwrite": "WARNING: This will overwrite the current data of the targeted book",
+  "HomePage.input.books.forceImages": "Force image updates (if the product already has images)",
+  "HomePage.button.execute": "Search External Sources",
+
+  "Action.success.book": "Book inserted/updated successfuly",
+  "Action.error.book": "An error occurred while fetching metadata. Check if the ISBN is correct and try again later.",
+
+  "plugin.description.short": "Fetch product data from external sources"
+}

@@ -42,6 +42,8 @@ const convertLimitQueryParams = (limitQuery) => {
 
 module.exports = {
   searchEnhanced: async (params) => {
+    //TODO hide products with "show": false
+
     let searchQuery;
     const filterQuery = {};
 

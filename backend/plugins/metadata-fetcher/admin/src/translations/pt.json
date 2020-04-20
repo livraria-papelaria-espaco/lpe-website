@@ -1,0 +1,14 @@
+{
+  "HomePage.header.title": "Atualizador de informação de produtos",
+  "HomePage.header.description": "Obter dados dos produtos de fontes externas",
+
+  "HomePage.title.book": "Inserir ou atualizar livro",
+  "HomePage.warning.overwrite": "AVISO: Isto vai substituir os dados atuais do livro",
+  "HomePage.input.books.forceImages": "Forçar atualização de imagens (no caso de o produto já ter imagens)",
+  "HomePage.button.execute": "Procurar em Fontes Externas",
+
+  "Action.success.book": "Livro inserido/atualizado com sucesso",
+  "Action.error.book": "Ocorreu um erro ao atualizar os dados do produto. Verifica se o ISBN está correto ou tenta novamente mais tarde.",
+
+  "plugin.description.short": "Obter dados dos produtos de fontes externas"
+}
