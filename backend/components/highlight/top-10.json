@@ -1,0 +1,23 @@
+{
+  "connection": "default",
+  "collectionName": "components_highlight_top_10_s",
+  "info": {
+    "name": "Top 10",
+    "icon": "award"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "products": {
+      "collection": "product"
+    },
+    "startAt": {
+      "type": "integer",
+      "default": 1,
+      "required": true,
+      "min": 1
+    }
+  }
+}

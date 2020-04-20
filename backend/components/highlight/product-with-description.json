@@ -1,0 +1,23 @@
+{
+  "connection": "default",
+  "collectionName": "components_highlight_product_with_descriptions",
+  "info": {
+    "name": "Product With Description",
+    "icon": "align-justify"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "product": {
+      "model": "product"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "badgeNumber": {
+      "type": "integer"
+    }
+  }
+}

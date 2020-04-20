@@ -1,0 +1,17 @@
+{
+  "connection": "default",
+  "collectionName": "components_highlight_product_lists",
+  "info": {
+    "name": "Product List",
+    "icon": "grip-horizontal"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "products": {
+      "collection": "product"
+    }
+  }
+}

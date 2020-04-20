@@ -16,9 +16,6 @@
     "subtitle": {
       "type": "string"
     },
-    "products": {
-      "collection": "product"
-    },
     "category": {
       "model": "category",
       "via": "productHighlights"
@@ -26,6 +23,15 @@
     "homePage": {
       "type": "boolean",
       "default": false,
+      "required": true
+    },
+    "content": {
+      "type": "dynamiczone",
+      "components": [
+        "highlight.product-list",
+        "highlight.product-with-description",
+        "highlight.top-10"
+      ],
       "required": true
     }
   }

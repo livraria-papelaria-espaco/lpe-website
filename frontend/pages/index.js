@@ -18,8 +18,32 @@ const HOME_PAGE_QUERY = gql`
       id
       title
       subtitle
-      products {
-        ...product
+      content {
+        __typename
+        ... on ComponentHighlightProductList {
+          id
+          title
+          products {
+            ...product
+          }
+        }
+        ... on ComponentHighlightProductWithDescription {
+          id
+          title
+          product {
+            ...product
+          }
+          description
+          badgeNumber
+        }
+        ... on ComponentHighlightTop10 {
+          id
+          title
+          products {
+            ...product
+          }
+          startAt
+        }
       }
     }
     homePage {
@@ -53,7 +77,13 @@ const HomePage = ({ newProducts, productHighlights, homePage }) => {
     id: 'new-products',
     title: 'Novidades',
     subtitle: 'Os nossos novos produtos!',
-    products: newProducts,
+    content: [
+      {
+        __typename: 'ComponentHighlightProductList',
+        id: 'new-products-content',
+        products: newProducts,
+      },
+    ],
   };
 
   return (
@@ -72,48 +102,41 @@ const HomePage = ({ newProducts, productHighlights, homePage }) => {
   );
 };
 
-HomePage.propTypes = {
-  newProducts: PropTypes.arrayOf(
+const productType = PropTypes.shape({
+  id: PropTypes.string.isRequired, // MongoDB ID
+  slug: PropTypes.string.isRequired,
+  reference: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  shortDescription: PropTypes.string,
+  type: PropTypes.oneOf(['Livro', 'Outro']).isRequired,
+  bookInfo: PropTypes.shape({
+    author: PropTypes.string,
+  }),
+  images: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired, // MongoDB ID
-      slug: PropTypes.string.isRequired,
-      reference: PropTypes.string,
-      name: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      shortDescription: PropTypes.string,
-      type: PropTypes.oneOf(['Livro', 'Outro']).isRequired,
-      bookInfo: PropTypes.shape({
-        author: PropTypes.string,
-      }),
-      images: PropTypes.arrayOf(
-        PropTypes.shape({
-          url: PropTypes.string,
-        })
-      ),
+      url: PropTypes.string,
     })
   ),
+});
+
+HomePage.propTypes = {
+  newProducts: PropTypes.arrayOf(productType),
   productHighlights: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired, // MongoDB ID
       title: PropTypes.string.isRequired,
       subtitle: PropTypes.string,
-      products: PropTypes.arrayOf(
+      content: PropTypes.arrayOf(
         PropTypes.shape({
+          __typename: PropTypes.string.isRequired,
           id: PropTypes.string.isRequired, // MongoDB ID
-          slug: PropTypes.string.isRequired,
-          reference: PropTypes.string,
-          name: PropTypes.string.isRequired,
-          price: PropTypes.number.isRequired,
-          shortDescription: PropTypes.string,
-          type: PropTypes.oneOf(['Livro', 'Outro']).isRequired,
-          bookInfo: PropTypes.shape({
-            author: PropTypes.string,
-          }),
-          images: PropTypes.arrayOf(
-            PropTypes.shape({
-              url: PropTypes.string,
-            })
-          ),
+          title: PropTypes.string,
+          products: PropTypes.arrayOf(productType),
+          product: productType,
+          description: PropTypes.string,
+          badgeNumber: PropTypes.number,
+          startAt: PropTypes.number,
         })
       ),
     })

@@ -111,7 +111,7 @@ const ProductCard = ({ product, listName }) => {
         <Typography variant='body2' color='textSecondary' component='p'>
           {product.shortDescription || ''}
         </Typography>
-        <Typography variant='body1' component='p' color='secondary'>
+        <Typography variant='body1' component='p'>
           {`${product.price.toFixed(2)}€ `}
           {stockStatus ? (
             <StockBadge stock={stockStatus} />

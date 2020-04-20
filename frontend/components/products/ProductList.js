@@ -1,11 +1,11 @@
-import { Grid } from '@material-ui/core';
+import { Grid, Badge } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ProductCard from './ProductCard';
 import ProductSkeleton from './ProductSkeleton';
 
-const ProductList = ({ products, loading, listName }) => {
+const ProductList = ({ products, loading, listName, startAt }) => {
   if (loading)
     return (
       <Grid container direction='row' justify='flex-start' alignItems='center' spacing={3}>
@@ -27,9 +27,11 @@ const ProductList = ({ products, loading, listName }) => {
 
   return (
     <Grid container direction='row' justify='flex-start' alignItems='stretch' spacing={3}>
-      {products.map((res) => (
+      {products.map((res, i) => (
         <Grid item xs={6} md={4} lg={2} key={res.slug}>
-          <ProductCard product={res} listName={listName} />
+          <Badge color='secondary' badgeContent={startAt === 0 ? 0 : `#${startAt + i}`}>
+            <ProductCard product={res} listName={listName} />
+          </Badge>
         </Grid>
       ))}
     </Grid>
@@ -40,12 +42,14 @@ ProductList.propTypes = {
   products: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool,
   listName: PropTypes.string,
+  startAt: PropTypes.number,
 };
 
 ProductList.defaultProps = {
   products: [],
   loading: false,
   listName: 'Unknown',
+  startAt: 0,
 };
 
 export default ProductList;
