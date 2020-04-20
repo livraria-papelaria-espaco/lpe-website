@@ -70,7 +70,7 @@ const ContentRow = ({ row, listName }) => {
             </Badge>
           </Grid>
           <Grid item sm={12} md={8} lg={9}>
-            <Markdown>{row.description}</Markdown>
+            <Markdown>{row.description || ''}</Markdown>
           </Grid>
         </Grid>
       );
