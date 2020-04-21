@@ -5,6 +5,7 @@
   },
   "public": {
     "path": "./public",
-    "maxAge": 60000
+    "maxAge": 60000,
+    "defaultIndex": false
   }
 }
