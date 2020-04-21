@@ -101,27 +101,26 @@ module.exports = {
         const images = await fetchImagesFromFnac(isbn);
 
         const uploadService = strapi.plugins['upload'].services.upload;
-        const uploadConfig = await strapi
-          .store({
-            environment: strapi.config.environment,
-            type: 'plugin',
-            name: 'upload',
-          })
-          .get({ key: 'provider' });
+        const { optimize } = strapi.plugins['upload'].services['image-manipulation'];
 
         product = {
           ...product,
-          images: await uploadService.upload(
-            images.map((buffer, i) => ({
-              name: `${product.slug}-${i}.jpg`,
-              sha256: niceHash(buffer),
-              hash: uuid().replace(/-/g, ''),
-              ext: `.jpg`,
-              buffer,
-              mime: 'image/jpeg',
-              size: (buffer.length / 1000).toFixed(2),
-            })),
-            uploadConfig
+          images: await Promise.all(
+            images.map(async (readBuffer, i) => {
+              const { buffer, info } = await optimize(readBuffer);
+
+              const formattedFile = uploadService.formatFileInfo(
+                {
+                  filename: `${product.slug}-${i}.jpg`,
+                  type: 'image/jpeg',
+                  size: (buffer.length / 1000).toFixed(2),
+                },
+                { alternativeText: '', caption: '', name: null },
+                {}
+              );
+
+              return uploadService.uploadFileAndPersist({ ...formattedFile, ...info, buffer });
+            })
           ),
         };
       }
@@ -134,7 +133,8 @@ module.exports = {
           model: 'application::product.product',
         });
       }
-    } catch {
+    } catch (e) {
+      console.error(e);
       ctx.throw(500, 'failed to create/update product');
     }
 
