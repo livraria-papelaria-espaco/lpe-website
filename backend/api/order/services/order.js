@@ -9,7 +9,7 @@ module.exports = {
   calculateShipping: async (postalCode, shippingMethod, items) => {
     if (shippingMethod === 'STORE_PICKUP') return 0;
     //TODO calculate based on weight and postalcode
-    return 4.5;
+    return 3.5;
   },
 
   cancelExpiredOrders: async () => {

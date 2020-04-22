@@ -37,6 +37,13 @@ const CheckoutPaymentGateway = ({ state, dispatch, children }) => {
             label='Referência Multibanco'
           />
           <FormControlLabel value='MBWAY' control={<Radio color='primary' />} label='MBWay' />
+          <Collapse in={paymentGateway === 'MBWAY'}>
+            <CheckoutMbWayPhone
+              value={mbWayPhone}
+              handleChange={handleChange('mbWayPhone')}
+              error={!isValidMbWayPhone}
+            />
+          </Collapse>
           <FormControlLabel
             value='BANK_TRANSFER'
             control={<Radio color='primary' />}
@@ -44,13 +51,6 @@ const CheckoutPaymentGateway = ({ state, dispatch, children }) => {
           />
         </RadioGroup>
       </FormControl>
-      <Collapse in={paymentGateway === 'MBWAY'}>
-        <CheckoutMbWayPhone
-          value={mbWayPhone}
-          handleChange={handleChange('mbWayPhone')}
-          error={!isValidMbWayPhone}
-        />
-      </Collapse>
       {children(
         !paymentGateway ||
           (paymentGateway === 'MBWAY' && !isValidMbWayPhone) ||
