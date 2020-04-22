@@ -31,14 +31,12 @@ const CheckoutPaymentGateway = ({ state, dispatch, children }) => {
             label='Pagar em Loja'
             disabled={state.get('shippingMethod') !== 'STORE_PICKUP'}
           />
-          {/* // Hidden due to not being available yet
           <FormControlLabel
             value='MB'
             control={<Radio color='primary' />}
             label='Referência Multibanco'
           />
           <FormControlLabel value='MBWAY' control={<Radio color='primary' />} label='MBWay' />
-          */}
           <FormControlLabel
             value='BANK_TRANSFER'
             control={<Radio color='primary' />}
