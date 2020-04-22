@@ -73,7 +73,7 @@ export const CartProvider = ({ children }) => {
           window.gtag('event', 'remove_from_cart', {
             items: [
               {
-                id: action.item.id,
+                id: action.id,
               },
             ],
           });
