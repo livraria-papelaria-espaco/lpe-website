@@ -7,10 +7,7 @@
     "description": "Represents a product in the store"
   },
   "options": {
-    "timestamps": [
-      "createdAt",
-      "updatedAt"
-    ]
+    "timestamps": ["createdAt", "updatedAt"]
   },
   "attributes": {
     "name": {
@@ -29,6 +26,12 @@
       "type": "integer",
       "required": true,
       "private": true
+    },
+    "lastQuantity": {
+      "type": "integer",
+      "required": true,
+      "private": true,
+      "default": 0
     },
     "show": {
       "required": true,
@@ -67,21 +70,13 @@
     },
     "type": {
       "type": "enumeration",
-      "enum": [
-        "Livro",
-        "Outro"
-      ],
+      "enum": ["Livro", "Outro"],
       "default": "Outro",
       "required": true
     },
     "stockStatus": {
       "type": "enumeration",
-      "enum": [
-        "IN_STOCK",
-        "LOW_STOCK",
-        "ORDER_ONLY",
-        "UNAVAILABLE"
-      ],
+      "enum": ["IN_STOCK", "LOW_STOCK", "ORDER_ONLY", "UNAVAILABLE"],
       "default": "IN_STOCK",
       "required": true
     },

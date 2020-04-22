@@ -1,6 +1,18 @@
 'use strict';
 
 const { sanitizeEntity } = require('strapi-utils');
+const Joi = require('@hapi/joi');
+
+const updateStocksSchema = Joi.array()
+  .items(
+    Joi.object({
+      ref: Joi.string().pattern(/^\d+$/).required(),
+      qnt: Joi.number().integer().min(0).required(),
+    }).required()
+  )
+  .unique('ref')
+  .min(1)
+  .max(100);
 
 const addStockStatus = (entity) => {
   if (typeof entity !== 'object' || entity == null) return entity;
@@ -72,5 +84,20 @@ module.exports = {
     const entity = await strapi.services.product.findOne({ slug });
     if (!entity || entity.show === false) return null;
     return sanitizeEntity(addStockStatus(entity), { model: strapi.models.product });
+  },
+
+  async updateStocks(ctx) {
+    try {
+      const products = Joi.attempt(ctx.request.body, updateStocksSchema);
+
+      return await Promise.all(
+        products.map((product) => strapi.services.product.updateStock(product))
+      );
+    } catch (e) {
+      if (Joi.isError(e)) {
+        ctx.throw(400, 'invalid input');
+      }
+      throw e;
+    }
   },
 };

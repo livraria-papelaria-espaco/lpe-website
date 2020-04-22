@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tokens",
+  "info": {
+    "name": "token"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "token": {
+      "type": "string",
+      "minLength": 32,
+      "unique": true,
+      "required": true,
+      "regex": "[A-Za-z0-9$^@%#!?*]{32,}"
+    },
+    "user": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "tokens"
+    }
+  }
+}

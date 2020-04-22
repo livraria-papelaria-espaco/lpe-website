@@ -57,6 +57,10 @@
     "orders": {
       "via": "user",
       "collection": "order"
+    },
+    "tokens": {
+      "via": "user",
+      "collection": "token"
     }
   }
 }
