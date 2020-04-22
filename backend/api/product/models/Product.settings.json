@@ -59,6 +59,9 @@
       "repeatable": false,
       "component": "bookstore.book-info"
     },
+    "bookInfoSearch": {
+      "type": "string"
+    },
     "category": {
       "model": "category"
     },

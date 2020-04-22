@@ -42,16 +42,17 @@ const convertLimitQueryParams = (limitQuery) => {
 
 module.exports = {
   searchEnhanced: async (params) => {
-    //TODO hide products with "show": false
-
     let searchQuery;
-    const filterQuery = {};
+    const filterQuery = {
+      show: true,
+    };
 
     if (params.query)
       searchQuery = [
         { name: { $regex: params.query, $options: 'i' } },
         { shortDescription: { $regex: params.query, $options: 'i' } },
         { reference: { $regex: params.query, $options: 'i' } },
+        { bookInfoSearch: { $regex: params.query, $options: 'i' } },
       ];
 
     if (params.minPrice !== undefined && params.maxPrice !== undefined)
