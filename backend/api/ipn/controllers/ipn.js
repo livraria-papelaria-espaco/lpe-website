@@ -39,7 +39,7 @@ const handleMultibancoPayment = async (query) => {
   if (!response.data.pagamentos) throw strapi.errors.badRequest('Payment not detected.');
   if (response.data.pagamentos[0].estado !== 'paga')
     throw strapi.errors.badRequest('Payment not completed.');
-  if (response.data.pagamentos[0].valor !== query.price)
+  if (parseFloat(response.data.pagamentos[0].valor) !== parseFloat(query.price))
     throw strapi.errors.badRequest('Payment has invalid price.');
 
   try {
