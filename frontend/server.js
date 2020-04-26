@@ -6,9 +6,18 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
-  createServer(handle).listen(3000, (err) => {
+  const server = createServer(handle);
+
+  process.on('SIGINT', () => {
+    server.close(() => {
+      process.exit(0);
+    });
+  });
+
+  server.listen(3000, (err) => {
     if (err) throw err;
     // eslint-disable-next-line no-console
     console.log('> Ready on http://localhost:3000');
+    process.send('ready');
   });
 });
