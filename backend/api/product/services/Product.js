@@ -52,7 +52,8 @@ module.exports = {
         { name: { $regex: params.query, $options: 'i' } },
         { shortDescription: { $regex: params.query, $options: 'i' } },
         { reference: { $regex: params.query, $options: 'i' } },
-        { bookInfoSearch: { $regex: params.query, $options: 'i' } },
+        { bookAuthor: { $regex: params.query, $options: 'i' } },
+        { bookPublisher: { $regex: params.query, $options: 'i' } },
       ];
 
     if (params.minPrice !== undefined && params.maxPrice !== undefined)

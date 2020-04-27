@@ -35,9 +35,7 @@ const PRODUCTS_QUERY = gql`
       slug
       stockStatus
       type
-      bookInfo {
-        author
-      }
+      bookAuthor
     }
   }
 `;

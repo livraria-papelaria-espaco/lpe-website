@@ -59,9 +59,7 @@ const HOME_PAGE_QUERY = gql`
     price
     shortDescription
     type
-    bookInfo {
-      author
-    }
+    bookAuthor
     images {
       url
     }
@@ -110,9 +108,7 @@ const productType = PropTypes.shape({
   price: PropTypes.number.isRequired,
   shortDescription: PropTypes.string,
   type: PropTypes.oneOf(['Livro', 'Outro']).isRequired,
-  bookInfo: PropTypes.shape({
-    author: PropTypes.string,
-  }),
+  bookAuthor: PropTypes.string,
   images: PropTypes.arrayOf(
     PropTypes.shape({
       url: PropTypes.string,

@@ -54,12 +54,22 @@
     "shortDescription": {
       "type": "text"
     },
-    "bookInfo": {
-      "type": "component",
-      "repeatable": false,
-      "component": "bookstore.book-info"
+    "bookAuthor": {
+      "type": "string"
     },
-    "bookInfoSearch": {
+    "bookEdition": {
+      "type": "string"
+    },
+    "bookPublisher": {
+      "type": "string"
+    },
+    "bookPages": {
+      "type": "integer"
+    },
+    "publishedDate": {
+      "type": "string"
+    },
+    "language": {
       "type": "string"
     },
     "category": {

@@ -33,14 +33,12 @@ module.exports = {
       return {
         name: data.name,
         type: 'Livro',
-        bookInfo: {
-          author: (data.author || {}).name,
-          edition: data.bookEdition,
-          publisher: (data.publisher || {}).name,
-          pages: data.numberOfPages,
-          publishedDate: data.datePublished,
-          language: data.inLanguage,
-        },
+        bookAuthor: (data.author || {}).name,
+        bookEdition: data.bookEdition,
+        bookPublisher: (data.publisher || {}).name,
+        bookPages: data.numberOfPages,
+        publishedDate: data.datePublished,
+        language: data.inLanguage,
         description: data.description
           ? `# Sinopse\n${data.description.replace(NEWLINE_REGEX, '  \n')}`
           : undefined,

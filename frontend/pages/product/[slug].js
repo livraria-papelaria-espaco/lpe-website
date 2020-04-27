@@ -43,11 +43,12 @@ const GET_PRODUCT_INFO = gql`
       price
       reference
       type
-      bookInfo {
-        author
-        edition
-        publisher
-      }
+      bookAuthor
+      bookEdition
+      bookPublisher
+      bookPages
+      publishedDate
+      language
       category {
         slug
         name
@@ -102,9 +103,9 @@ const Product = ({ defaultData }) => {
         <Typography variant='h2' component='h1'>
           {product.name}
         </Typography>
-        {product.type === 'Livro' && product.bookInfo && product.bookInfo.author && (
+        {product.bookAuthor && (
           <Typography gutterBottom variant='h5' component='h2' color='textSecondary'>
-            {product.bookInfo.author}
+            {product.bookAuthor}
           </Typography>
         )}
         <Grid container spacing={3} alignItems='stretch' className={classes.grid}>
@@ -130,15 +131,31 @@ const Product = ({ defaultData }) => {
             <Typography variant='body1' gutterBottom>
               {product.shortDescription || ''}
             </Typography>
-            {product.type === 'Livro' && product.bookInfo && (
-              <>
-                <Typography variant='body2' component='p'>
-                  Edição: {product.bookInfo.edition}
-                </Typography>
-                <Typography variant='body2' component='p'>
-                  Editor: {product.bookInfo.publisher}
-                </Typography>
-              </>
+            {product.bookEdition && (
+              <Typography variant='body2' component='p'>
+                Edição: {product.bookEdition}
+              </Typography>
+            )}
+            {product.bookPublisher && (
+              <Typography variant='body2' component='p'>
+                Editor: {product.bookPublisher}
+              </Typography>
+            )}
+            {product.bookPages && (
+              <Typography variant='body2' component='p'>
+                Páginas: {product.bookPages}
+              </Typography>
+            )}
+            {product.publishedDate && (
+              <Typography variant='body2' component='p'>
+                {product.type === 'Livro' ? 'Data de Publicação' : 'Data de Lançamento'}:{' '}
+                {product.publishedDate}
+              </Typography>
+            )}
+            {product.language && (
+              <Typography variant='body2' component='p'>
+                Idioma: {product.language}
+              </Typography>
             )}
             <Typography gutterBottom variant='caption' component='p'>
               {`${product.type === 'Livro' ? 'ISBN' : 'Ref'}: ${product.reference}`}
@@ -170,11 +187,12 @@ Product.propTypes = {
     price: PropTypes.number.isRequired,
     reference: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    bookInfo: PropTypes.shape({
-      author: PropTypes.string.isRequired,
-      edition: PropTypes.string.isRequired,
-      publisher: PropTypes.string.isRequired,
-    }),
+    bookAuthor: PropTypes.string,
+    bookEdition: PropTypes.string,
+    bookPublisher: PropTypes.string,
+    bookPages: PropTypes.number,
+    publishedDate: PropTypes.string,
+    language: PropTypes.string,
     category: PropTypes.shape({
       slug: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,

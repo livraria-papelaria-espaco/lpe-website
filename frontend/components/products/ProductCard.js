@@ -95,14 +95,14 @@ const ProductCard = ({ product, listName }) => {
         <Typography variant='h5' component='h2'>
           {product.name}
         </Typography>
-        {product.type === 'Livro' && product.bookInfo && product.bookInfo.author && (
+        {product.bookAuthor && (
           <Typography
             variant='subtitle1'
             component='h3'
             color='textSecondary'
             className={classes.bookAuthor}
           >
-            {product.bookInfo.author}
+            {product.bookAuthor}
           </Typography>
         )}
         <Typography gutterBottom variant='caption' component='p'>
@@ -131,9 +131,7 @@ ProductCard.propTypes = {
     type: PropTypes.oneOf(['Livro', 'Outro']).isRequired,
     slug: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    bookInfo: PropTypes.shape({
-      author: PropTypes.string,
-    }),
+    bookAuthor: PropTypes.string,
     reference: PropTypes.string,
     shortDescription: PropTypes.string,
     price: PropTypes.number.isRequired,
