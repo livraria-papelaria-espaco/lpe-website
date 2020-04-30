@@ -15,7 +15,7 @@ module.exports = {
    */
   // Every minute
   '* * * * *': () => {
-    if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE !== 0) return;
+    if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE !== '0') return;
 
     strapi.services.order.cancelExpiredOrders();
   },
