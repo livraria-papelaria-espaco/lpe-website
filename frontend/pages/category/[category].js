@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/react-hooks';
 import { Typography } from '@material-ui/core';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
