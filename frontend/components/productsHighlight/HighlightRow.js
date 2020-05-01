@@ -24,6 +24,10 @@ const useStylesContent = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
   },
+  withDescriptionGrow: {
+    display: 'flex',
+    flexGrow: 1,
+  },
 }));
 
 const HighlightRow = ({ row, listName }) => {
@@ -65,8 +69,16 @@ const ContentRow = ({ row, listName }) => {
       content = (
         <Grid container spacing={3}>
           <Grid item sm={12} md={4} lg={3}>
-            <Badge color='secondary' badgeContent={row.badgeNumber ? `#${row.badgeNumber}` : 0}>
-              <ProductCard product={row.product} listName={listName} />
+            <Badge
+              color='secondary'
+              badgeContent={row.badgeNumber ? `#${row.badgeNumber}` : 0}
+              className={classes.withDescriptionGrow}
+            >
+              <ProductCard
+                product={row.product}
+                listName={listName}
+                className={classes.withDescriptionGrow}
+              />
             </Badge>
           </Grid>
           <Grid item sm={12} md={8} lg={9}>

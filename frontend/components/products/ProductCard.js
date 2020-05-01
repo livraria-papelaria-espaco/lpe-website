@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProductCard = ({ product, listName }) => {
+const ProductCard = ({ product, listName, className }) => {
   const classes = useStyles();
   const { data } = useQuery(STOCK_STATUS_QUERY, {
     variables: { slug: product.slug },
@@ -91,7 +91,7 @@ const ProductCard = ({ product, listName }) => {
   return (
     <Link href='/product/[slug]' as={`/product/${product.slug}`}>
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-      <div className={classes.root} onClick={handleGA}>
+      <div className={`${classes.root} ${className}`} onClick={handleGA}>
         <div className={classes.imageContainer}>{getImage()}</div>
         <Typography variant='h5' component='h2'>
           {product.name}
@@ -139,10 +139,12 @@ ProductCard.propTypes = {
     stockStatus: PropTypes.oneOf(['IN_STOCK', 'LOW_STOCK', 'ORDER_ONLY', 'UNAVAILABLE']),
   }).isRequired,
   listName: PropTypes.string,
+  className: PropTypes.string,
 };
 
 ProductCard.defaultProps = {
   listName: 'Unknown',
+  className: '',
 };
 
 export default ProductCard;
