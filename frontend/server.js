@@ -18,6 +18,6 @@ app.prepare().then(() => {
     if (err) throw err;
     // eslint-disable-next-line no-console
     console.log('> Ready on http://localhost:3000');
-    process.send('ready');
+    if (typeof process.send === 'function') process.send('ready');
   });
 });
