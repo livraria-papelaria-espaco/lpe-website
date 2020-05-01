@@ -4,7 +4,7 @@
   "description": "Insert or update products with metadata from external sources.",
   "strapi": {
     "name": "Metadata Fetcher",
-    "icon": "plug",
+    "icon": "book",
     "description": "metadata-fetcher.plugin.description"
   },
   "author": {
