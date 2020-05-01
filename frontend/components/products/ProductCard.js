@@ -85,7 +85,8 @@ const ProductCard = ({ product, listName }) => {
     }
   };
 
-  const stockStatus = product.stockStatus || (data && data.productBySlug.stockStatus);
+  const stockStatus =
+    product.stockStatus || (data && data.productBySlug && data.productBySlug.stockStatus) || '';
 
   return (
     <Link href='/product/[slug]' as={`/product/${product.slug}`}>
