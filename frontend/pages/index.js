@@ -7,61 +7,25 @@ import AboutUs from '~/components/home/AboutUs';
 import Hero from '~/components/home/Hero';
 import Layout from '~/components/Layout';
 import HighlightRow from '~/components/productsHighlight/HighlightRow';
-import { fetchAPI } from '~/lib/graphql';
+import { fetchAPI, fetchREST } from '~/lib/graphql';
 
 const HOME_PAGE_QUERY = gql`
   query HOME_PAGE_QUERY {
     newProducts {
-      ...product
-    }
-    productHighlights(where: { homePage: true }) {
       id
-      title
-      subtitle
-      content {
-        __typename
-        ... on ComponentHighlightProductList {
-          id
-          title
-          products {
-            ...product
-          }
-        }
-        ... on ComponentHighlightProductWithDescription {
-          id
-          title
-          product {
-            ...product
-          }
-          description
-          badgeNumber
-        }
-        ... on ComponentHighlightTop10 {
-          id
-          title
-          products {
-            ...product
-          }
-          startAt
-        }
+      slug
+      reference
+      name
+      price
+      shortDescription
+      type
+      bookAuthor
+      images {
+        url
       }
     }
     homePage {
       about
-    }
-  }
-
-  fragment product on Product {
-    id
-    slug
-    reference
-    name
-    price
-    shortDescription
-    type
-    bookAuthor
-    images {
-      url
     }
   }
 `;
@@ -77,7 +41,7 @@ const HomePage = ({ newProducts, productHighlights, homePage }) => {
     subtitle: 'Os nossos novos produtos!',
     content: [
       {
-        __typename: 'ComponentHighlightProductList',
+        __component: 'highlight.product-list',
         id: 'new-products-content',
         products: newProducts,
       },
@@ -125,7 +89,7 @@ HomePage.propTypes = {
       subtitle: PropTypes.string,
       content: PropTypes.arrayOf(
         PropTypes.shape({
-          __typename: PropTypes.string.isRequired,
+          __component: PropTypes.string.isRequired,
           id: PropTypes.string.isRequired, // MongoDB ID
           title: PropTypes.string,
           products: PropTypes.arrayOf(productType),
@@ -148,9 +112,12 @@ HomePage.defaultProps = {
 };
 
 export const getStaticProps = async () => {
-  const data = await fetchAPI(HOME_PAGE_QUERY);
+  const [graphql, productHighlights] = await Promise.all([
+    fetchAPI(HOME_PAGE_QUERY),
+    fetchREST('/product-highlights', { query: { homePage: true } }),
+  ]);
   return {
-    props: data || {},
+    props: { ...graphql, productHighlights } || {},
   };
 };
 

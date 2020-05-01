@@ -9,58 +9,13 @@ import FilterToolbar from '~/components/products/filters/FilterToolbar';
 import ProductQuery from '~/components/products/ProductQuery';
 import HighlightRow from '~/components/productsHighlight/HighlightRow';
 import { useProductFilters } from '~/hooks/useProductFilters';
-import { fetchAPI } from '~/lib/graphql';
+import { fetchAPI, fetchREST } from '~/lib/graphql';
 
 const GET_CATEGORY_FROM_SLUG = gql`
   query GET_CATEGORY_FROM_SLUG($category: String!) {
     categoryBySlug(slug: $category) {
+      id
       name
-      productHighlights {
-        id
-        title
-        subtitle
-        content {
-          __typename
-          ... on ComponentHighlightProductList {
-            id
-            title
-            products {
-              ...product
-            }
-          }
-          ... on ComponentHighlightProductWithDescription {
-            id
-            title
-            product {
-              ...product
-            }
-            description
-            badgeNumber
-          }
-          ... on ComponentHighlightTop10 {
-            id
-            title
-            products {
-              ...product
-            }
-            startAt
-          }
-        }
-      }
-    }
-  }
-
-  fragment product on Product {
-    id
-    slug
-    reference
-    name
-    price
-    shortDescription
-    type
-    bookAuthor
-    images {
-      url
     }
   }
 `;
@@ -124,7 +79,7 @@ CategoryPage.propTypes = {
       subtitle: PropTypes.string,
       content: PropTypes.arrayOf(
         PropTypes.shape({
-          __typename: PropTypes.string.isRequired,
+          __component: PropTypes.string.isRequired,
           id: PropTypes.string.isRequired, // MongoDB ID
           title: PropTypes.string,
           products: PropTypes.arrayOf(productType),
@@ -153,8 +108,13 @@ export const getStaticProps = async (context) => {
   const data = await fetchAPI(GET_CATEGORY_FROM_SLUG, {
     variables: { category: context.params.category },
   });
+  const categoryBySlug = data && data.categoryBySlug;
+  if (!categoryBySlug) return { props: {} };
+  const productHighlights = await fetchREST('/product-highlights', {
+    query: { category: categoryBySlug.id },
+  });
   return {
-    props: (data && data.categoryBySlug) || {},
+    props: { ...categoryBySlug, productHighlights },
   };
 };
 

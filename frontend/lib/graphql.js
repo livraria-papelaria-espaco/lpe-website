@@ -1,10 +1,10 @@
 import { print } from 'graphql/language/printer';
 import 'isomorphic-unfetch';
 
-const API_URL = `${process.env.apiUrl || 'http://localhost:3337'}/graphql`;
+const API_URL = `${process.env.apiUrl || 'http://localhost:3337'}`;
 
 export const fetchAPI = async (query, { variables } = {}) => {
-  const res = await fetch(API_URL, {
+  const res = await fetch(`${API_URL}/graphql`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -21,6 +21,21 @@ export const fetchAPI = async (query, { variables } = {}) => {
     throw new Error('Failed to fetch API');
   }
   return json.data;
+};
+
+export const fetchREST = async (url, { query, ...options }) => {
+  const queryString = query
+    ? `?${Object.keys(query)
+        .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(query[k] || '')}`)
+        .join('&')}`
+    : ``;
+  const res = await fetch(`${API_URL}${url}${queryString}`, options);
+  const json = await res.json();
+  if (json.statusCode && json.statusCode >= 400) {
+    console.error(json);
+    throw new Error('Failed to fetch API');
+  }
+  return json;
 };
 
 export default fetchAPI;

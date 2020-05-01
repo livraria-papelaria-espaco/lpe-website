@@ -53,15 +53,15 @@ const HighlightRow = ({ row, listName }) => {
 const ContentRow = ({ row, listName }) => {
   const classes = useStylesContent();
 
-  const { __typename, title } = row;
+  const { __component, title } = row;
 
   let content;
 
-  switch (__typename) {
-    case 'ComponentHighlightProductList':
+  switch (__component) {
+    case 'highlight.product-list':
       content = <ProductList products={row.products} listName={listName} />;
       break;
-    case 'ComponentHighlightProductWithDescription':
+    case 'highlight.product-with-description':
       content = (
         <Grid container spacing={3}>
           <Grid item sm={12} md={4} lg={3}>
@@ -75,7 +75,7 @@ const ContentRow = ({ row, listName }) => {
         </Grid>
       );
       break;
-    case 'ComponentHighlightTop10':
+    case 'highlight.top-10':
       content = <ProductList products={row.products} listName={listName} startAt={row.startAt} />;
       break;
     default:
@@ -111,7 +111,7 @@ const productType = PropTypes.shape({
 });
 
 const contentType = PropTypes.shape({
-  __typename: PropTypes.string.isRequired,
+  __component: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired, // MongoDB ID
   title: PropTypes.string,
   products: PropTypes.arrayOf(productType),
