@@ -2,5 +2,6 @@
   "myCustomConfiguration": "This configuration is accessible through strapi.config.environments.production.myCustomConfiguration",
   "euPagoToken": "${process.env.EUPAGO_TOKEN || ''}",
   "euPagoSandbox": false,
-  "frontendUrl": "${process.env.FRONTEND_URL || 'https://lpespaco.pt'}"
+  "frontendUrl": "${process.env.FRONTEND_URL || 'https://lpespaco.pt'}",
+  "previewSecret": "${process.env.PREVIEW_SECRET || ''}"
 }

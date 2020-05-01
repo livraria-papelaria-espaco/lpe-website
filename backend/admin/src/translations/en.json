@@ -289,5 +289,9 @@
 
   "Home Page": "Home Page",
   "Privacy Policy": "Privacy Policy",
-  "Terms of Service": "Terms of Service"
+  "Terms of Service": "Terms of Service",
+
+  "custom.HomePage.tools.title": "Useful Tools",
+  "custom.HomePage.tools.content": "Here you'll find some tools that'll assist you during the website configuration.",
+  "custom.HomePage.tools.previewMode": "Preview the website"
 }
