@@ -27,5 +27,7 @@ module.exports = withImages({
       instagram: 'https://instagram.com/livraria_espaco/',
       facebookEvents: 'https://www.facebook.com/pg/livrariaepapelaria.espaco/events/',
     },
+    googleAnalyticsId: process.env.GA_ID || '',
+    tawkToId: process.env.TAWKTO_ID || '',
   },
 });

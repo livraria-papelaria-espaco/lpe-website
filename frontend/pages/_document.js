@@ -3,6 +3,8 @@ import Document, { Head, Main, NextScript } from 'next/document';
 import React from 'react';
 import { GA_TRACKING_ID } from '~/lib/gtag';
 
+const { tawkToId } = process.env;
+
 let prefixer;
 let cleanCSS;
 if (process.env.NODE_ENV === 'production') {
@@ -35,7 +37,7 @@ export default class MyDocument extends Document {
             rel='stylesheet'
             href='https://fonts.googleapis.com/css?family=Baloo+2:400,500,700&display=swap'
           />
-          {process.env.NODE_ENV === 'production' && (
+          {process.env.NODE_ENV === 'production' && GA_TRACKING_ID && (
             <>
               {/* Global Site Tag (gtag.js) - Google Analytics */}
               <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
@@ -58,7 +60,7 @@ export default class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
-          {process.env.NODE_ENV === 'production' && (
+          {process.env.NODE_ENV === 'production' && tawkToId && (
             <script
               async
               type='text/javascript'
@@ -69,7 +71,7 @@ export default class MyDocument extends Document {
               (function(){
               var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
               s1.async=true;
-              s1.src='https://embed.tawk.to/5e7ce12935bcbb0c9aaab60c/default';
+              s1.src='https://embed.tawk.to/${tawkToId}/default';
               s1.charset='UTF-8';
               s1.setAttribute('crossorigin','*');
               s0.parentNode.insertBefore(s1,s0);
