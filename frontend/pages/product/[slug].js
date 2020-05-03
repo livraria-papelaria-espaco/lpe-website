@@ -11,6 +11,7 @@ import AddToCart from '~/components/cart/AddToCart';
 import CategoryBreadcrumbs from '~/components/categories/CategoryBreadcrumbs';
 import Layout from '~/components/Layout';
 import ProductImageCarousel from '~/components/products/ProductImageCarousel';
+import ProductSEO from '~/components/products/ProductSEO';
 import StockBadge from '~/components/products/StockBadge';
 import Markdown from '~/components/text/Markdown';
 import LoadingPage from '~/components/utils/LoadingPage';
@@ -34,6 +35,7 @@ const GET_PRODUCT_INFO = gql`
     productBySlug(slug: $slug) {
       id
       name
+      slug
       description
       shortDescription
       images {
@@ -85,6 +87,7 @@ const Product = ({ defaultData }) => {
 
   return (
     <Layout title={product.name} showStoreNav>
+      <ProductSEO product={product} />
       <GAProduct
         id={product.id}
         name={product.name}
@@ -176,6 +179,7 @@ Product.propTypes = {
   defaultData: PropTypes.shape({
     id: PropTypes.string.isRequired, // Mongodb ID
     name: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
     description: PropTypes.string,
     shortDescription: PropTypes.string,
     images: PropTypes.arrayOf(

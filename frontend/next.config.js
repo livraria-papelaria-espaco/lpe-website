@@ -6,6 +6,7 @@ module.exports = withImages({
   },
   env: {
     siteTitle: 'Livraria e Papelaria Espaço',
+    siteUrl: 'https://lpespaco.pt',
     apiUrl: process.env.API_URL || 'http://localhost:3337',
     appbar: {
       desktopHeight: 96,
