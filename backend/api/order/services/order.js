@@ -8,8 +8,28 @@
 module.exports = {
   calculateShipping: async (postalCode, shippingMethod, items) => {
     if (shippingMethod === 'STORE_PICKUP') return 0;
-    //TODO calculate based on weight and postalcode
-    return 3.5;
+
+    const products = await Promise.all(
+      items.map(async (product) => ({
+        ...(await strapi.services.product.findOne({ id: product.id })),
+        quantity: product.quantity,
+      }))
+    );
+
+    const { bookCount, otherCount } = products.reduce(
+      (acc, product) => {
+        if (product.type === 'Livro')
+          return { ...acc, bookCount: acc.bookCount + product.quantity };
+        return { ...acc, otherCount: acc.otherCount + product.quantity };
+      },
+      { bookCount: 0, otherCount: 0 }
+    );
+
+    if (otherCount > 0) return 4.5;
+
+    if (bookCount <= 2) return 2.5;
+    if (bookCount <= 3) return 3.5;
+    return 4.0;
   },
 
   cancelExpiredOrders: async () => {
