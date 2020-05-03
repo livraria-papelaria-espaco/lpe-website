@@ -48,7 +48,7 @@ module.exports = {
                 .decreaseStock({ id: item.id, qnt: item.needsRestock - item.quantity })
                 .catch((e) => {
                   strapi.log.error(
-                    { error: e, items, order },
+                    { error: e, items: order.orderData.items, order },
                     '[Order Cancel] Failed to increase stock for %s by %d',
                     item.id,
                     item.quantity - item.needsRestock
@@ -65,8 +65,8 @@ module.exports = {
             });
           } catch (e) {
             strapi.log.error(
-              { error: e },
-              `Failed to send order cancelled email for order ${entity.invoiceId}: ${JSON.stringify(
+              { error: e, order },
+              `Failed to send order cancelled email for order ${order.invoiceId}: ${JSON.stringify(
                 e
               )}`
             );

@@ -14,6 +14,15 @@ const updateStocksSchema = Joi.array()
   .min(1)
   .max(100);
 
+const searchEnhancedSchema = Joi.object({
+  _query: Joi.string().allow(''),
+  _sort: Joi.string().pattern(/^(?:updatedAt|name|price):(?:asc|desc)$/),
+  _limit: Joi.number().integer().max(100),
+  _start: Joi.number().integer().min(0),
+  _category: Joi.string().pattern(/^[a-zA-Z0-9-_]+$/),
+  _priceRange: Joi.array().items(Joi.number().min(0)).length(2).sort(),
+}).required();
+
 const addStockStatus = (entity) => {
   if (typeof entity !== 'object' || entity == null) return entity;
 
@@ -31,25 +40,35 @@ const escapeRegex = (str) => str.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
 
 module.exports = {
   async searchEnhanced(ctx) {
-    const query = {};
+    try {
+      const { _category, _query, _sort, _limit, _start, _priceRange } = Joi.attempt(
+        ctx.query,
+        searchEnhancedSchema
+      );
 
-    if (ctx.query._category) query.category = escapeRegex(ctx.query._category);
-    if (ctx.query._query) query.query = escapeRegex(ctx.query._query.substring(0, 30));
-    if (ctx.query._sort) query.sort = ctx.query._sort;
-    if (ctx.query._limit) query.limit = ctx.query._limit;
-    if (ctx.query._start) query.start = ctx.query._start;
-    if (ctx.query._priceRange) {
-      if (!Array.isArray(ctx.query._priceRange) && ctx.query._priceRange.length !== 2)
-        throw ctx.badRequest('Price range must be an array of two integers');
-      query.minPrice = parseInt(ctx.query._priceRange[0]);
-      query.maxPrice = parseInt(ctx.query._priceRange[1]);
+      const query = {};
+
+      if (_category) query.category = escapeRegex(_category);
+      if (_query) query.query = escapeRegex(_query.substring(0, 30));
+      if (_sort) query.sort = _sort;
+      if (_limit) query.limit = _limit;
+      if (_start) query.start = _start;
+      if (_priceRange) {
+        query.minPrice = _priceRange[0];
+        query.maxPrice = _priceRange[1];
+      }
+
+      const entities = await strapi.services.product.searchEnhanced(query);
+
+      return entities.map((entity) =>
+        sanitizeEntity(addStockStatus(entity), { model: strapi.models.product })
+      );
+    } catch (e) {
+      if (Joi.isError(e)) {
+        ctx.throw(400, 'invalid input');
+      }
+      throw e;
     }
-
-    const entities = await strapi.services.product.searchEnhanced(query);
-
-    return entities.map((entity) =>
-      sanitizeEntity(addStockStatus(entity), { model: strapi.models.product })
-    );
   },
 
   async newProducts() {

@@ -29,7 +29,7 @@ module.exports = {
 
   // After saving a value.
   // Fired after an `insert` or `update` query.
-  afterSave: async (model, response, options) => {
+  afterSave: async (model) => {
     if (!model || !model._id) return;
     if (!model.slug && !model.parent && !model.categories) return;
 
@@ -66,7 +66,7 @@ module.exports = {
 
   // After updating a value.
   // Fired after an `update` query.
-  afterUpdate: async (model, attrs, options) => {
+  afterUpdate: async (model) => {
     const query = model.getFilter();
     const update = model.getUpdate();
     if (!update) return;

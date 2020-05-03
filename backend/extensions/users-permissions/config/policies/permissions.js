@@ -18,7 +18,7 @@ module.exports = async (ctx, next) => {
         const [token] = await strapi.query('token').find({ token: ctx.request.query.token });
 
         if (!token) {
-          throw new Error(`Invalid token: This token doesn't exist`);
+          throw new Error("Invalid token: This token doesn't exist");
         } else {
           if (token.user && typeof token.token === 'string') {
             id = token.user.id;
@@ -123,5 +123,6 @@ module.exports = async (ctx, next) => {
 };
 
 const handleErrors = (ctx, err = undefined, type) => {
+  // eslint-disable-next-line security/detect-object-injection
   throw strapi.errors[type](err);
 };

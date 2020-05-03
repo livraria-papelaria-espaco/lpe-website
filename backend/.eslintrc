@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended", "plugin:prettier/recommended", "plugin:security/recommended"],
   "env": {
     "commonjs": true,
     "es6": true,
@@ -17,11 +17,9 @@
   "globals": {
     "strapi": true
   },
+  "plugins": ["security"],
   "rules": {
-    "indent": ["error", 2, { "SwitchCase": 1 }],
     "linebreak-style": ["error", "unix"],
-    "no-console": 0,
-    "quotes": ["error", "single"],
-    "semi": ["error", "always"]
+    "no-console": 0
   }
 }

@@ -15,7 +15,7 @@ function getTransporterConfig(config) {
     secureConnection: secure,
     pool: config.pool === 'true' ? true : false,
     debug: false,
-    logger: true,
+    logger: process.env.NODE_ENV !== 'production',
     maxConnections: config.maxConnections ? Number.parseInt(config.maxConnections) : 10,
     maxMessages: config.maxConnections ? Number.parseInt(config.maxMessages) : 100,
     rateDelta: config.maxConnections ? Number.parseInt(config.rateDelta) : 1000,
@@ -111,45 +111,48 @@ module.exports = {
         : 1;
 
     return {
-      send: (options) => {
-        return new Promise(async (resolve, reject) => {
-          options = options instanceof Object ? options : {};
+      send: async (options) => {
+        options = options instanceof Object ? options : {};
 
-          let message = {
-            from: options.from || config.nodemailer_default_from,
-            to: options.to || config.nodemailer_default_replyto,
-            replyTo: options.replyTo || config.nodemailer_default_replyto,
-            subject: options.subject,
-            text: options.text || '',
-            html: options.html || options.text,
-          };
+        let message = {
+          from: options.from || config.nodemailer_default_from,
+          to: options.to || config.nodemailer_default_replyto,
+          replyTo: options.replyTo || config.nodemailer_default_replyto,
+          subject: options.subject,
+          text: options.text || '',
+          html: options.html || options.text,
+        };
 
-          if (options.attachments) {
-            message.attachments = options.attachments;
-          }
+        if (options.attachments) {
+          message.attachments = options.attachments;
+        }
 
-          while (attempts > 0) {
-            try {
-              const info = await transporter.sendMail(message);
-              return resolve(info);
-            } catch (e) {
-              if (attempts === 0) {
-                return reject(e);
-              }
+        while (attempts > 0) {
+          let error;
+          try {
+            const info = await transporter.sendMail(message);
+            return info;
+          } catch (e) {
+            if (attempts === 0) {
+              throw e;
             }
-
-            attempts -= 1;
-            console.log(
-              `The email to ${message.to} has failed to send for some reason, we are tryng to resend the email`
-            );
-            console.log(`Current configurations:`, transporterConfig);
-            console.log(`Remainig attempts ${attempts} timestamp:`);
-            await sleep(sleepTime);
+            error = e;
           }
 
-          return reject({
-            message: `Unable to send the email to ${message.to}`,
-          });
+          attempts -= 1;
+          strapi.logger.error(
+            {
+              message,
+              remainingAttemps: attempts,
+              error,
+            },
+            'Failed to send email'
+          );
+          await sleep(sleepTime);
+        }
+
+        throw new Error({
+          message: `Unable to send the email to ${message.to}`,
         });
       },
     };

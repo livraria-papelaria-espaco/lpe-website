@@ -19,6 +19,7 @@ const convertSortQueryParams = (sortQuery) => {
       throw new Error('order can only be one of asc|desc|ASC|DESC');
     }
 
+    // eslint-disable-next-line security/detect-object-injection
     sortKeys[field] = order.toLowerCase() === 'asc' ? 1 : -1;
   });
   return sortKeys;
@@ -72,7 +73,7 @@ module.exports = {
 
     if (!!searchQuery || Object.keys(filterQuery).length !== 0) {
       queryObject.$and = [];
-      if (!!searchQuery) queryObject.$and.push({ $or: searchQuery });
+      if (searchQuery) queryObject.$and.push({ $or: searchQuery });
       if (Object.keys(filterQuery).length !== 0) queryObject.$and.push(filterQuery);
     }
 
