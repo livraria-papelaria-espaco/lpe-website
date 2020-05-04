@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import React from 'react';
+import Head from 'next/head';
 import AboutUs from '~/components/home/AboutUs';
 import Hero from '~/components/home/Hero';
 import Layout from '~/components/Layout';
@@ -50,6 +51,9 @@ const HomePage = ({ newProducts, productHighlights, homePage }) => {
 
   return (
     <Layout showStoreNav homePageNavbar noContainer>
+      <Head>
+        <meta name='description' property='og:description' content={homePage.about} />
+      </Head>
       <Hero />
       <Container fixed>
         {newProducts && newProducts.length > 0 && (

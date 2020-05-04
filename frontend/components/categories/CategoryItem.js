@@ -4,6 +4,7 @@ import {
   ListItem,
   ListItemSecondaryAction,
   ListItemText,
+  Link as MUILink,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -32,8 +33,15 @@ const CategoryItem = ({ indent, defaultOpen, name, slug, subcategories }) => {
 
   return (
     <>
-      <Link href='/category/[category]' as={`/category/${slug}`}>
-        <ListItem button className={classes.indent} selected={router.query.category === slug}>
+      <Link href='/category/[category]' as={`/category/${slug}`} passHref>
+        <ListItem
+          button
+          component={MUILink}
+          color='inherit'
+          underline='none'
+          className={classes.indent}
+          selected={router.query.category === slug}
+        >
           <ListItemText primary={name} />
           {expandable && (
             <ListItemSecondaryAction>

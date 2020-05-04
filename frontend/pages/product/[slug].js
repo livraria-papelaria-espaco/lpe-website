@@ -1,7 +1,5 @@
-import { useQuery } from '@apollo/react-hooks';
 import { Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Skeleton } from '@material-ui/lab';
 import gql from 'graphql-tag';
 import ErrorPage from 'next/error';
 import { useRouter } from 'next/router';
@@ -13,6 +11,7 @@ import Layout from '~/components/Layout';
 import ProductImageCarousel from '~/components/products/ProductImageCarousel';
 import ProductSEO from '~/components/products/ProductSEO';
 import StockBadge from '~/components/products/StockBadge';
+import StockLoader from '~/components/products/StockLoader';
 import Markdown from '~/components/text/Markdown';
 import LoadingPage from '~/components/utils/LoadingPage';
 import { fetchAPI } from '~/lib/graphql';
@@ -56,7 +55,14 @@ const GET_PRODUCT_INFO = gql`
         name
         path
       }
-      stockStatus
+    }
+  }
+`;
+
+const NEW_PRODUCTS_QUERY = gql`
+  query NEW_PRODUCTS_QUERY {
+    newProducts {
+      slug
     }
   }
 `;
@@ -66,20 +72,14 @@ const Product = ({ defaultData }) => {
   const router = useRouter();
   const { slug } = router.query;
 
-  const { loading, error, data } = useQuery(GET_PRODUCT_INFO, {
-    variables: { slug },
-  });
-
-  if (error) return <ErrorPage statusCode={500} />;
-
-  if (loading && !defaultData)
+  if (router.isFallback)
     return (
       <Layout>
         <LoadingPage />
       </Layout>
     );
 
-  const product = (data && data.productBySlug) || defaultData;
+  const product = defaultData;
 
   if (!product) return <ErrorPage statusCode={404} />;
 
@@ -121,16 +121,11 @@ const Product = ({ defaultData }) => {
             <Typography variant='h4' component='p' color='secondary'>
               <strong>{product.price.toFixed(2)}€</strong>
             </Typography>
-            {loading ? (
-              <Skeleton width={100} />
-            ) : (
-              <StockBadge
-                stock={product.stockStatus || ''}
-                component={Typography}
-                variant='h6'
-                gutterBottom
-              />
-            )}
+            <StockLoader product={slug}>
+              {(stockStatus) => (
+                <StockBadge stock={stockStatus} component={Typography} variant='h6' gutterBottom />
+              )}
+            </StockLoader>
             <Typography variant='body1' gutterBottom>
               {product.shortDescription || ''}
             </Typography>
@@ -202,7 +197,6 @@ Product.propTypes = {
       name: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
     }),
-    stockStatus: PropTypes.string.isRequired,
   }),
 };
 
@@ -211,7 +205,12 @@ Product.defaultProps = {
 };
 
 export const getStaticPaths = async () => {
-  return { paths: [], fallback: true };
+  const data = await fetchAPI(NEW_PRODUCTS_QUERY);
+
+  return {
+    paths: (data.newProducts || []).map((v) => ({ params: { slug: v.slug } })),
+    fallback: true,
+  };
 };
 
 export const getStaticProps = async (context) => {

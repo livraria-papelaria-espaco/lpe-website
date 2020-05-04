@@ -56,6 +56,10 @@ const Layout = ({
       <div className={colorBackground ? classes.colorBackground : ''} />
       <Head>
         <title>{`${title ? `${title} | ` : ''}${process.env.siteTitle}`}</title>
+        <meta
+          property='og:title'
+          content={`${title ? `${title} | ` : ''}${process.env.siteTitle}`}
+        />
       </Head>
       <CssBaseline />
       {!hideNavbar && <Navbar hideStoreNav={!showStoreNav} homePage={homePageNavbar} />}

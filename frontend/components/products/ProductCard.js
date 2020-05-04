@@ -3,19 +3,9 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
-import { Skeleton } from '@material-ui/lab';
-import StockBadge from './StockBadge';
 import LogoSvg from '~/assets/logo.svg';
-
-const STOCK_STATUS_QUERY = gql`
-  query STOCK_STATUS_QUERY($slug: String!) {
-    productBySlug(slug: $slug) {
-      stockStatus
-    }
-  }
-`;
+import StockBadge from './StockBadge';
+import StockLoader from './StockLoader';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: fade(theme.palette.secondary.light, theme.palette.action.hoverOpacity),
     },
+  },
+  link: {
+    color: 'unset',
+    textDecoration: 'none',
   },
   imageContainer: {
     textAlign: 'center',
@@ -52,10 +46,6 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductCard = ({ product, listName, className }) => {
   const classes = useStyles();
-  const { data } = useQuery(STOCK_STATUS_QUERY, {
-    variables: { slug: product.slug },
-    skip: !!product.stockStatus,
-  });
 
   const getImage = () => {
     if (product.images && product.images[0] && product.images[0].url)
@@ -85,42 +75,39 @@ const ProductCard = ({ product, listName, className }) => {
     }
   };
 
-  const stockStatus =
-    product.stockStatus || (data && data.productBySlug && data.productBySlug.stockStatus) || '';
-
   return (
     <Link href='/product/[slug]' as={`/product/${product.slug}`}>
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-      <div className={`${classes.root} ${className}`} onClick={handleGA}>
-        <div className={classes.imageContainer}>{getImage()}</div>
-        <Typography variant='h5' component='h2'>
-          {product.name}
-        </Typography>
-        {product.bookAuthor && (
-          <Typography
-            variant='subtitle1'
-            component='h3'
-            color='textSecondary'
-            className={classes.bookAuthor}
-          >
-            {product.bookAuthor}
+      <a className={classes.link}>
+        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
+        <div className={`${classes.root} ${className}`} onClick={handleGA}>
+          <div className={classes.imageContainer}>{getImage()}</div>
+          <Typography variant='h5' component='h2'>
+            {product.name}
           </Typography>
-        )}
-        <Typography gutterBottom variant='caption' component='p'>
-          {`${product.type === 'Livro' ? 'ISBN' : 'Ref'}: ${product.reference || '-'}`}
-        </Typography>
-        <Typography variant='body2' color='textSecondary' component='p'>
-          {product.shortDescription || ''}
-        </Typography>
-        <Typography variant='body1' component='p'>
-          {`${product.price.toFixed(2)}€ `}
-          {stockStatus ? (
-            <StockBadge stock={stockStatus} />
-          ) : (
-            <Skeleton className={classes.skeleton} width={80} />
+          {product.bookAuthor && (
+            <Typography
+              variant='subtitle1'
+              component='h3'
+              color='textSecondary'
+              className={classes.bookAuthor}
+            >
+              {product.bookAuthor}
+            </Typography>
           )}
-        </Typography>
-      </div>
+          <Typography gutterBottom variant='caption' component='p'>
+            {`${product.type === 'Livro' ? 'ISBN' : 'Ref'}: ${product.reference || '-'}`}
+          </Typography>
+          <Typography variant='body2' color='textSecondary' component='p'>
+            {product.shortDescription || ''}
+          </Typography>
+          <Typography variant='body1' component='p'>
+            {`${product.price.toFixed(2)}€ `}
+            <StockLoader product={product.slug} skeletonClassName={classes.skeleton}>
+              {(stockStatus) => <StockBadge stock={stockStatus} />}
+            </StockLoader>
+          </Typography>
+        </div>
+      </a>
     </Link>
   );
 };

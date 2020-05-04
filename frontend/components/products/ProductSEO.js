@@ -31,6 +31,7 @@ const ProductSEO = ({ product }) => {
       bookEdition: product.bookEdition,
       offers: {
         '@type': 'Offer',
+        url: `${process.env.siteUrl}/product/${product.slug}`,
         price: product.price,
         priceCurrency: 'EUR',
         seller: {
@@ -57,6 +58,7 @@ const ProductSEO = ({ product }) => {
       url: `${process.env.siteUrl}/product/${product.slug}`,
       offers: {
         '@type': 'Offer',
+        url: `${process.env.siteUrl}/product/${product.slug}`,
         price: product.price,
         priceCurrency: 'EUR',
         seller: {

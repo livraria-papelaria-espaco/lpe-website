@@ -63,6 +63,7 @@ const CategoryDrawer = ({ mobile, open, setOpen }) => {
       open={open}
       onClose={handleClose}
       anchor={mobile ? 'left' : 'right'}
+      ModalProps={{ keepMounted: true }}
     >
       <div>
         <div className={classes.buttonArea}>

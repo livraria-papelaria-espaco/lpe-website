@@ -128,10 +128,10 @@ const DesktopNavbar = ({ hideSearchBar, homePage, setDrawerOpen }) => {
           </div>
         ) : (
           <div>
-            <Link href='/auth/signin'>
+            <Link href='/auth/signin' passHref>
               <Button color='inherit'>Iniciar sessão</Button>
             </Link>
-            <Link href='/auth/signup'>
+            <Link href='/auth/signup' passHref>
               <Button color='inherit'>Registar</Button>
             </Link>
           </div>

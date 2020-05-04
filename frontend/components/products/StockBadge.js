@@ -27,7 +27,7 @@ const StockBadge = ({ stock, component: Component = 'span', ...props }) => {
         Indisponível
       </Component>
     );
-  return <Component {...props}>Desconhecido</Component>;
+  return <Component {...props}>Stock Desconhecido</Component>;
 };
 
 StockBadge.propTypes = {
