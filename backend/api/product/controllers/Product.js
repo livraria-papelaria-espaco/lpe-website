@@ -16,7 +16,7 @@ const updateStocksSchema = Joi.array()
 
 const searchEnhancedSchema = Joi.object({
   _query: Joi.string().allow(''),
-  _sort: Joi.string().pattern(/^(?:updatedAt|name|price):(?:asc|desc)$/),
+  _sort: Joi.string().pattern(/^(?:createdAt|updatedAt|name|price):(?:asc|desc)$/),
   _limit: Joi.number().integer().max(100),
   _start: Joi.number().integer().min(0),
   _category: Joi.string().pattern(/^[a-zA-Z0-9-_]+$/),

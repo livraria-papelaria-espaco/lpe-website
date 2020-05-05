@@ -23,7 +23,7 @@ export const fetchAPI = async (query, { variables } = {}) => {
   return json.data;
 };
 
-export const fetchREST = async (url, { query, ...options }) => {
+export const fetchREST = async (url, { query = {}, ...options } = {}) => {
   const queryString = query
     ? `?${Object.keys(query)
         .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(query[k] || '')}`)
