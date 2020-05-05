@@ -261,6 +261,10 @@ module.exports = {
   },
 
   async find(ctx) {
+    return this.findOwn(ctx);
+  },
+
+  async findOwn(ctx) {
     let entities;
     if (ctx.query._q) {
       entities = await strapi.services.order.search({ ...ctx.query, user: ctx.state.user.id });

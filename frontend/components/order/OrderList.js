@@ -23,7 +23,7 @@ const limit = 10;
 const FETCH_ORDERS_QUERY = gql`
   query FETCH_ORDER_LIST($limit: Int!, $start: Int!) {
     ordersCount
-    orders(sort: "createdAt:desc", limit: $limit, start: $start) {
+    ownOrders(sort: "createdAt:desc", limit: $limit, start: $start) {
       id
       invoiceId
       paymentGateway
@@ -55,25 +55,25 @@ const OrderList = () => {
   const classes = useStyles();
   if (loading && !data) return <LoadingPage height={20} />;
   if (error) return <ErrorText error={error} />;
-  const { orders } = data;
+  const { ownOrders } = data;
 
   const onLoadMore = () =>
     fetchMore({
       variables: {
-        start: orders.length,
+        start: ownOrders.length,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
         return {
           ...prev,
           ordersCount: fetchMoreResult.ordersCount,
-          orders: [...prev.orders, ...fetchMoreResult.orders],
+          ownOrders: [...prev.ownOrders, ...fetchMoreResult.ownOrders],
         };
       },
     });
 
   const handleChangePage = (_, newPage) => {
-    if (newPage * limit >= data.orders.length) onLoadMore();
+    if (newPage * limit >= data.ownOrders.length) onLoadMore();
     setPage(newPage);
   };
 
@@ -101,7 +101,7 @@ const OrderList = () => {
             ))
           ) : (
             <>
-              {orders.slice(page * limit, page * limit + limit).map((row) => (
+              {ownOrders.slice(page * limit, page * limit + limit).map((row) => (
                 <Link
                   key={row.id}
                   href='/dashboard/order/[orderId]'
@@ -120,8 +120,8 @@ const OrderList = () => {
                   </TableRow>
                 </Link>
               ))}
-              {!orders ||
-                (orders.length === 0 && (
+              {!ownOrders ||
+                (ownOrders.length === 0 && (
                   <TableRow>
                     <TableCell colSpan={5} align='center'>
                       Não foram encontradas encomendas
