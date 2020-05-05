@@ -1,32 +1,17 @@
-import { addLocaleData } from 'react-intl';
-import { reduce } from 'lodash';
-import en from 'react-intl/locale-data/en';
-import pt from 'react-intl/locale-data/pt';
-import trads from './translations';
-
-// We dismiss pt-BR and zh-Hans locales since they are not supported by react-intl
-const locales = {
-  en,
-  pt,
-};
-const languages = Object.keys(trads);
-
 /**
- * Dynamically generate `translationsMessages object`.
+ * i18n.js
+ *
+ * This will setup the i18n language files and locale data for your plugin.
+ *
  */
-const translationMessages = reduce(
-  languages,
-  (result, language) => {
-    const obj = result;
-    obj[language] = trads[language];
 
-    if (locales[language]) {
-      addLocaleData(locales[language]);
-    }
+// NOTE TO PLUGINS DEVELOPERS:
+// If you modify this file you also need to update the documentation accordingly
+// Here's the file: strapi/docs/3.0.0-beta.x/admin-panel/customization.md#customize-the-strapi-admin-package
+// IF THE DOC IS NOT UPDATED THE PULL REQUEST WILL NOT BE MERGED
 
-    return obj;
-  },
-  {}
-);
+import translationMessages from './translations';
+
+const languages = Object.keys(translationMessages);
 
 export { languages, translationMessages };
