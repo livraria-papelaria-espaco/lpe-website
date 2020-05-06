@@ -7,6 +7,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { setContext } from 'apollo-link-context';
 import { HttpLink } from 'apollo-link-http';
+import { BatchHttpLink } from 'apollo-link-batch-http';
+import { split } from 'apollo-link';
 import fetch from 'isomorphic-unfetch';
 import Cookies from 'js-cookie';
 import Head from 'next/head';
@@ -133,11 +135,22 @@ function createApolloClient(initialState = {}) {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined', // Disables forceFetch on the server (so queries are only run once)
     link: authLink.concat(
-      new HttpLink({
-        uri: `${process.env.apiUrl || 'http://localhost:3337'}/graphql`, // Server URL (must be absolute)
-        credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
-        fetch,
-      })
+      split(
+        (operation) => operation.getContext().important === true,
+        new HttpLink({
+          // if the test is true -- debatch
+          uri: `${process.env.apiUrl || 'http://localhost:3337'}/graphql`, // Server URL (must be absolute)
+          credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
+          fetch,
+        }),
+        new BatchHttpLink({
+          // otherwise, batching is fine
+          uri: `${process.env.apiUrl || 'http://localhost:3337'}/graphql`, // Server URL (must be absolute)
+          credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
+          fetch,
+          batchMax: 20,
+        })
+      )
     ),
     cache: new InMemoryCache().restore(initialState),
   });

@@ -17,6 +17,8 @@
     "@material-ui/lab": "^4.0.0-alpha.51",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",
+    "apollo-link": "^1.2.14",
+    "apollo-link-batch-http": "^1.2.14",
     "apollo-link-context": "^1.0.20",
     "apollo-link-http": "^1.5.17",
     "autoprefixer": "^9.7.6",

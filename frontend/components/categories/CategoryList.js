@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 const CategoryList = () => {
   const classes = useStyles();
   const router = useRouter();
-  const { data, loading, error } = useQuery(GET_CATEGORIES);
+  const { data, loading, error } = useQuery(GET_CATEGORIES, { context: { important: true } });
   if (loading)
     return (
       <div className={classes.skeleton}>
