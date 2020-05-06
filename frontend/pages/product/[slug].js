@@ -1,10 +1,10 @@
 import { Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import gql from 'graphql-tag';
-import ErrorPage from 'next/error';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
+import Error404 from '~/components/error/404';
 import AddToCart from '~/components/cart/AddToCart';
 import CategoryBreadcrumbs from '~/components/categories/CategoryBreadcrumbs';
 import Layout from '~/components/Layout';
@@ -81,7 +81,7 @@ const Product = ({ defaultData }) => {
 
   const product = defaultData;
 
-  if (!product) return <ErrorPage statusCode={404} />;
+  if (!product) return <Error404 />;
 
   const hasImage = product.images && product.images.length > 0;
 
