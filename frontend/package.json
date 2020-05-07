@@ -49,17 +49,13 @@
     "test:watch": "jest — watch",
     "test:coverage": "jest — coverage"
   },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "./setupTests.js"
-    ]
-  },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "babel-plugin-inline-react-svg": "^1.1.1",
     "babel-plugin-root-import": "^6.5.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.4.4",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",

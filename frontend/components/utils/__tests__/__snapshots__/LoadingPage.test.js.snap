@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoadingPage Utility (components/utils/LoadingPage) Renders without crashing and matches snapshot 1`] = `
+<div
+  className="makeStyles-root-1 makeStyles-root-2"
+>
+  <WithStyles(ForwardRef(CircularProgress)) />
+</div>
+`;

@@ -1,10 +1,8 @@
-import { Paper, Typography, Grid, Badge } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ProductList from '~/components/products/ProductList';
-import ProductCard from '~/components/products/ProductCard';
-import Markdown from '~/components/text/Markdown';
+import ContentRow from './ContentRow';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,16 +15,6 @@ const useStyles = makeStyles((theme) => ({
     WebkitTextFillColor: 'transparent',
     textAlign: 'center',
     marginBottom: theme.spacing(3),
-  },
-}));
-
-const useStylesContent = makeStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-  withDescriptionGrow: {
-    display: 'flex',
-    flexGrow: 1,
   },
 }));
 
@@ -50,58 +38,6 @@ const HighlightRow = ({ row, listName }) => {
           <ContentRow key={contentRow.id} row={contentRow} listName={listName} />
         ))}
       </Paper>
-    </div>
-  );
-};
-
-const ContentRow = ({ row, listName }) => {
-  const classes = useStylesContent();
-
-  const { __component, title } = row;
-
-  let content;
-
-  switch (__component) {
-    case 'highlight.product-list':
-      content = <ProductList products={row.products} listName={listName} />;
-      break;
-    case 'highlight.product-with-description':
-      content = (
-        <Grid container spacing={3}>
-          <Grid item sm={12} md={4} lg={3}>
-            <Badge
-              color='secondary'
-              badgeContent={row.badgeNumber ? `#${row.badgeNumber}` : 0}
-              className={classes.withDescriptionGrow}
-            >
-              <ProductCard
-                product={row.product}
-                listName={listName}
-                className={classes.withDescriptionGrow}
-              />
-            </Badge>
-          </Grid>
-          <Grid item sm={12} md={8} lg={9}>
-            <Markdown>{row.description || ''}</Markdown>
-          </Grid>
-        </Grid>
-      );
-      break;
-    case 'highlight.top-10':
-      content = <ProductList products={row.products} listName={listName} startAt={row.startAt} />;
-      break;
-    default:
-      content = null;
-  }
-
-  return (
-    <div className={classes.root}>
-      {title && (
-        <Typography variant='h5' gutterBottom>
-          {title}
-        </Typography>
-      )}
-      {content}
     </div>
   );
 };
@@ -144,15 +80,6 @@ HighlightRow.propTypes = {
 };
 
 HighlightRow.defaultProps = {
-  listName: 'Product Highlights',
-};
-
-ContentRow.propTypes = {
-  row: contentType.isRequired,
-  listName: PropTypes.string,
-};
-
-ContentRow.defaultProps = {
   listName: 'Product Highlights',
 };
 
