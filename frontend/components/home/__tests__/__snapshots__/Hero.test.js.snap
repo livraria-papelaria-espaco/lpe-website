@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Hero static component (components/home/Hero) Should render correctly and match snapshot 1`] = `
+<div
+  className="makeStyles-root-1"
+>
+  <WithStyles(ForwardRef(Container))
+    className="makeStyles-container-3"
+    fixed={true}
+  >
+    <LogoSvg
+      className="makeStyles-logo-4"
+      viewBox="0 0 359.03 313.42"
+      xmlns="http://www.w3.org/2000/svg"
+    />
+    <WithStyles(ForwardRef(Typography))
+      component="h1"
+      gutterBottom={true}
+      variant="h3"
+    >
+      Livraria e Papelaria Espaço
+    </WithStyles(ForwardRef(Typography))>
+    <div>
+      <Link
+        href="/search"
+        passHref={true}
+      >
+        <WithStyles(ForwardRef(Button))
+          className="makeStyles-button-6 makeStyles-containedButton-5"
+          color="default"
+          size="medium"
+          variant="contained"
+        >
+          Visitar loja
+        </WithStyles(ForwardRef(Button))>
+      </Link>
+      <WithStyles(ForwardRef(Button))
+        className="makeStyles-button-6"
+        color="inherit"
+        component={[Function]}
+        href="#about-us"
+        variant="outlined"
+      >
+        Sobre nós
+      </WithStyles(ForwardRef(Button))>
+    </div>
+  </WithStyles(ForwardRef(Container))>
+</div>
+`;

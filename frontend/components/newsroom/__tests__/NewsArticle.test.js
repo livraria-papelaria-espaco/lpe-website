@@ -9,7 +9,7 @@ describe('NewsArticle (components/newsroom/NewsArticle', () => {
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.  
 Donec non eros dignissim, dignissim erat eget, tincidunt magna.
 Ut nisl risus, *posuere* non **finibus quis, consequat vitae** lacus.`;
-    const date = new Date('2019-02-19T15:25:00.000Z');
+    const date = new Date('2019-02-19T15:25:00.000Z').toISOString();
 
     const wrapper = shallow(<NewsArticle title={title} content={content} date={date} />);
     expect(wrapper).toMatchSnapshot();

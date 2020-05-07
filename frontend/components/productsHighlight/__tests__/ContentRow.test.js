@@ -187,4 +187,13 @@ describe('ContentRow (/components/productHighlight/ContentRow)', () => {
       expect(wrapper.find(Typography).text()).toMatch(rowTitle);
     });
   });
+
+  it('Should render correctly even if row type is invalid', () => {
+    const mockRow = {
+      __component: 'invalid-type',
+      id: 'mock-row-8',
+    };
+
+    shallow(<ContentRow row={mockRow} />);
+  });
 });

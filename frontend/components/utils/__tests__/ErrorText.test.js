@@ -7,4 +7,14 @@ describe('ErrorText Utility (components/utils/ErrorText)', () => {
     const wrapper = shallow(<ErrorText />);
     expect(wrapper).toMatchSnapshot();
   });
+  it('Should call console.error if an error is provided and the environement is not production', () => {
+    const fn = jest.spyOn(global.console, 'error').mockImplementation(() => {});
+    const error = 'Lorem Ipsum Error';
+
+    shallow(<ErrorText error={error} />);
+
+    expect(fn).toHaveBeenCalledWith(error);
+
+    fn.mockRestore();
+  });
 });
