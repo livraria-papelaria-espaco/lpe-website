@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewsArticle (components/newsroom/NewsArticle Renders correctly and matches snapshot 1`] = `
+<div
+  className="makeStyles-root-1"
+>
+  <WithStyles(ForwardRef(Typography))
+    component="h2"
+    variant="h3"
+  >
+    Lorem Ipsum
+  </WithStyles(ForwardRef(Typography))>
+  <WithStyles(ForwardRef(Typography))
+    color="textSecondary"
+    variant="subtitle2"
+  >
+    Publicado a 19/02/2019
+  </WithStyles(ForwardRef(Typography))>
+  <Markdown
+    className="makeStyles-markdown-2"
+  >
+    
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.  
+Donec non eros dignissim, dignissim erat eget, tincidunt magna.
+Ut nisl risus, *posuere* non **finibus quis, consequat vitae** lacus.
+  </Markdown>
+</div>
+`;

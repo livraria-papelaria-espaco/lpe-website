@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AboutUs (components/home/AboutUs) Should render correctly and match snapshot 1`] = `
+<div
+  className="makeStyles-root-1"
+  id="about-us"
+>
+  <WithStyles(ForwardRef(Container))
+    className="makeStyles-container-2"
+    fixed={true}
+  >
+    <WithStyles(ForwardRef(Typography))
+      gutterBottom={true}
+      variant="h2"
+    >
+      Sobre nós
+    </WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Paper))
+      className="makeStyles-paper-3"
+    >
+      <Markdown
+        className=""
+      >
+        Lorem Ipsum Text
+      </Markdown>
+    </WithStyles(ForwardRef(Paper))>
+  </WithStyles(ForwardRef(Container))>
+</div>
+`;

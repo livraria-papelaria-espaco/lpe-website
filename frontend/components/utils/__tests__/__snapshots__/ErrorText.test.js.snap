@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ErrorText Utility (components/utils/ErrorText) Renders without crashing and matches snapshot 1`] = `
+<WithStyles(ForwardRef(Alert))
+  severity="warning"
+>
+  Ocorreu um erro
+</WithStyles(ForwardRef(Alert))>
+`;
