@@ -53,6 +53,16 @@ const Footer = () => {
           <FooterLink href='/legal/tos' text='Termos e Condições' />
           <FooterLink href='/legal/privacy' text='Política de Privacidade' />
           <FooterLink href='/newsroom' text='Destaques' />
+          <Typography variant='body1'>
+            <MUILink
+              href='https://www.livroreclamacoes.pt/'
+              target='_blank'
+              rel='noopenner noreferrer'
+              color='inherit'
+            >
+              Livro de Reclamações
+            </MUILink>
+          </Typography>
         </div>
         <div className={classes.section}>
           <Typography variant='h5' className={classes.header}>
