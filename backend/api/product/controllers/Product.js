@@ -14,6 +14,13 @@ const updateStocksSchema = Joi.array()
   .min(1)
   .max(100);
 
+const createProductSchema = Joi.object({
+  reference: Joi.string().pattern(/^\d+$/).required(),
+  quantity: Joi.number().integer().min(0).required(),
+  name: Joi.string().required(),
+  price: Joi.number().min(0).required(),
+});
+
 const searchEnhancedSchema = Joi.object({
   _query: Joi.string().allow(''),
   _sort: Joi.string().pattern(/^(?:createdAt|updatedAt|name|price):(?:asc|desc)$/),
@@ -112,6 +119,57 @@ module.exports = {
       return await Promise.all(
         products.map((product) => strapi.services.product.updateStock(product))
       );
+    } catch (e) {
+      if (Joi.isError(e)) {
+        ctx.throw(400, 'invalid input');
+      }
+      throw e;
+    }
+  },
+
+  async create(ctx) {
+    try {
+      let data = { ...Joi.attempt(ctx.request.body, createProductSchema), show: false };
+
+      let metadataServices = strapi.plugins['metadata-fetcher'].services['metadata-fetcher'];
+
+      const product = await strapi.services.product.findOne({ reference: data.reference });
+      if (product) ctx.throw(400, 'product already exists');
+
+      if (metadataServices.isISBN(data.reference)) {
+        const metadata = await metadataServices.fetchMetadataFromWook(data.reference);
+        if (metadata) {
+          const category = await strapi.services.category.findOne({ name: 'Livraria' });
+
+          const slug = await strapi.plugins['content-manager'].services.uid.generateUIDField({
+            contentTypeUID: 'application::product.product',
+            field: 'slug',
+            data: metadata,
+          });
+          data = {
+            ...data,
+            ...metadata,
+            slug,
+            images: await metadataServices.fetchAndUploadImages(data.reference, slug),
+            show: true,
+            category: category ? category.id : undefined,
+          };
+        }
+      }
+
+      if (!data.slug)
+        data = {
+          ...data,
+          slug: await strapi.plugins['content-manager'].services.uid.generateUIDField({
+            contentTypeUID: 'application::product.product',
+            field: 'slug',
+            data,
+          }),
+        };
+
+      const entity = await strapi.services.product.create(data);
+
+      return sanitizeEntity(addStockStatus(entity), { model: strapi.models.product });
     } catch (e) {
       if (Joi.isError(e)) {
         ctx.throw(400, 'invalid input');

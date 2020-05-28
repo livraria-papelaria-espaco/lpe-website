@@ -24,6 +24,27 @@ const fetchFnacImage = async (url, i) => {
   }
 };
 
+const fetchImagesFromFnac = async (isbn) => {
+  try {
+    const searchResponse = await axios.get(
+      `https://www.fnac.pt/SearchResult/ResultList.aspx?Search=${isbn}`
+    );
+    const productUrl = (FNAC_SEARCH_REGEX.exec(searchResponse.data) || [])[1];
+
+    const response = await axios.get(productUrl);
+    const dataString = (FNAC_REGEX.exec(response.data) || [])[1];
+    const data = JSON.parse(dataString);
+    const images = await Promise.all(
+      data.productData.images.map((imgSet, i) =>
+        fetchFnacImage(imgSet.zoom || imgSet.image || imgSet.thumb)
+      )
+    );
+    return images.filter((i) => !!i);
+  } catch (e) {
+    return [];
+  }
+};
+
 module.exports = {
   fetchMetadataFromWook: async (isbn) => {
     try {
@@ -49,24 +70,42 @@ module.exports = {
     }
   },
 
-  fetchImagesFromFnac: async (isbn) => {
-    try {
-      const searchResponse = await axios.get(
-        `https://www.fnac.pt/SearchResult/ResultList.aspx?Search=${isbn}`
-      );
-      const productUrl = (FNAC_SEARCH_REGEX.exec(searchResponse.data) || [])[1];
+  fetchImagesFromFnac,
 
-      const response = await axios.get(productUrl);
-      const dataString = (FNAC_REGEX.exec(response.data) || [])[1];
-      const data = JSON.parse(dataString);
-      const images = await Promise.all(
-        data.productData.images.map((imgSet, i) =>
-          fetchFnacImage(imgSet.zoom || imgSet.image || imgSet.thumb)
-        )
-      );
-      return images.filter((i) => !!i);
-    } catch (e) {
-      return [];
+  isISBN: (isbn) => {
+    if (!isbn || isbn.length !== 13 || !isbn.startsWith('978')) return false;
+    let sum = 0;
+    for (let i = 0; i < 12; i++) {
+      let digit = parseInt(isbn[i]);
+      if (i % 2 == 1) sum += 3 * digit;
+      else sum += digit;
     }
+    const check = (10 - (sum % 10)) % 10;
+    return check == isbn[isbn.length - 1];
+  },
+
+  fetchAndUploadImages: async (isbn, slug) => {
+    const images = await fetchImagesFromFnac(isbn);
+
+    const uploadService = strapi.plugins['upload'].services.upload;
+    const { optimize } = strapi.plugins['upload'].services['image-manipulation'];
+
+    return Promise.all(
+      images.map(async (readBuffer, i) => {
+        const { buffer, info } = await optimize(readBuffer);
+
+        const formattedFile = uploadService.formatFileInfo(
+          {
+            filename: `${slug}-${i}.jpg`,
+            type: 'image/jpeg',
+            size: (buffer.length / 1000).toFixed(2),
+          },
+          { alternativeText: '', caption: '', name: null },
+          {}
+        );
+
+        return uploadService.uploadFileAndPersist({ ...formattedFile, ...info, buffer });
+      })
+    );
   },
 };

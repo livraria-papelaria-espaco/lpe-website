@@ -293,5 +293,6 @@
 
   "custom.HomePage.tools.title": "Ferramentas úteis",
   "custom.HomePage.tools.content": "Aqui irás encontrar algumas ferramentas úteis que te irão assistir na configuração do website.",
-  "custom.HomePage.tools.previewMode": "Pré-visualizar o website"
+  "custom.HomePage.tools.previewMode": "Pré-visualizar o website",
+  "custom.HomePage.tools.productsNeedingAction": "Produtos Escondidos"
 }

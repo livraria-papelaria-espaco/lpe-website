@@ -19,18 +19,6 @@ function niceHash(buffer) {
     .replace(/\+/, '_');
 }
 
-const isISBN = (isbn) => {
-  if (!isbn || isbn.length !== 13 || !isbn.startsWith('978')) return false;
-  let sum = 0;
-  for (let i = 0; i < 12; i++) {
-    let digit = parseInt(isbn[i]);
-    if (i % 2 == 1) sum += 3 * digit;
-    else sum += digit;
-  }
-  const check = (10 - (sum % 10)) % 10;
-  return check == isbn[isbn.length - 1];
-};
-
 module.exports = {
   /**
    * Default action.
@@ -49,6 +37,10 @@ module.exports = {
 
   fetchBook: async (ctx) => {
     const { isbn, forceImages = 'false' } = ctx.query;
+
+    const { fetchMetadataFromWook, fetchAndUploadImages, isISBN } = strapi.plugins[
+      'metadata-fetcher'
+    ].services['metadata-fetcher'];
 
     ctx.assert(isISBN(isbn), 400, 'invalid isbn');
     ctx.assert(
@@ -72,10 +64,6 @@ module.exports = {
       };
     }
 
-    const { fetchMetadataFromWook, fetchImagesFromFnac } = strapi.plugins[
-      'metadata-fetcher'
-    ].services['metadata-fetcher'];
-
     const metadata = await fetchMetadataFromWook(isbn);
     ctx.assert(!!metadata, 502, 'metadata not found on external services');
 
@@ -98,30 +86,9 @@ module.exports = {
 
     try {
       if (!product.images || forceImages === 'true') {
-        const images = await fetchImagesFromFnac(isbn);
-
-        const uploadService = strapi.plugins['upload'].services.upload;
-        const { optimize } = strapi.plugins['upload'].services['image-manipulation'];
-
         product = {
           ...product,
-          images: await Promise.all(
-            images.map(async (readBuffer, i) => {
-              const { buffer, info } = await optimize(readBuffer);
-
-              const formattedFile = uploadService.formatFileInfo(
-                {
-                  filename: `${product.slug}-${i}.jpg`,
-                  type: 'image/jpeg',
-                  size: (buffer.length / 1000).toFixed(2),
-                },
-                { alternativeText: '', caption: '', name: null },
-                {}
-              );
-
-              return uploadService.uploadFileAndPersist({ ...formattedFile, ...info, buffer });
-            })
-          ),
+          images: await fetchAndUploadImages(isbn, product.slug),
         };
       }
       if (isNewProduct) {

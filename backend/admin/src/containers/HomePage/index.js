@@ -24,14 +24,9 @@ const HomePage = ({ global: { plugins }, history: { push } }) => {
     target: '_blank',
   };
 
-  const handleOrderManagementClick = (e) => {
+  const handleLink = (link) => (e) => {
     e.preventDefault();
-    push('/plugins/order-management/pending');
-  };
-
-  const handleMetadataFetcherClick = (e) => {
-    e.preventDefault();
-    push('/plugins/metadata-fetcher');
+    push(link);
   };
 
   return (
@@ -89,7 +84,7 @@ const HomePage = ({ global: { plugins }, history: { push } }) => {
                   <ALink
                     rel='noopener noreferrer'
                     href=''
-                    onClick={handleOrderManagementClick}
+                    onClick={handleLink('/plugins/order-management/pending')}
                     target='_blank'
                   >
                     {msg}
@@ -101,7 +96,21 @@ const HomePage = ({ global: { plugins }, history: { push } }) => {
                   <ALink
                     rel='noopener noreferrer'
                     href=''
-                    onClick={handleMetadataFetcherClick}
+                    onClick={handleLink('/plugins/metadata-fetcher')}
+                    target='_blank'
+                  >
+                    {msg}
+                  </ALink>
+                )}
+              </FormattedMessage>
+              <FormattedMessage id='custom.HomePage.tools.productsNeedingAction'>
+                {(msg) => (
+                  <ALink
+                    rel='noopener noreferrer'
+                    href=''
+                    onClick={handleLink(
+                      '/plugins/content-manager/collectionType/application::product.product?_sort=createdAt:DESC&show=false'
+                    )}
                     target='_blank'
                   >
                     {msg}
