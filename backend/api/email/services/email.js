@@ -42,7 +42,7 @@ module.exports = {
 
 const sendPugEmail = async ({ order, user }, template) => {
   const shippingAddress = order.shippingAddress || {};
-  const frontendUrl = strapi.config.currentEnvironment.frontendUrl || 'http://localhost:3000';
+  const frontendUrl = strapi.config.get('custom.frontendUrl', 'http://localhost:3000');
   const variables = {
     frontendUrl,
     id: order.id,

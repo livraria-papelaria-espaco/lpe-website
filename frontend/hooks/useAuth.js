@@ -59,7 +59,7 @@ const FORGOT_PASSWORD_MUTATION = gql`
 
 const CHANGE_PASSWORD_MUTATION = gql`
   mutation CHANGE_PASSWORD_MUTATION($password: String!, $code: String!) {
-    changePassword(password: $password, passwordConfirmation: $password, code: $code) {
+    resetPassword(password: $password, passwordConfirmation: $password, code: $code) {
       jwt
       user {
         username
@@ -139,9 +139,9 @@ const useAuthProvider = () => {
 
   const changePassword = async (password, code) => {
     const { data: res } = await requestChangePassword({ variables: { password, code } });
-    if (!res.changePassword.user.confirmed) throw new Error('Auth.form.error.confirmed');
-    Cookies.set('jwt', res.changePassword.jwt);
-    setUsername(res.changePassword.user.username);
+    if (!res.resetPassword.user.confirmed) throw new Error('Auth.form.error.confirmed');
+    Cookies.set('jwt', res.resetPassword.jwt);
+    setUsername(res.resetPassword.user.username);
     window.localStorage.setItem('login', Date.now());
     return res;
   };

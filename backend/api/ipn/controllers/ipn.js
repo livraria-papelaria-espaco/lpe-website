@@ -23,11 +23,11 @@ const handleMultibancoPayment = async (query) => {
 
   try {
     const EU_PAGO_ENDPOINT = `https://${
-      strapi.config.currentEnvironment.euPagoSandbox ? 'sandbox' : 'clientes'
+      strapi.config.get('custom.euPagoSandbox', false) ? 'sandbox' : 'clientes'
     }.eupago.pt/clientes/rest_api`;
 
     var response = await axios.post(EU_PAGO_ENDPOINT + '/multibanco/info', {
-      chave: strapi.config.currentEnvironment.euPagoToken,
+      chave: strapi.config.get('custom.euPagoToken', ''),
       referencia: query.reference,
       entidade: query.entidade,
     });

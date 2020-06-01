@@ -1,7 +1,7 @@
 module.exports = async (ctx, next) => {
   if (
     ctx.request.query &&
-    ctx.request.query.chave_api === strapi.config.currentEnvironment.euPagoToken
+    ctx.request.query.chave_api === strapi.config.get('custom.euPagoToken', '')
   ) {
     // Go to next policy or will reach the controller's action.
     return await next();

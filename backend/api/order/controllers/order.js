@@ -148,7 +148,7 @@ const handleGateway = (entity) => {
 
 const getEuPagoEndpoint = (path) =>
   `https://${
-    strapi.config.currentEnvironment.euPagoSandbox ? 'sandbox' : 'clientes'
+    strapi.config.get('custom.euPagoSandbox', false) ? 'sandbox' : 'clientes'
   }.eupago.pt/clientes/rest_api${path}`;
 
 const handleMB = async (entity) => {
@@ -156,7 +156,7 @@ const handleMB = async (entity) => {
     const expiresAt = new Date(Date.now() + 86400000);
     expiresAt.setHours(23, 59, 59); // 23:59:59 of the next day
     const response = await axios.post(getEuPagoEndpoint('/multibanco/create'), {
-      chave: strapi.config.currentEnvironment.euPagoToken,
+      chave: strapi.config.get('custom.euPagoToken', ''),
       valor: entity.price,
       id: entity.invoiceId,
       data_fim: expiresAt.toISOString().split('T')[0], // 1 day from now in YYYY-MM-DD
@@ -182,7 +182,7 @@ const handleMBWay = async (entity) => {
   try {
     const expiresAt = new Date(Date.now() + 600000); // 10 min
     const response = await axios.post(getEuPagoEndpoint('/mbway/create'), {
-      chave: strapi.config.currentEnvironment.euPagoToken,
+      chave: strapi.config.get('custom.euPagoToken', ''),
       valor: entity.price,
       id: entity.invoiceId,
       alias: entity.orderData.mbWayPhone,
