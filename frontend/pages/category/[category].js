@@ -113,6 +113,7 @@ export const getStaticProps = async (context) => {
     query: { category: categoryBySlug.id },
   });
   return {
+    unstable_revalidate: 300, // 5 min
     props: { ...categoryBySlug, productHighlights },
   };
 };

@@ -121,6 +121,7 @@ export const getStaticProps = async () => {
     fetchREST('/product-highlights', { query: { homePage: true } }),
   ]);
   return {
+    unstable_revalidate: 300, // 5 min
     props: { ...graphql, productHighlights } || {},
   };
 };

@@ -64,6 +64,7 @@ export const getStaticProps = async () => {
   const data = await fetchAPI(NEWSROOM_QUERY);
   return {
     props: {
+      unstable_revalidate: 300, // 5 min
       defaultData: data.newsrooms,
     },
   };

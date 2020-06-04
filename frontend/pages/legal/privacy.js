@@ -46,6 +46,7 @@ export const getStaticProps = async () => {
   const data = await fetchAPI(PRIVACY_QUERY);
   return {
     props: {
+      unstable_revalidate: 3600, // 1 hour
       defaultData: data.privacyPolicy.privacyPolicy,
     },
   };

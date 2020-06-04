@@ -218,6 +218,7 @@ export const getStaticProps = async (context) => {
     variables: { slug: context.params.slug },
   });
   return {
+    unstable_revalidate: 300, // 5 min
     props: { defaultData: data.productBySlug || null },
   };
 };

@@ -46,6 +46,7 @@ export const getStaticProps = async () => {
   const data = await fetchAPI(TOS_QUERY);
   return {
     props: {
+      unstable_revalidate: 3600, // 1 hour
       defaultData: data.termsOfService.termsOfService,
     },
   };
