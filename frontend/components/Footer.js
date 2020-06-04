@@ -39,6 +39,14 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(1),
   },
+  scheduleContainer: {
+    display: 'flex',
+  },
+  scheduleValues: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginLeft: theme.spacing(1),
+  },
 }));
 const Footer = () => {
   const classes = useStyles();
@@ -96,6 +104,16 @@ const Footer = () => {
               {process.env.footer.email}
             </MUILink>
           </Typography>
+          <div className={classes.scheduleContainer}>
+            <Typography variant='body1'>{`Horário: `}</Typography>
+            <div className={classes.scheduleValues}>
+              {process.env.footer.schedule.split('\n').map((v) => (
+                <Typography variant='body1' key={v}>
+                  {v}
+                </Typography>
+              ))}
+            </div>
+          </div>
         </div>
         <div className={classes.section}>
           <Typography variant='h5' className={classes.header}>
