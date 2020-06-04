@@ -133,9 +133,9 @@ const OrderInfo = ({ id }) => {
             title='billingAddress'
             value={[
               `${data.billingAddress.firstName} ${data.billingAddress.lastName}`,
-              data.billingAddress.address1,
+              data.billingAddress.address1 || '',
               data.billingAddress.address2 || '',
-              `${data.billingAddress.postalCode}, ${data.billingAddress.city}`,
+              `${data.billingAddress.postalCode || ''}, ${data.billingAddress.city || ''}`,
             ].map((v, i) => (
               <span key={i}>
                 {i !== 0 && <br />}

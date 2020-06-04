@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
 const nameRegex = /\d/;
 const postalCodeRegex = /^\d{4}-\d{3}$/;
 
-const CheckoutAddress = ({ value, setValue, setReady, disabled }) => {
+const CheckoutAddress = ({ value, setValue, setReady, disabled, required }) => {
   const handleChange = (key) => (event) => {
     setValue(key, event.target.value);
   };
@@ -27,12 +27,12 @@ const CheckoutAddress = ({ value, setValue, setReady, disabled }) => {
     setReady(
       isValidName(firstName) &&
         isValidName(lastName) &&
-        isValidAddress(address1) &&
+        ((!address1 && !required) || isValidAddress(address1)) &&
         (!address2 || isValidAddress(address2)) &&
-        isValidCity &&
-        isValidPostalCode
+        ((!city && !required) || isValidCity) &&
+        ((!postalCode && !required) || isValidPostalCode)
     );
-  }, [firstName, lastName, address1, address2, isValidCity, isValidPostalCode]);
+  }, [firstName, lastName, address1, address2, city, isValidCity, postalCode, isValidPostalCode]);
 
   return (
     <FormControl component='fieldset'>
@@ -64,7 +64,7 @@ const CheckoutAddress = ({ value, setValue, setReady, disabled }) => {
         <Grid item xs={12}>
           <TextField
             error={address1.length !== 0 && !isValidAddress(address1)}
-            required
+            required={required}
             label='Morada'
             fullWidth
             autoComplete='billing address-line1'
@@ -89,7 +89,7 @@ const CheckoutAddress = ({ value, setValue, setReady, disabled }) => {
         <Grid item xs={12} md={5}>
           <TextField
             error={city.length !== 0 && !isValidCity}
-            required
+            required={required}
             label='Localidade'
             fullWidth
             autoComplete='billing address-level2'
@@ -102,7 +102,7 @@ const CheckoutAddress = ({ value, setValue, setReady, disabled }) => {
           {/* TODO auto "-" symbol */}
           <TextField
             error={postalCode.length !== 0 && !isValidPostalCode}
-            required
+            required={required}
             label='Código Postal'
             fullWidth
             autoComplete='billing postal-code'
@@ -114,7 +114,7 @@ const CheckoutAddress = ({ value, setValue, setReady, disabled }) => {
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <TextField
-            required
+            required={required}
             label='Country'
             fullWidth
             autoComplete='billing country'
@@ -132,10 +132,12 @@ CheckoutAddress.propTypes = {
   setValue: PropTypes.func.isRequired,
   setReady: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
+  required: PropTypes.bool,
 };
 
 CheckoutAddress.defaultProps = {
   disabled: false,
+  required: true,
 };
 
 export default CheckoutAddress;

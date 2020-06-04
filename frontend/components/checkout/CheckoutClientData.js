@@ -32,6 +32,7 @@ const CheckoutClientData = ({ state, dispatch, children }) => {
         value={state.get('billingAddress')}
         setValue={setAddressValue}
         setReady={setAddressReady}
+        required={false}
       />
       <TextField
         className={classes.nif}

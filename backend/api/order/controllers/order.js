@@ -18,7 +18,11 @@ const orderCreateSchema = Joi.object({
     not: 'STORE_PICKUP',
     then: Joi.required(),
   }),
-  billingAddress: Joi.link('#address').required(),
+  billingAddress: Joi.link('#address')
+    .concat(
+      Joi.object({ address1: Joi.optional(), city: Joi.optional(), postalCode: Joi.optional() })
+    )
+    .required(),
   paymentGateway: Joi.string()
     .valid('IN_STORE', 'MB', 'MBWAY', 'BANK_TRANSFER')
     .required()
@@ -39,7 +43,8 @@ const orderCreateSchema = Joi.object({
         .required(),
       mbWayPhone: Joi.string().pattern(/^9\d{8}$/),
     })
-    .when('paymentGateway', { is: 'MBWAY', then: Joi.object({ mbWayPhone: Joi.required() }) }),
+    .when('paymentGateway', { is: 'MBWAY', then: Joi.object({ mbWayPhone: Joi.required() }) })
+    .required(),
 }).shared(
   Joi.object({
     firstName: Joi.string().pattern(/\d+/, { invert: true }).max(20).required(),

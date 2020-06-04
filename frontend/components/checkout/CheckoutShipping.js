@@ -37,7 +37,7 @@ const CheckoutShipping = ({ state, dispatch, children }) => {
           disabled={useSameAddress}
         />
       </Collapse>
-      {children(!addressReady && !useSameAddress)}
+      {children(!addressReady)}
     </div>
   );
 };
