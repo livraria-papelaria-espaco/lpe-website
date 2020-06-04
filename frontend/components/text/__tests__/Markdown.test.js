@@ -13,8 +13,6 @@ and a line break
 
 [This is a link](https://google.com)
 
-![And an image](https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png)
-
 Also renders **bold** and _italic_ correctly.
 `;
 
