@@ -77,9 +77,9 @@ const ProductCard = ({ product, listName, className }) => {
 
   return (
     <Link href='/product/[slug]' as={`/product/${product.slug}`}>
-      <a className={classes.link}>
+      <a className={`${classes.link} ${className}`}>
         {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-        <div className={`${classes.root} ${className}`} onClick={handleGA}>
+        <div className={classes.root} onClick={handleGA}>
           <div className={classes.imageContainer}>{getImage()}</div>
           <Typography variant='h5' component='h2'>
             {product.name}
