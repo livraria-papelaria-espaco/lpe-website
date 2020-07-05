@@ -4,9 +4,9 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
-import Error404 from '~/components/error/404';
 import AddToCart from '~/components/cart/AddToCart';
 import CategoryBreadcrumbs from '~/components/categories/CategoryBreadcrumbs';
+import Error404 from '~/components/error/404';
 import Layout from '~/components/Layout';
 import ProductImageCarousel from '~/components/products/ProductImageCarousel';
 import ProductSEO from '~/components/products/ProductSEO';
@@ -56,7 +56,7 @@ const GET_PRODUCT_INFO = gql`
         path
       }
     }
-  }
+        }
 `;
 
 const NEW_PRODUCTS_QUERY = gql`
@@ -123,45 +123,57 @@ const Product = ({ defaultData }) => {
             </Typography>
             <StockLoader product={slug}>
               {(stockStatus) => (
-                <StockBadge stock={stockStatus} component={Typography} variant='h6' gutterBottom />
+                <>
+                  <StockBadge
+                    stock={stockStatus}
+                    component={Typography}
+                    variant='h6'
+                    gutterBottom
+                  />
+                  <Typography variant='body1' gutterBottom>
+                    {product.shortDescription || ''}
+                  </Typography>
+                  {product.bookEdition && (
+                    <Typography variant='body2' component='p'>
+                      Edição: {product.bookEdition}
+                    </Typography>
+                  )}
+                  {product.bookPublisher && (
+                    <Typography variant='body2' component='p'>
+                      Editor: {product.bookPublisher}
+                    </Typography>
+                  )}
+                  {product.bookPages && (
+                    <Typography variant='body2' component='p'>
+                      Páginas: {product.bookPages}
+                    </Typography>
+                  )}
+                  {product.publishedDate && (
+                    <Typography variant='body2' component='p'>
+                      {product.type === 'Livro' ? 'Data de Publicação' : 'Data de Lançamento'}:{' '}
+                      {product.publishedDate}
+                    </Typography>
+                  )}
+                  {product.language && (
+                    <Typography variant='body2' component='p'>
+                      Idioma: {product.language}
+                    </Typography>
+                  )}
+                  <Typography gutterBottom variant='caption' component='p'>
+                    {`${product.type === 'Livro' ? 'ISBN' : 'Ref'}: ${product.reference}`}
+                  </Typography>
+                  <AddToCart
+                    disabled={stockStatus === 'UNAVAILABLE'}
+                    item={{
+                      id: product.id,
+                      name: product.name,
+                      price: product.price,
+                      discountPercent: product.discountPercent,
+                    }}
+                  />
+                </>
               )}
             </StockLoader>
-            <Typography variant='body1' gutterBottom>
-              {product.shortDescription || ''}
-            </Typography>
-            {product.bookEdition && (
-              <Typography variant='body2' component='p'>
-                Edição: {product.bookEdition}
-              </Typography>
-            )}
-            {product.bookPublisher && (
-              <Typography variant='body2' component='p'>
-                Editor: {product.bookPublisher}
-              </Typography>
-            )}
-            {product.bookPages && (
-              <Typography variant='body2' component='p'>
-                Páginas: {product.bookPages}
-              </Typography>
-            )}
-            {product.publishedDate && (
-              <Typography variant='body2' component='p'>
-                {product.type === 'Livro' ? 'Data de Publicação' : 'Data de Lançamento'}:{' '}
-                {product.publishedDate}
-              </Typography>
-            )}
-            {product.language && (
-              <Typography variant='body2' component='p'>
-                Idioma: {product.language}
-              </Typography>
-            )}
-            <Typography gutterBottom variant='caption' component='p'>
-              {`${product.type === 'Livro' ? 'ISBN' : 'Ref'}: ${product.reference}`}
-            </Typography>
-            <AddToCart
-              disabled={product.stockStatus === 'UNAVAILABLE'}
-              item={{ id: product.id, name: product.name, price: product.price }}
-            />
           </Grid>
         </Grid>
         <Markdown>{product.description || ''}</Markdown>
