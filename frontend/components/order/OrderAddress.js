@@ -33,10 +33,10 @@ OrderAddress.propTypes = {
   address: PropTypes.shape({
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
-    address1: PropTypes.string.isRequired,
+    address1: PropTypes.string,
     address2: PropTypes.string,
-    city: PropTypes.string.isRequired,
-    postalCode: PropTypes.string.isRequired,
+    city: PropTypes.string,
+    postalCode: PropTypes.string,
   }).isRequired,
 };
 

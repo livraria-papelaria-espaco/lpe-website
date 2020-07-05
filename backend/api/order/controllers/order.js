@@ -79,10 +79,22 @@ const calculateShippingSchema = Joi.object({
 const parseOrderData = async (data, price) => {
   let totalPrice = 0;
 
+  const { discounts } = await strapi.services['global-discounts'].find();
+  console.log(discounts);
+
   const items = await Promise.all(
     data.items.map(async (v) => {
       const product = await strapi.services.product.findOne({ _id: v.id });
       if (!product) throw strapi.errors.badRequest(`Invalid item`, { id: v.id });
+
+      const discountPercent = Math.max(
+        0,
+        ...discounts.map((discount) => {
+          if (discount.__component === 'discounts.product-type-discount')
+            return discount.type === product.type ? discount.percentage : 0;
+          return 0;
+        })
+      );
 
       let needsRestock = 0;
 
@@ -92,20 +104,24 @@ const parseOrderData = async (data, price) => {
         needsRestock = v.quantity - product.quantity;
       }
 
-      totalPrice += v.quantity * product.price;
+      const priceUnity = +(product.price * (1 - discountPercent / 100)).toFixed(2);
+
+      totalPrice += v.quantity * priceUnity;
 
       return {
         id: product.id,
         name: product.name,
         slug: product.slug,
-        priceUnity: product.price,
-        price: v.quantity * product.price,
+        priceUnity,
+        price: v.quantity * priceUnity,
         quantity: v.quantity,
         needsRestock,
         reference: product.reference,
       };
     })
   );
+
+  console.log(totalPrice, price);
 
   if (totalPrice.toFixed(2) !== price.toFixed(2))
     throw strapi.errors.badRequest('Provided price does not match with calculated price.', {

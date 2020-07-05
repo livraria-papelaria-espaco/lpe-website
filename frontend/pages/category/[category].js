@@ -16,6 +16,15 @@ const GET_CATEGORY_FROM_SLUG = gql`
       id
       name
     }
+    globalDiscount {
+      discounts {
+        __typename
+        ... on ComponentDiscountsProductTypeDiscount {
+          percentage
+          type
+        }
+      }
+    }
   }
 `;
 
@@ -67,6 +76,7 @@ const productType = PropTypes.shape({
       url: PropTypes.string,
     })
   ),
+  discountPercent: PropTypes.number,
 });
 
 CategoryPage.propTypes = {
@@ -109,9 +119,36 @@ export const getStaticProps = async (context) => {
   });
   const categoryBySlug = data && data.categoryBySlug;
   if (!categoryBySlug) return { props: {} };
-  const productHighlights = await fetchREST('/product-highlights', {
+
+  const productHighlightsRaw = await fetchREST('/product-highlights', {
     query: { category: categoryBySlug.id },
   });
+
+  const handleProduct = (product) => ({
+    ...product,
+    discountPercent: Math.max(
+      0,
+      ...data.globalDiscount.discounts.map((discount) => {
+        // eslint-disable-next-line no-underscore-dangle
+        if (discount.__typename === 'ComponentDiscountsProductTypeDiscount')
+          return discount.type === product.type ? discount.percentage : 0;
+        return 0;
+      })
+    ),
+  });
+
+  const productHighlights = productHighlightsRaw.map((highlight) => ({
+    ...highlight,
+    content: (highlight.content || []).map((content) => {
+      const result = { ...content };
+
+      if (content.products) result.products = result.products.map(handleProduct);
+      if (content.product) result.product = handleProduct(result.product);
+
+      return result;
+    }),
+  }));
+
   return {
     unstable_revalidate: 300, // 5 min
     props: { ...categoryBySlug, productHighlights },

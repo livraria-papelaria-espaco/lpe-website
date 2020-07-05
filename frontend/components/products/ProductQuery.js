@@ -37,6 +37,15 @@ const PRODUCTS_QUERY = gql`
       type
       bookAuthor
     }
+    globalDiscount {
+      discounts {
+        __typename
+        ... on ComponentDiscountsProductTypeDiscount {
+          percentage
+          type
+        }
+      }
+    }
   }
 `;
 
@@ -74,6 +83,21 @@ const ProductQuery = ({ sort, priceRange, search, category }) => {
       },
     });
 
+  const handleProduct = (product) => ({
+    ...product,
+    discountPercent: Math.max(
+      0,
+      ...data.globalDiscount.discounts.map((discount) => {
+        // eslint-disable-next-line no-underscore-dangle
+        if (discount.__typename === 'ComponentDiscountsProductTypeDiscount')
+          return discount.type === product.type ? discount.percentage : 0;
+        return 0;
+      })
+    ),
+  });
+
+  const products = (data.productsSearch || []).map(handleProduct);
+
   return (
     <>
       <Fade
@@ -84,7 +108,7 @@ const ProductQuery = ({ sort, priceRange, search, category }) => {
       >
         <LinearProgress variant='query' />
       </Fade>
-      <ProductList products={data.productsSearch || []} listName={getListName(search, category)} />
+      <ProductList products={products || []} listName={getListName(search, category)} />
       <LoadMore
         onClick={loadMore}
         hide={data.productsSearch.length % limit !== 0 || !hasMoreToLoad}

@@ -21,8 +21,18 @@ const GET_CART_PRODUCT_INFO = gql`
       slug
       reference
       price
+      type
       images(limit: 1) {
         url
+      }
+    }
+    globalDiscount {
+      discounts {
+        __typename
+        ... on ComponentDiscountsProductTypeDiscount {
+          percentage
+          type
+        }
       }
     }
   }
@@ -49,6 +59,10 @@ const useStyles = makeStyles((theme) => ({
   },
   name: {
     cursor: 'pointer',
+  },
+  discountOld: {
+    color: theme.palette.error.dark,
+    textDecoration: 'line-through',
   },
 }));
 
@@ -83,6 +97,16 @@ const CartItem = ({ item, dispatch }) => {
       </div>
     );
 
+  const discountPercent = Math.max(
+    0,
+    ...data.globalDiscount.discounts.map((discount) => {
+      // eslint-disable-next-line no-underscore-dangle
+      if (discount.__typename === 'ComponentDiscountsProductTypeDiscount')
+        return discount.type === data.product.type ? discount.percentage : 0;
+      return 0;
+    })
+  );
+
   const getImage = () => {
     if (data.product.images && data.product.images[0] && data.product.images[0].url)
       return (
@@ -116,7 +140,10 @@ const CartItem = ({ item, dispatch }) => {
           Referência: {data.product.reference}
         </Typography>
         <Typography variant='body1'>
-          {data.product.price.toFixed(2)}€
+          {discountPercent > 0 && (
+            <span className={classes.discountOld}>{`${data.product.price.toFixed(2)}€ `}</span>
+          )}
+          {`${(data.product.price * ((100 - (discountPercent || 0)) / 100)).toFixed(2)}€ `}
           <Typography variant='body1' color='textSecondary' component='span'>
             {` x${item.get('quantity')}`}
           </Typography>

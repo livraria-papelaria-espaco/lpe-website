@@ -11,7 +11,9 @@ const refreshMeta = (state) => {
     .get('items')
     .reduce(
       (result, item) => [
-        result[0] + item.get('price', 0) * item.get('quantity', 1),
+        result[0] +
+          (item.get('price', 0) * (1 - item.get('discountPercent', 0) / 100)).toFixed(2) *
+            item.get('quantity', 1),
         result[1] + item.get('quantity', 1),
       ],
       [0, 0]
@@ -98,7 +100,10 @@ export const CartProvider = ({ children }) => {
       const cart = Cookies.getJSON('cart') || [];
       // TODO refresh all data from server
       const [total, count] = cart.reduce(
-        (result, v) => [result[0] + v.price * v.quantity, result[1] + v.quantity],
+        (result, v) => [
+          result[0] + (v.price * (1 - (v.discountPercent || 0) / 100)).toFixed(2) * v.quantity,
+          result[1] + v.quantity,
+        ],
         [0, 0]
       );
       dispatch({ type: 'LOAD_CART', data: fromJS({ total, items: cart, count }) });

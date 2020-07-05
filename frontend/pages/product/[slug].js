@@ -27,6 +27,13 @@ const useStyles = makeStyles((theme) => ({
   breadcrumbs: {
     paddingBottom: theme.spacing(1),
   },
+  discountOld: {
+    color: theme.palette.error.dark,
+    textDecoration: 'line-through',
+  },
+  discountAmount: {
+    paddingLeft: theme.spacing(1),
+  },
 }));
 
 const GET_PRODUCT_INFO = gql`
@@ -56,7 +63,16 @@ const GET_PRODUCT_INFO = gql`
         path
       }
     }
+    globalDiscount {
+      discounts {
+        __typename
+        ... on ComponentDiscountsProductTypeDiscount {
+          percentage
+          type
         }
+      }
+    }
+  }
 `;
 
 const NEW_PRODUCTS_QUERY = gql`
@@ -118,8 +134,18 @@ const Product = ({ defaultData }) => {
             </Grid>
           )}
           <Grid item sm={12} md={hasImage ? 6 : 12}>
+            {product.discountPercent > 0 && (
+              <Typography variant='h5' component='p'>
+                <strong className={classes.discountOld}>{`${product.price.toFixed(2)}€ `}</strong>
+                <strong
+                  className={classes.discountAmount}
+                >{` -${product.discountPercent}%`}</strong>
+              </Typography>
+            )}
             <Typography variant='h4' component='p' color='secondary'>
-              <strong>{product.price.toFixed(2)}€</strong>
+              <strong>
+                {(product.price * ((100 - (product.discountPercent || 0)) / 100)).toFixed(2)}€
+              </strong>
             </Typography>
             <StockLoader product={slug}>
               {(stockStatus) => (
@@ -209,6 +235,7 @@ Product.propTypes = {
       name: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
     }),
+    discountPercent: PropTypes.number,
   }),
 };
 
@@ -229,9 +256,25 @@ export const getStaticProps = async (context) => {
   const data = await fetchAPI(GET_PRODUCT_INFO, {
     variables: { slug: context.params.slug },
   });
+
+  const handleProduct = (product) => ({
+    ...product,
+    discountPercent: Math.max(
+      0,
+      ...data.globalDiscount.discounts.map((discount) => {
+        // eslint-disable-next-line no-underscore-dangle
+        if (discount.__typename === 'ComponentDiscountsProductTypeDiscount')
+          return discount.type === product.type ? discount.percentage : 0;
+        return 0;
+      })
+    ),
+  });
+
+  const defaultData = !data.productBySlug ? null : handleProduct(data.productBySlug);
+
   return {
     unstable_revalidate: 300, // 5 min
-    props: { defaultData: data.productBySlug || null },
+    props: { defaultData },
   };
 };
 

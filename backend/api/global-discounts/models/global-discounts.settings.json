@@ -1,0 +1,19 @@
+{
+  "kind": "singleType",
+  "collectionName": "global_discounts",
+  "info": {
+    "name": "Global Discounts"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "discounts": {
+      "type": "dynamiczone",
+      "components": [
+        "discounts.product-type-discount"
+      ]
+    }
+  }
+}

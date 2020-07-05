@@ -42,6 +42,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline-block',
     marginLeft: theme.spacing(1),
   },
+  discountOld: {
+    color: theme.palette.error.dark,
+    textDecoration: 'line-through',
+  },
 }));
 
 const ProductCard = ({ product, listName, className }) => {
@@ -101,7 +105,10 @@ const ProductCard = ({ product, listName, className }) => {
             {product.shortDescription || ''}
           </Typography>
           <Typography variant='body1' component='p'>
-            {`${product.price.toFixed(2)}€ `}
+            {product.discountPercent > 0 && (
+              <span className={classes.discountOld}>{`${product.price.toFixed(2)}€ `}</span>
+            )}
+            {`${(product.price * (1 - (product.discountPercent || 0) / 100)).toFixed(2)}€ `}
             <StockLoader product={product.slug} skeletonClassName={classes.skeleton}>
               {(stockStatus) => <StockBadge stock={stockStatus} />}
             </StockLoader>
@@ -124,6 +131,7 @@ ProductCard.propTypes = {
     shortDescription: PropTypes.string,
     price: PropTypes.number.isRequired,
     stockStatus: PropTypes.oneOf(['IN_STOCK', 'LOW_STOCK', 'ORDER_ONLY', 'UNAVAILABLE']),
+    discountPercent: PropTypes.number,
   }).isRequired,
   listName: PropTypes.string,
   className: PropTypes.string,

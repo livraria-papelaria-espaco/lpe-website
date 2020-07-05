@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_discounts_product_type_discounts",
+  "info": {
+    "name": "Product Type Discount",
+    "icon": "book-open"
+  },
+  "options": {},
+  "attributes": {
+    "percentage": {
+      "type": "decimal",
+      "default": 0,
+      "required": true,
+      "max": 100,
+      "min": 0
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "Livro",
+        "Outro"
+      ],
+      "required": true
+    }
+  }
+}

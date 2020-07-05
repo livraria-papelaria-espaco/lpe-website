@@ -135,7 +135,7 @@ const generateXML = async (type) => {
   return generateUrlSet(products);
 };
 
-export async function getServerSideProps({ params, req, res, query }) {
+export async function getServerSideProps({ res, query }) {
   const xml = await generateXML(query.page || 'list');
   res.setHeader('Content-Type', 'text/xml');
   res.setHeader('Cache-Control', 'public,max-age=600');

@@ -1,0 +1,28 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/global-discounts",
+      "handler": "global-discounts.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/global-discounts",
+      "handler": "global-discounts.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/global-discounts",
+      "handler": "global-discounts.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

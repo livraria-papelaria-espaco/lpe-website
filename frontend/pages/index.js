@@ -28,6 +28,15 @@ const HOME_PAGE_QUERY = gql`
     homePage {
       about
     }
+    globalDiscount {
+      discounts {
+        __typename
+        ... on ComponentDiscountsProductTypeDiscount {
+          percentage
+          type
+        }
+      }
+    }
   }
 `;
 
@@ -82,6 +91,7 @@ const productType = PropTypes.shape({
       url: PropTypes.string,
     })
   ),
+  discountPercent: PropTypes.number,
 });
 
 HomePage.propTypes = {
@@ -116,13 +126,41 @@ HomePage.defaultProps = {
 };
 
 export const getStaticProps = async () => {
-  const [graphql, productHighlights] = await Promise.all([
+  const [graphql, productHighlightsRaw] = await Promise.all([
     fetchAPI(HOME_PAGE_QUERY),
     fetchREST('/product-highlights', { query: { homePage: true } }),
   ]);
+
+  const handleProduct = (product) => ({
+    ...product,
+    discountPercent: Math.max(
+      0,
+      ...graphql.globalDiscount.discounts.map((discount) => {
+        // eslint-disable-next-line no-underscore-dangle
+        if (discount.__typename === 'ComponentDiscountsProductTypeDiscount')
+          return discount.type === product.type ? discount.percentage : 0;
+        return 0;
+      })
+    ),
+  });
+
+  const productHighlights = productHighlightsRaw.map((highlight) => ({
+    ...highlight,
+    content: (highlight.content || []).map((content) => {
+      const result = { ...content };
+
+      if (content.products) result.products = result.products.map(handleProduct);
+      if (content.product) result.product = handleProduct(result.product);
+
+      return result;
+    }),
+  }));
+
+  const newProducts = graphql.newProducts.map(handleProduct);
+
   return {
     unstable_revalidate: 300, // 5 min
-    props: { ...graphql, productHighlights } || {},
+    props: { newProducts, homePage: graphql.homePage, productHighlights } || {},
   };
 };
 
