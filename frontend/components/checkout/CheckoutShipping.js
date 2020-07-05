@@ -37,7 +37,7 @@ const CheckoutShipping = ({ state, dispatch, children }) => {
           disabled={useSameAddress}
         />
       </Collapse>
-      {children(!addressReady)}
+      {children(shippingMethod !== 'STORE_PICKUP' && !addressReady)}
     </div>
   );
 };

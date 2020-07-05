@@ -21,7 +21,7 @@ const OrderAddress = ({
           <br />
         </>
       )}
-      {`${city}, ${postalCode}`}
+      {[city, postalCode].filter((v) => !!v).join(', ')}
       <br />
       Portugal
     </Typography>

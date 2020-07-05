@@ -87,8 +87,12 @@ const CheckoutSummary = ({ state, goBack }) => {
           value={[
             state.getIn(['billingAddress', 'address1']),
             state.getIn(['billingAddress', 'address2']),
-            `${state.getIn(['billingAddress', 'postalCode'])}, 
-            ${state.getIn(['billingAddress', 'city'])}`,
+            [
+              state.getIn(['billingAddress', 'postalCode'], ''),
+              state.getIn(['billingAddress', 'city'], ''),
+            ]
+              .filter((v) => !!v)
+              .join(', '),
           ].map((v, i) => (
             // eslint-disable-next-line react/no-array-index-key
             <span key={i}>
