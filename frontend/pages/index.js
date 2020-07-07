@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Head from 'next/head';
+import { Alert, AlertTitle } from '@material-ui/lab';
 import AboutUs from '~/components/home/AboutUs';
 import Hero from '~/components/home/Hero';
 import Layout from '~/components/Layout';
@@ -65,6 +66,13 @@ const HomePage = ({ newProducts, productHighlights, homePage }) => {
       </Head>
       <Hero />
       <Container fixed>
+        <div style={{ marginTop: 16 }}>
+          <Alert severity='info'>
+            <AlertTitle>Promoção</AlertTitle>
+            De 7 a 17 de julho, todas as encomendas de livros feitas no nosso site têm 15% de
+            desconto. E nem precisa de usar máscara para entrar...
+          </Alert>
+        </div>
         {newProducts && newProducts.length > 0 && (
           <HighlightRow row={newProductsRow} listName='New Products Highlight' />
         )}
