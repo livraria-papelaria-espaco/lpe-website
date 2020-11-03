@@ -24,7 +24,7 @@ module.exports = withImages({
       phone: '214114076',
       phone2: '961312644',
       email: 'livraria@lpespaco.pt',
-      schedule: 'Seg a Sex: 10:00-13:30 / 15:00-19:00\nSáb: 10:00-13:00',
+      schedule: 'Seg a Sex: 10:00-13:00 / 15:00-19:00\nSáb: 10:00-13:00',
       facebook: 'https://facebook.com/livrariaepapelaria.espaco/',
       instagram: 'https://instagram.com/livraria_espaco/',
       facebookEvents: 'https://www.facebook.com/pg/livrariaepapelaria.espaco/events/',
