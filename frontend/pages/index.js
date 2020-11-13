@@ -128,7 +128,7 @@ HomePage.defaultProps = {
 export const getStaticProps = async () => {
   const [graphql, productHighlightsRaw] = await Promise.all([
     fetchAPI(HOME_PAGE_QUERY),
-    fetchREST('/product-highlights', { query: { homePage: true } }),
+    fetchREST('/product-highlights', { query: { homePage: true, _sort: 'createdAt' } }),
   ]);
 
   const handleProduct = (product) => ({
