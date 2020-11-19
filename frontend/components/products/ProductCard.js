@@ -46,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.error.dark,
     textDecoration: 'line-through',
   },
+  productTitle: {
+    wordBreak: 'break-word',
+    whiteSpace: 'pre-wrap',
+  },
 }));
 
 const ProductCard = ({ product, listName, className }) => {
@@ -85,7 +89,7 @@ const ProductCard = ({ product, listName, className }) => {
         {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
         <div className={classes.root} onClick={handleGA}>
           <div className={classes.imageContainer}>{getImage()}</div>
-          <Typography variant='h5' component='h2'>
+          <Typography variant='h5' component='h2' className={classes.productTitle}>
             {product.name}
           </Typography>
           {product.bookAuthor && (
