@@ -1,6 +1,6 @@
 'use strict';
 const axios = require('axios');
-const sharp = require('sharp');
+//const sharp = require('sharp');
 
 /**
  * metadata-fetcher.js service
@@ -10,15 +10,15 @@ const sharp = require('sharp');
 
 const WOOK_REGEX = /<script type="application\/ld\+json">[^]*?({[^]+})[^]*?<\/script>[^]*?<!-- Fim Google/;
 const NEWLINE_REGEX = /\n/g;
-const FNAC_SEARCH_REGEX = /<a href="(.+?)" class=".*?Article-title js-minifa-title js-Search-hashLink.*?">.+?<\/a>/;
+/*const FNAC_SEARCH_REGEX = /<a href="(.+?)" class=".*?Article-title js-minifa-title js-Search-hashLink.*?">.+?<\/a>/;
 const FNAC_REGEX = /<script type="application\/json" class="js-configuration">[^]*?({.+})[^]*?<\/script>/;
 const FNAC_HEADERS = {
   'User-Agent':
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36',
   'Accept-Language': 'en-US,en;q=0.9',
-};
+};*/
 
-const fetchFnacImage = async (url, i) => {
+/*const fetchFnacImage = async (url, i) => {
   try {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
     const buffer = Buffer.from(response.data, 'binary');
@@ -27,11 +27,16 @@ const fetchFnacImage = async (url, i) => {
   } catch (e) {
     return undefined;
   }
-};
+};*/
 
 const fetchImagesFromFnac = async (isbn) => {
   try {
-    const searchResponse = await axios.get(
+    const response = await axios.get(`https://book-api.diogotc.com/cover/${isbn}`, {
+      responseType: 'arraybuffer',
+    });
+    const buffer = Buffer.from(response.data, 'binary');
+    return [buffer];
+    /*const searchResponse = await axios.get(
       `https://www.fnac.pt/SearchResult/ResultList.aspx?Search=${isbn}`,
       {
         headers: FNAC_HEADERS,
@@ -50,9 +55,8 @@ const fetchImagesFromFnac = async (isbn) => {
         fetchFnacImage(imgSet.zoom || imgSet.image || imgSet.thumb)
       )
     );
-    return images.filter((i) => !!i);
+    return images.filter((i) => !!i);*/
   } catch (e) {
-    console.log(e);
     return [];
   }
 };
