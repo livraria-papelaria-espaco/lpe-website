@@ -135,7 +135,15 @@ module.exports = {
       let metadataServices = strapi.plugins['metadata-fetcher'].services['metadata-fetcher'];
 
       const product = await strapi.services.product.findOne({ reference: data.reference });
-      if (product) ctx.throw(400, 'product already exists');
+      if (product) {
+        const { qnt } = await strapi.services.product.updateStock({
+          ref: product.reference,
+          qnt: data.quantity,
+        });
+        return sanitizeEntity(addStockStatus({ ...product, quantity: qnt }), {
+          model: strapi.models.product,
+        });
+      }
 
       if (metadataServices.isISBN(data.reference)) {
         const metadata = await metadataServices.fetchMetadataFromWook(data.reference);
