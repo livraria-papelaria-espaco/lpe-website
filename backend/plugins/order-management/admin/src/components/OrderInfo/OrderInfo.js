@@ -196,7 +196,7 @@ const OrderInfo = ({ id }) => {
             <Field
               title='shippingAddress'
               value={[
-                `${data.shippingAddress.firstName} ${data.shippingAddress.firstName}`,
+                `${data.shippingAddress.firstName} ${data.shippingAddress.lastName}`,
                 data.shippingAddress.address1,
                 data.shippingAddress.address2 || '',
                 `${data.shippingAddress.postalCode}, ${data.shippingAddress.city}`,
