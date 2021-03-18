@@ -6,4 +6,9 @@ const trads = {
   pt,
 };
 
+export const languageNativeNames = {
+  en: 'English',
+  pt: 'Português',
+};
+
 export default trads;

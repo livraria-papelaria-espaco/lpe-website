@@ -69,6 +69,6 @@
   "Action.success.order.changeRestockCount": "Número de items que precisa de restock atualizado com sucesso.",
   "Action.error.order.changeRestockCount": "Erro ao alterar o número de items que precisa de restock.",
 
-  "plugin.name": "Gestão de encomendas",
+  "plugin.name": "Gestão de Encomendas",
   "plugin.description.short": "Gestão de encomendas da Livraria e Papelaria Espaço"
 }

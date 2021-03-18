@@ -24,10 +24,21 @@ const Item = ({ item, orderId, setData }) => {
         },
       });
       setData(response);
-      strapi.notification.success(getTrad(`Action.success.order.changeRestockCount`));
+      strapi.notification.toggle({
+        message: {
+          id: getTrad(`Action.success.order.changeRestockCount`),
+          defaultMessage: 'Restock item amount updated successfuly.',
+        },
+      });
     } catch (e) {
       console.error(e);
-      strapi.notification.error(getTrad(`Action.error.order.changeRestockCount`));
+      strapi.notification.toggle({
+        type: 'warning',
+        message: {
+          id: getTrad(`Action.error.order.changeRestockCount`),
+          defaultMessage: 'Failed to update restock item amount.',
+        },
+      });
     }
     setLoading(false);
   };

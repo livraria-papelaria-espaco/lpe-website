@@ -25,7 +25,7 @@ const OrderInfo = ({ id }) => {
 
   const fetchData = async () => {
     setLoading(true);
-    const response = await request(`/content-manager/explorer/${orderType}/${id}`);
+    const response = await request(`/content-manager/collection-types/${orderType}/${id}`);
     setData(response);
     setLoading(false);
   };
@@ -55,12 +55,23 @@ const OrderInfo = ({ id }) => {
         }
       );
 
-      strapi.notification.success(getTrad(`Action.success.order.nextstep`));
+      strapi.notification.toggle({
+        message: {
+          id: getTrad(`Action.success.order.nextstep`),
+          defaultMessage: 'Order status updated successfuly.',
+        },
+      });
 
       fetchData();
     } catch (e) {
       console.error(e);
-      strapi.notification.error(getTrad(`Action.error.order.nextstep`));
+      strapi.notification.toggle({
+        type: 'warning',
+        message: {
+          id: getTrad(`Action.error.order.nextstep`),
+          defaultMessage: 'Erro ao alterar estado da encomenda.',
+        },
+      });
     }
   };
 

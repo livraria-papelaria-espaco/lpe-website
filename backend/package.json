@@ -17,22 +17,22 @@
     "lint": "eslint --ext .jsx --ext .js ."
   },
   "dependencies": {
-    "@hapi/joi": "^17.1.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "crypto": "^1.0.1",
-    "email-templates": "^7.0.5",
-    "sharp": "^0.25.4",
-    "strapi": "3.0.5",
-    "strapi-admin": "3.0.5",
-    "strapi-connector-mongoose": "3.0.5",
-    "strapi-plugin-content-manager": "3.0.5",
-    "strapi-plugin-content-type-builder": "3.0.5",
-    "strapi-plugin-email": "3.0.5",
-    "strapi-plugin-graphql": "3.0.5",
-    "strapi-plugin-upload": "3.0.5",
-    "strapi-plugin-users-permissions": "3.0.5",
+    "email-templates": "^8.0.3",
+    "joi": "^17.4.0",
+    "sharp": "^0.27.2",
+    "strapi": "3.5.3",
+    "strapi-admin": "3.5.3",
+    "strapi-connector-mongoose": "3.5.3",
+    "strapi-plugin-content-manager": "3.5.3",
+    "strapi-plugin-content-type-builder": "3.5.3",
+    "strapi-plugin-email": "3.5.3",
+    "strapi-plugin-graphql": "3.5.3",
+    "strapi-plugin-upload": "3.5.3",
+    "strapi-plugin-users-permissions": "3.5.3",
     "strapi-provider-email-lpemailer": "file:providers/strapi-provider-email-lpemailer",
-    "strapi-utils": "3.0.5"
+    "strapi-utils": "3.5.3"
   },
   "strapi": {
     "uuid": "d37361df-57ad-47d5-afad-bed085f730bf"
@@ -43,10 +43,10 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.2.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-prettier": "^3.1.4",
+    "eslint": "^7.22.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-security": "^1.4.0",
-    "prettier": "^2.0.5"
+    "prettier": "^2.2.1"
   }
 }

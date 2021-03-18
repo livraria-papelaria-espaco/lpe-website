@@ -10,5 +10,6 @@
   "Action.success.book": "Livro inserido/atualizado com sucesso",
   "Action.error.book": "Ocorreu um erro ao atualizar os dados do produto. Verifica se o ISBN está correto ou tenta novamente mais tarde.",
 
-  "plugin.description.short": "Obter dados dos produtos de fontes externas"
+  "plugin.description.short": "Obter dados dos produtos de fontes externas",
+  "plugin.name": "Atualizar Produtos"
 }

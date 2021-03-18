@@ -23,13 +23,16 @@ const ListDataHandler = ({ type, search }) => {
         '_sort=createdAt:DESC&status_in=WAITING_PAYMENT&status_in=SHIPPED&status_in=DELIVERED&status_in=CANCELLED';
 
     setLoading(true);
-    const countResponse = await request(`/content-manager/explorer/${orderType}/count?${query}`);
-    setCount(countResponse.count);
 
     const response = await request(
-      `/content-manager/explorer/${orderType}?_limit=${limit}&_start=${page * limit}&${query}`
+      `/content-manager/collection-types/${orderType}?_limit=${limit}&_start=${
+        page * limit
+      }&${query}`
     );
-    setData(response);
+    const { pagination, results } = response;
+
+    setCount(pagination.total);
+    setData(results);
     setLoading(false);
   };
 

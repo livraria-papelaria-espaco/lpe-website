@@ -80,7 +80,7 @@ module.exports = {
       };
     }
 
-    const contentManagerService = strapi.plugins['content-manager'].services.contentmanager;
+    const contentManagerService = strapi.plugins['content-manager'].services['entity-manager'];
 
     let result;
 
@@ -92,13 +92,13 @@ module.exports = {
         };
       }
       if (isNewProduct) {
-        result = await contentManagerService.create(product, {
-          model: 'application::product.product',
-        });
+        result = await contentManagerService.create(product, 'application::product.product');
       } else {
-        result = await contentManagerService.edit({ id: product.id }, product, {
-          model: 'application::product.product',
-        });
+        result = await contentManagerService.update(
+          { id: product.id },
+          product,
+          'application::product.product'
+        );
       }
     } catch (e) {
       console.error(e);

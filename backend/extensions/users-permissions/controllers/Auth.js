@@ -9,13 +9,17 @@
 const _ = require('lodash');
 const { sanitizeEntity } = require('strapi-utils');
 
-// eslint-disable-next-line security/detect-unsafe-regex
-const emailRegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+// START CUSTOM CODE
 const usernameRegExp = /^[A-Za-z0-9_ ]{4,}$/;
 const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/;
+// END CUSTOM CODE
 const formatError = (error) => [
   { messages: [{ id: error.id, message: error.message, field: error.field }] },
 ];
+
+// Functions from the original file that aren't below mean that they haven't been customized.
 
 module.exports = {
   async register(ctx) {
@@ -39,15 +43,13 @@ module.exports = {
       );
     }
 
-    let params = _.assign(ctx.request.body, {
+    const params = {
+      ..._.omit(ctx.request.body, ['confirmed', 'confirmationToken', 'resetPasswordToken']),
       provider: 'local',
-    });
-
-    if (!ctx.state.admin) {
-      params = _.pick(params, ['username', 'email', 'password', 'provider']);
-    }
+    };
 
     // Password is required.
+    // Next line is CUSTOM
     if (!params.password || !passwordRegExp.test(params.password)) {
       return ctx.badRequest(
         null,
@@ -69,6 +71,7 @@ module.exports = {
       );
     }
 
+    // START CUSTOM CODE
     // Username is required.
     if (!params.username || !usernameRegExp.test(params.username)) {
       return ctx.badRequest(
@@ -79,6 +82,7 @@ module.exports = {
         })
       );
     }
+    // END CUSTOM CODE
 
     // Throw an error if the password selected by the user
     // contains more than two times the symbol '$'.
@@ -155,75 +159,26 @@ module.exports = {
 
       const user = await strapi.query('user', 'users-permissions').create(params);
 
-      const jwt = strapi.plugins['users-permissions'].services.jwt.issue(
-        _.pick(user.toJSON ? user.toJSON() : user, ['id'])
-      );
+      const sanitizedUser = sanitizeEntity(user, {
+        model: strapi.query('user', 'users-permissions').model,
+      });
 
       if (settings.email_confirmation) {
-        const settings = await pluginStore.get({ key: 'email' }).then((storeEmail) => {
-          try {
-            return storeEmail['email_confirmation'].options;
-          } catch (error) {
-            return {};
-          }
-        });
-
-        settings.message = await strapi.plugins[
-          'users-permissions'
-        ].services.userspermissions.template(settings.message, {
-          URL: `${strapi.config.server.url}/auth/email-confirmation`,
-          USER: _.omit(user.toJSON ? user.toJSON() : user, [
-            'password',
-            'resetPasswordToken',
-            'role',
-            'provider',
-          ]),
-          CODE: jwt,
-        });
-
-        settings.object = await strapi.plugins[
-          'users-permissions'
-        ].services.userspermissions.template(settings.object, {
-          USER: _.omit(user.toJSON ? user.toJSON() : user, [
-            'password',
-            'resetPasswordToken',
-            'role',
-            'provider',
-          ]),
-        });
-
         try {
-          // Send an email to the user.
-          await strapi.plugins['email'].services.email.send({
-            to: (user.toJSON ? user.toJSON() : user).email,
-            from:
-              settings.from.email && settings.from.name
-                ? `${settings.from.name} <${settings.from.email}>`
-                : undefined,
-            replyTo: settings.response_email,
-            subject: settings.object,
-            text: settings.message,
-            html: settings.message,
-          });
+          await strapi.plugins['users-permissions'].services.user.sendConfirmationEmail(user);
         } catch (err) {
           return ctx.badRequest(null, err);
         }
+
+        return ctx.send({ user: sanitizedUser });
       }
 
-      const sanitizedUser = sanitizeEntity(user.toJSON ? user.toJSON() : user, {
-        model: strapi.query('user', 'users-permissions').model,
+      const jwt = strapi.plugins['users-permissions'].services.jwt.issue(_.pick(user, ['id']));
+
+      return ctx.send({
+        jwt,
+        user: sanitizedUser,
       });
-      if (settings.email_confirmation) {
-        ctx.send({
-          jwt: '',
-          user: sanitizedUser,
-        });
-      } else {
-        ctx.send({
-          jwt,
-          user: sanitizedUser,
-        });
-      }
     } catch (err) {
       const adminError = _.includes(err.message, 'username')
         ? {

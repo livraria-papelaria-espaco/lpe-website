@@ -1,7 +1,7 @@
 'use strict';
 
 const { sanitizeEntity } = require('strapi-utils');
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 const updateStocksSchema = Joi.array()
   .items(

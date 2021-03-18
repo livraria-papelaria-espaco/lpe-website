@@ -29,14 +29,26 @@ const HomePage = () => {
       const response = await request(
         `/metadata-fetcher/fetchBook?isbn=${isbn}&forceImages=${forceImages}`
       );
-      strapi.notification.success(getTrad(`Action.success.book`));
+      strapi.notification.toggle({
+        message: {
+          id: getTrad(`Action.success.book`),
+          defaultMessage: 'Book inserted/updated successfuly',
+        },
+      });
       history.push({
         pathname: `/plugins/content-manager/collectionType/application::product.product/${response.id}`,
         search: `?redirectUrl=${`/plugins/${pluginId}/`}`,
       });
     } catch (e) {
       console.error(e);
-      strapi.notification.error(getTrad(`Action.error.book`));
+      strapi.notification.toggle({
+        type: 'warning',
+        message: {
+          id: getTrad(`Action.error.book`),
+          defaultMessage:
+            'An error occurred while fetching metadata. Check if the ISBN is correct and try again later.',
+        },
+      });
     }
     setLoading(false);
   };

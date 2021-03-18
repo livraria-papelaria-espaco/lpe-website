@@ -8,7 +8,7 @@
 const { sanitizeEntity } = require('strapi-utils');
 const axios = require('axios');
 const crypto = require('crypto');
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 const orderCreateSchema = Joi.object({
   price: Joi.number().positive().precision(2).required(),

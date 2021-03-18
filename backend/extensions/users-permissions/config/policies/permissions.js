@@ -3,13 +3,18 @@ const _ = require('lodash');
 module.exports = async (ctx, next) => {
   let role;
 
+  if (ctx.state.user) {
+    // request is already authenticated in a different way
+    return next();
+  }
+
+  // add the detection of `token` query parameter
   if (
-    ctx.request &&
-    ((ctx.request.header && ctx.request.header.authorization) ||
-      (ctx.request.query && ctx.request.query.token))
+    (ctx.request && ctx.request.header && ctx.request.header.authorization) ||
+    (ctx.request.query && ctx.request.query.token)
   ) {
-    //if (ctx.request && ctx.request.header && ctx.request.header.authorization) {
     try {
+      // init `id` and `isAdmin` outside of validation blocks
       let id;
       let isAdmin;
 
@@ -18,7 +23,7 @@ module.exports = async (ctx, next) => {
         const [token] = await strapi.query('token').find({ token: ctx.request.query.token });
 
         if (!token) {
-          throw new Error("Invalid token: This token doesn't exist");
+          throw new Error(`Invalid token: This token doesn't exist`);
         } else {
           if (token.user && typeof token.token === 'string') {
             id = token.user.id;
@@ -27,7 +32,8 @@ module.exports = async (ctx, next) => {
         }
 
         delete ctx.request.query.token;
-      } else if (ctx.request.header && ctx.request.header.authorization) {
+      } else if (ctx.request && ctx.request.header && ctx.request.header.authorization) {
+        // use the current system with JWT in the header
         const decrypted = await strapi.plugins['users-permissions'].services.jwt.getToken(ctx);
 
         id = decrypted.id;
@@ -38,26 +44,12 @@ module.exports = async (ctx, next) => {
         throw new Error('Invalid token: Token did not contain required fields');
       }
 
-      if (isAdmin) {
-        ctx.state.admin = await strapi.query('administrator', 'admin').findOne({ id }, []);
-      } else {
-        ctx.state.user = await strapi.query('user', 'users-permissions').findOne({ id }, ['role']);
-      }
+      // fetch authenticated user
+      ctx.state.user = await strapi.plugins[
+        'users-permissions'
+      ].services.user.fetchAuthenticatedUser(id);
     } catch (err) {
       return handleErrors(ctx, err, 'unauthorized');
-    }
-
-    if (ctx.state.admin) {
-      if (ctx.state.admin.blocked === true) {
-        return handleErrors(
-          ctx,
-          'Your account has been blocked by the administrator.',
-          'unauthorized'
-        );
-      }
-
-      ctx.state.user = ctx.state.admin;
-      return await next();
     }
 
     if (!ctx.state.user) {
@@ -123,6 +115,5 @@ module.exports = async (ctx, next) => {
 };
 
 const handleErrors = (ctx, err = undefined, type) => {
-  // eslint-disable-next-line security/detect-object-injection
   throw strapi.errors[type](err);
 };

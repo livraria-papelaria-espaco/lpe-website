@@ -61,6 +61,11 @@
     "tokens": {
       "via": "user",
       "collection": "token"
+    },
+    "confirmationToken": {
+      "type": "string",
+      "configurable": false,
+      "private": true
     }
   }
 }

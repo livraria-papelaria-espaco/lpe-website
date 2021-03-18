@@ -21,12 +21,23 @@ const List = ({ data, count, loading, refetch }) => {
         }
       );
 
-      strapi.notification.success(getTrad(`Action.sucess.order.nextstep`));
+      strapi.notification.toggle({
+        message: {
+          id: getTrad(`Action.success.order.nextstep`),
+          defaultMessage: 'Order status updated successfuly.',
+        },
+      });
 
       refetch();
     } catch (e) {
       console.error(e);
-      strapi.notification.error(getTrad(`Action.error.order.nextstep`));
+      strapi.notification.toggle({
+        type: 'warning',
+        message: {
+          id: getTrad(`Action.error.order.nextstep`),
+          defaultMessage: 'Erro ao alterar estado da encomenda.',
+        },
+      });
     }
   };
 
@@ -34,10 +45,7 @@ const List = ({ data, count, loading, refetch }) => {
 
   const handleGoTo = (id) => {
     push({
-      pathname: `${pathname
-        .split('/')
-        .slice(0, -1)
-        .join('/')}/view/${id}`,
+      pathname: `${pathname.split('/').slice(0, -1).join('/')}/view/${id}`,
       search: redirectUrl,
     });
   };

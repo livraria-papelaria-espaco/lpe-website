@@ -5,7 +5,7 @@ import Initializer from './containers/Initializer';
 import lifecycles from './lifecycles';
 import trads from './translations';
 
-export default strapi => {
+export default (strapi) => {
   const pluginDescription = pluginPkg.strapi.description || pluginPkg.description;
 
   const plugin = {
@@ -26,6 +26,19 @@ export default strapi => {
     name: pluginPkg.strapi.name,
     preventComponentRendering: false,
     trads,
+    menu: {
+      // Set a link into the PLUGINS section
+      pluginsSectionLinks: [
+        {
+          destination: `/plugins/${pluginId}`, // Endpoint of the link
+          icon: pluginPkg.strapi.icon,
+          label: {
+            id: `${pluginId}.plugin.name`, // Refers to a i18n
+            defaultMessage: 'Metadata Fetcher',
+          },
+        },
+      ],
+    },
   };
 
   return strapi.registerPlugin(plugin);

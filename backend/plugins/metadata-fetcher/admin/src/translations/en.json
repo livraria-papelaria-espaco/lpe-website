@@ -10,5 +10,6 @@
   "Action.success.book": "Book inserted/updated successfuly",
   "Action.error.book": "An error occurred while fetching metadata. Check if the ISBN is correct and try again later.",
 
-  "plugin.description.short": "Fetch product data from external sources"
+  "plugin.description.short": "Fetch product data from external sources",
+  "plugin.name": "Metadata Fetcher"
 }

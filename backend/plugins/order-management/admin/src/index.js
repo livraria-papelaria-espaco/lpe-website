@@ -28,6 +28,19 @@ export default (strapi) => {
     suffixUrl: () => '/pending',
     suffixUrlToReplaceForLeftMenuHighlight: '/pending',
     trads,
+    menu: {
+      // Set a link into the PLUGINS section
+      pluginsSectionLinks: [
+        {
+          destination: `/plugins/${pluginId}/pending`, // Endpoint of the link
+          icon: pluginPkg.strapi.icon,
+          label: {
+            id: `${pluginId}.plugin.name`, // Refers to a i18n
+            defaultMessage: 'Order Management',
+          },
+        },
+      ],
+    },
   };
 
   return strapi.registerPlugin(plugin);

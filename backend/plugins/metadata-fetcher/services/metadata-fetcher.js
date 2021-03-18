@@ -102,7 +102,6 @@ module.exports = {
 
   fetchAndUploadImages: async (isbn, slug) => {
     const images = await fetchImagesFromFnac(isbn);
-    console.log('images', images);
 
     const uploadService = strapi.plugins['upload'].services.upload;
     const { optimize } = strapi.plugins['upload'].services['image-manipulation'];
