@@ -3,7 +3,7 @@ import BackIcon from '@material-ui/icons/ArrowBackRounded';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-import LogoSvg from '~/assets/logo.svg';
+import LogoSvg from '../../assets/logo.svg';
 import Layout from '~/components/Layout';
 import { useAuth } from '~/hooks/useAuth';
 

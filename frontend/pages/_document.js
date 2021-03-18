@@ -1,5 +1,5 @@
 import { ServerStyleSheets } from '@material-ui/core/styles';
-import Document, { Head, Main, NextScript } from 'next/document';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 import React from 'react';
 import { GA_TRACKING_ID } from '~/lib/gtag';
 
@@ -21,13 +21,9 @@ if (process.env.NODE_ENV === 'production') {
 export default class MyDocument extends Document {
   render() {
     return (
-      <html lang='pt'>
+      <Html lang='pt'>
         <Head>
           <meta charSet='utf-8' />
-          <meta
-            name='viewport'
-            content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no'
-          />
           <link rel='apple-touch-icon' sizes='180x180' href='/apple-touch-icon.png' />
           <link rel='icon' type='image/png' sizes='32x32' href='/favicon-32x32.png' />
           <link rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png' />
@@ -85,7 +81,7 @@ export default class MyDocument extends Document {
             />
           )}
         </body>
-      </html>
+      </Html>
     );
   }
 }

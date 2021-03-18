@@ -150,7 +150,7 @@ export const getStaticProps = async (context) => {
   }));
 
   return {
-    unstable_revalidate: 300, // 5 min
+    revalidate: 300, // 5 min
     props: { ...categoryBySlug, productHighlights },
   };
 };

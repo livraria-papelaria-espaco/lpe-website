@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { Divider, Typography } from '@material-ui/core';
 import gql from 'graphql-tag';
 import ErrorPage from 'next/error';
@@ -64,7 +64,7 @@ export const getStaticProps = async () => {
   const data = await fetchAPI(NEWSROOM_QUERY);
   return {
     props: {
-      unstable_revalidate: 300, // 5 min
+      revalidate: 300, // 5 min
       defaultData: data.newsrooms,
     },
   };

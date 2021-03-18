@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import gql from 'graphql-tag';

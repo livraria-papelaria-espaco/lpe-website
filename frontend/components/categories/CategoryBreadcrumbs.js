@@ -2,7 +2,7 @@ import { Breadcrumbs, Link as MUILink } from '@material-ui/core';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import { Skeleton } from '@material-ui/lab';
 

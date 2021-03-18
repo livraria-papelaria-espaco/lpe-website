@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { Button, Typography } from '@material-ui/core';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/AddRounded';

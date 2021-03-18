@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { Typography } from '@material-ui/core';
 import gql from 'graphql-tag';
 import ErrorPage from 'next/error';
@@ -46,7 +46,7 @@ export const getStaticProps = async () => {
   const data = await fetchAPI(TOS_QUERY);
   return {
     props: {
-      unstable_revalidate: 3600, // 1 hour
+      revalidate: 3600, // 1 hour
       defaultData: data.termsOfService.termsOfService,
     },
   };

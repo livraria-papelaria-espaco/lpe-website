@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';

@@ -159,7 +159,7 @@ export const getStaticProps = async () => {
   const newProducts = graphql.newProducts.map(handleProduct);
 
   return {
-    unstable_revalidate: 300, // 5 min
+    revalidate: 300, // 5 min
     props: { newProducts, homePage: graphql.homePage, productHighlights } || {},
   };
 };

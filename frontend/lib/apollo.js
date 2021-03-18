@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-use-before-define */
 /* eslint-disable react/prop-types */
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { setContext } from 'apollo-link-context';
@@ -71,7 +71,7 @@ export const withApollo = (PageComponent, { ssr = true } = {}) => {
         if (ssr) {
           try {
             // Run all GraphQL queries
-            const { getDataFromTree } = await import('@apollo/react-ssr');
+            const { getDataFromTree } = await import('@apollo/client/react/ssr');
             await getDataFromTree(
               <AppTree
                 pageProps={{
