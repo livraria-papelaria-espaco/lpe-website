@@ -31,5 +31,7 @@ module.exports = withImages({
     },
     googleAnalyticsId: process.env.GA_ID || '',
     tawkToId: process.env.TAWKTO_ID || '',
+    meiliHost: process.env.MEILI_HOST || 'http://127.0.0.1:7700',
+    meiliApiKey: process.env.MEILI_API_KEY || '',
   },
 });

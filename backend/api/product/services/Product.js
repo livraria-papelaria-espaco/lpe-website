@@ -127,6 +127,15 @@ module.exports = {
         return { ref, qnt, price: cost };
       }
 
+      strapi.services.productsearch
+        .partialUpdateProduct({
+          _id,
+          reference: ref,
+          quantity: newStock,
+          price: newPrice,
+        })
+        .catch(console.error);
+
       return { ref, qnt: newStock, price: newPrice };
     } catch {
       // Most likely product not found

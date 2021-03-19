@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  meilisearch:
+    image: getmeili/meilisearch:v0.19.0
+    ports:
+      - 7700:7700
+    volumes:
+      - ./data.ms:/data.ms
+    env_file: meili.env
