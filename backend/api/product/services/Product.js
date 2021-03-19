@@ -101,26 +101,33 @@ module.exports = {
     if (res.nModified !== 1) throw new Error(`Couldn't decrease stock for ${id}.`);
   },
 
-  updateStock: async ({ ref, qnt }) => {
+  updateStock: async ({ ref, qnt, price: cost }) => {
     try {
-      const { _id, quantity, lastQuantity } = await strapi
+      const { _id, quantity /*, lastQuantity*/, price } = await strapi
         .query('product')
-        .model.findOne({ reference: ref }, ['_id', 'quantity', 'lastQuantity']);
+        .model.findOne({ reference: ref }, ['_id', 'quantity', 'lastQuantity', 'price']);
 
-      const stockDelta = quantity - lastQuantity + (qnt - lastQuantity);
-      let newStock = lastQuantity + stockDelta;
+      // I don't think the client actually updates the stock, so I'm going to stop using that value
+
+      // const stockDelta = quantity - lastQuantity + (qnt - lastQuantity);
+      // let newStock = lastQuantity + stockDelta;
+      let newStock = qnt === undefined ? quantity : qnt;
       if (newStock < 0) newStock = 0;
+
+      const newPrice = cost === undefined ? price : cost;
 
       const res = await strapi
         .query('product')
-        .model.updateOne({ _id }, { quantity: newStock, lastQuantity: newStock });
+        .model.updateOne({ _id }, { quantity: newStock, lastQuantity: newStock, price: newPrice });
 
       if (res.nModified !== 1) {
-        strapi.log.error(`Couldn't update stock for ${ref} to ${qnt}.`);
-        return { ref, qnt };
+        strapi.log.error(
+          `Couldn't update stock/price for ${ref} to quantity ${qnt} or price ${cost}.`
+        );
+        return { ref, qnt, price: cost };
       }
 
-      return { ref, qnt: newStock };
+      return { ref, qnt: newStock, price: newPrice };
     } catch {
       // Most likely product not found
       return { ref, qnt };

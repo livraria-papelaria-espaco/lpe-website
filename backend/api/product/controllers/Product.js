@@ -7,7 +7,8 @@ const updateStocksSchema = Joi.array()
   .items(
     Joi.object({
       ref: Joi.string().pattern(/^\d+$/).required(),
-      qnt: Joi.number().integer().min(0).required(),
+      qnt: Joi.number().integer().min(0),
+      price: Joi.number().min(0),
     }).required()
   )
   .unique('ref')
@@ -136,11 +137,12 @@ module.exports = {
 
       const product = await strapi.services.product.findOne({ reference: data.reference });
       if (product) {
-        const { qnt } = await strapi.services.product.updateStock({
+        const { qnt, price } = await strapi.services.product.updateStock({
           ref: product.reference,
           qnt: data.quantity,
+          price: data.price,
         });
-        return sanitizeEntity(addStockStatus({ ...product, quantity: qnt }), {
+        return sanitizeEntity(addStockStatus({ ...product, quantity: qnt, price }), {
           model: strapi.models.product,
         });
       }
