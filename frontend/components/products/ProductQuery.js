@@ -4,8 +4,27 @@ import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Fade, LinearProgress } from '@material-ui/core';
+import {
+  InstantSearch,
+  HierarchicalMenu,
+  RefinementList,
+  SortBy,
+  Pagination,
+  ClearRefinements,
+  Highlight,
+  Hits,
+  HitsPerPage,
+  Panel,
+  Configure,
+  SearchBox,
+  Snippet,
+  ToggleRefinement,
+} from 'react-instantsearch-dom';
+import { instantMeiliSearch } from '@meilisearch/instant-meilisearch';
 import LoadMore from './LoadMore';
 import ProductList from './ProductList';
+
+const searchClient = instantMeiliSearch(process.env.meiliHost, process.env.meiliApiKey);
 
 const PRODUCTS_QUERY = gql`
   query SEARCH_PRODUCTS(
@@ -57,7 +76,20 @@ const getListName = (search, category) => {
   return 'General Product Listing';
 };
 
+const Hit = ({ hit }) => {
+  return <p>{hit}</p>;
+};
+
 const ProductQuery = ({ sort, priceRange, search, category }) => {
+  return (
+    <InstantSearch searchClient={searchClient} indexName='product'>
+      <SearchBox />
+      <Hits hitComponent={Hit} />
+    </InstantSearch>
+  );
+};
+
+/* const ProductQuery = ({ sort, priceRange, search, category }) => {
   const [hasMoreToLoad, setHasMoreToLoad] = useState(true);
   const { loading, error, data, fetchMore } = useQuery(PRODUCTS_QUERY, {
     variables: { search, sort, priceRange, category, limit, start: 0 },
@@ -116,7 +148,7 @@ const ProductQuery = ({ sort, priceRange, search, category }) => {
       />
     </>
   );
-};
+}; */
 
 ProductQuery.propTypes = {
   sort: PropTypes.string,
