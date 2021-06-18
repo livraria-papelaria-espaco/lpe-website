@@ -9,6 +9,10 @@ module.exports = {
   calculateShipping: async (postalCode, shippingMethod, items) => {
     if (shippingMethod === 'STORE_PICKUP') return 0;
 
+    const { freeShipping } = await strapi.services['store-config'].find();
+
+    if (freeShipping) return 0;
+
     const products = await Promise.all(
       items.map(async (product) => ({
         ...(await strapi.services.product.findOne({ id: product.id })),

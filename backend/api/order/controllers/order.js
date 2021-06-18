@@ -239,6 +239,11 @@ module.exports = {
 
     const request = Joi.attempt(ctx.request.body, orderCreateSchema);
 
+    const { blockOrders } = await strapi.services['store-config'].find();
+
+    if (blockOrders)
+      throw strapi.errors.forbidden('Orders are disabled by the store at the moment.');
+
     const shippingCost =
       request.shippingMethod === 'STORE_PICKUP'
         ? 0
