@@ -3,11 +3,13 @@
   "connection": "default",
   "collectionName": "home_pages",
   "info": {
-    "name": "Home Page"
+    "name": "Home Page",
+    "description": ""
   },
   "options": {
     "increments": true,
-    "timestamps": true
+    "timestamps": true,
+    "draftAndPublish": false
   },
   "attributes": {
     "about": {
@@ -18,6 +20,19 @@
       "default": 7,
       "private": true,
       "min": 1
+    },
+    "information": {
+      "type": "text"
+    },
+    "informationSeverity": {
+      "type": "enumeration",
+      "enum": [
+        "success",
+        "info",
+        "warning",
+        "error"
+      ],
+      "default": "info"
     }
   }
 }
