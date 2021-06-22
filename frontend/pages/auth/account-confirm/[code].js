@@ -18,7 +18,7 @@ const AccountConfirm = () => {
     const execute = async () => {
       setError(false);
       try {
-        await confirmEmail(code);
+        if (code) await confirmEmail(code);
       } catch (e) {
         if (valid) setError(true);
       }
