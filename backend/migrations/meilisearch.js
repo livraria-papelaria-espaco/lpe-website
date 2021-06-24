@@ -19,6 +19,7 @@ const PUBLIC_FIELDS = [
   'name',
   'createdAt',
   'updatedAt',
+  'category',
 ];
 
 const createStrapiApp = async (projectPath) => {
@@ -53,6 +54,11 @@ const createStrapiApp = async (projectPath) => {
   return app;
 };
 
+const extractCategory = (product) => ({
+  ...product,
+  category: product.category && product.category._id,
+});
+
 const run = async () => {
   const projectPath = process.argv[2];
   const app = await createStrapiApp(projectPath);
@@ -77,7 +83,9 @@ const run = async () => {
     products = await app.services.product.find({ _start: i });
     i += products.length;
     await index.addDocuments(
-      products.filter((prod) => prod.show).map((prod) => _.pick(prod, PUBLIC_FIELDS))
+      products
+        .filter((prod) => prod.show)
+        .map((prod) => _.pick(extractCategory(prod), PUBLIC_FIELDS))
     );
   }
 };

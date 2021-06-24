@@ -8,22 +8,8 @@ import LoadMore from './LoadMore';
 import ProductList from './ProductList';
 
 const PRODUCTS_QUERY = gql`
-  query SEARCH_PRODUCTS(
-    $search: String
-    $sort: String
-    $priceRange: [Int]
-    $category: String
-    $limit: Int
-    $start: Int
-  ) {
-    productsSearch(
-      query: $search
-      sort: $sort
-      priceRange: $priceRange
-      category: $category
-      limit: $limit
-      start: $start
-    ) {
+  query SEARCH_PRODUCTS($search: String, $category: String, $limit: Int, $start: Int) {
+    productsSearch(query: $search, category: $category, limit: $limit, start: $start) {
       id
       name
       shortDescription
@@ -57,10 +43,10 @@ const getListName = (search, category) => {
   return 'General Product Listing';
 };
 
-const ProductQuery = ({ sort, priceRange, search, category }) => {
+const ProductQuery = ({ search, category }) => {
   const [hasMoreToLoad, setHasMoreToLoad] = useState(true);
   const { loading, error, data, fetchMore } = useQuery(PRODUCTS_QUERY, {
-    variables: { search, sort, priceRange, category, limit, start: 0 },
+    variables: { search, category, limit, start: 0 },
     fetchPolicy: 'cache-and-network',
   });
 

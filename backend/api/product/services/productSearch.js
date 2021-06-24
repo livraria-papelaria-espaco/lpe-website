@@ -22,11 +22,18 @@ const PUBLIC_FIELDS = [
   'name',
   'createdAt',
   'updatedAt',
+  'category',
 ];
 
+const extractCategory = (product) => ({
+  ...product,
+  category: product.category && product.category._id,
+});
+
 const updateProduct = async (product) => {
+  console.log(extractCategory(product));
   if (product.show) {
-    await meili.index('product').addDocuments([_.pick(product, PUBLIC_FIELDS)]);
+    await meili.index('product').addDocuments([_.pick(extractCategory(product), PUBLIC_FIELDS)]);
   } else {
     await deleteProduct(product);
   }
@@ -36,7 +43,7 @@ const partialUpdateProduct = async (product) => {
   if (product.show === false) {
     await deleteProduct(product);
   } else {
-    await meili.index('product').updateDocuments([_.pick(product, PUBLIC_FIELDS)]);
+    await meili.index('product').updateDocuments([_.pick(extractCategory(product), PUBLIC_FIELDS)]);
   }
 };
 

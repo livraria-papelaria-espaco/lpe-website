@@ -1,8 +1,15 @@
 'use strict';
 
-/**
- * Read the documentation (https://strapi.io/documentation/3.0.0-beta.x/concepts/services.html#core-services)
- * to customize this service
- */
+const escapeRegex = (str) => str.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
 
-module.exports = {};
+module.exports = {
+  getCategoriesIds(categoryName) {
+    if (!categoryName) return [];
+
+    return strapi
+      .query('category')
+      .model.find({ path: { $regex: `,${escapeRegex(categoryName)},` } })
+      .select('_id')
+      .then((result) => result.map((v) => (v ? v.toObject()._id : null)));
+  },
+};
