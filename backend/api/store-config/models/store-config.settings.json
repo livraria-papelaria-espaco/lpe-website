@@ -1,0 +1,26 @@
+{
+  "kind": "singleType",
+  "collectionName": "store_configs",
+  "info": {
+    "name": "Store Config",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "freeShipping": {
+      "type": "boolean",
+      "default": false,
+      "required": false,
+      "private": true
+    },
+    "blockOrders": {
+      "type": "boolean",
+      "default": false,
+      "private": false
+    }
+  }
+}

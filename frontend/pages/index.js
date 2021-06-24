@@ -1,9 +1,11 @@
 import { Container } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { Alert } from '@material-ui/lab';
 import gql from 'graphql-tag';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Head from 'next/head';
 import AboutUs from '~/components/home/AboutUs';
 import Hero from '~/components/home/Hero';
 import Layout from '~/components/Layout';
@@ -27,6 +29,8 @@ const HOME_PAGE_QUERY = gql`
     }
     homePage {
       about
+      information
+      informationSeverity
     }
     globalDiscount {
       discounts {
@@ -40,8 +44,15 @@ const HOME_PAGE_QUERY = gql`
   }
 `;
 
+const useStyles = makeStyles((theme) => ({
+  infoAlert: {
+    marginTop: theme.spacing(3),
+  },
+}));
+
 const HomePage = ({ newProducts, productHighlights, homePage }) => {
   const router = useRouter();
+  const styles = useStyles();
 
   if (router.isFallback) return null;
 
@@ -65,6 +76,11 @@ const HomePage = ({ newProducts, productHighlights, homePage }) => {
       </Head>
       <Hero />
       <Container fixed>
+        {homePage.information && (
+          <Alert severity={homePage.informationSeverity || 'info'} className={styles.infoAlert}>
+            {homePage.information}
+          </Alert>
+        )}
         {newProducts && newProducts.length > 0 && (
           <HighlightRow row={newProductsRow} listName='New Products Highlight' />
         )}
@@ -117,6 +133,8 @@ HomePage.propTypes = {
   ),
   homePage: PropTypes.shape({
     about: PropTypes.string,
+    information: PropTypes.string,
+    informationSeverity: PropTypes.string,
   }).isRequired,
 };
 

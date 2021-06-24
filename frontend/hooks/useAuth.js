@@ -125,7 +125,6 @@ const useAuthProvider = () => {
 
   const confirmEmail = async (code) => {
     const { data: res } = await requestEmailConfirmation({ variables: { code } });
-    if (!res.emailConfirmation.user.confirmed) throw new Error('Auth.form.error.confirmed');
     Cookies.set('jwt', res.emailConfirmation.jwt);
     setUsername(res.emailConfirmation.user.username);
     window.localStorage.setItem('login', Date.now());
