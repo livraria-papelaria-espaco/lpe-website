@@ -57,7 +57,9 @@ module.exports = {
 
       const query = {};
 
-      if (_category) query.category = escapeRegex(_category);
+      // TODO restore sort and filtering functionality
+
+      /*if (_category) query.category = escapeRegex(_category);
       if (_query) query.query = escapeRegex(_query.substring(0, 30));
       if (_sort) query.sort = _sort;
       if (_limit) query.limit = _limit;
@@ -65,13 +67,22 @@ module.exports = {
       if (_priceRange) {
         query.minPrice = _priceRange[0];
         query.maxPrice = _priceRange[1];
-      }
+      }*/
 
-      const entities = await strapi.services.product.searchEnhanced(query);
+      const searchResult = await strapi.services.productsearch.searchProduct(_query);
 
-      return entities.map((entity) =>
-        sanitizeEntity(addStockStatus(entity), { model: strapi.models.product })
+      const { hits, nbHits } = searchResult;
+
+      // TODO send nbHits to frontend
+
+      const products = await Promise.all(
+        hits.map(async (hit) => {
+          const product = await strapi.services.product.findOne({ id: hit._id });
+          return sanitizeEntity(addStockStatus(product), { model: strapi.models.product });
+        })
       );
+
+      return products;
     } catch (e) {
       if (Joi.isError(e)) {
         ctx.throw(400, 'invalid input');

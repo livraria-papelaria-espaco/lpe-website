@@ -44,8 +44,11 @@ const deleteProduct = async (product) => {
   await meili.index('product').deleteDocument(product._id);
 };
 
+const searchProduct = (query, properties) => meili.index('product').search(query, properties);
+
 module.exports = {
   updateProduct,
   partialUpdateProduct,
   deleteProduct,
+  searchProduct,
 };
