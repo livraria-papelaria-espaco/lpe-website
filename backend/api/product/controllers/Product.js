@@ -61,12 +61,14 @@ module.exports = {
 
       const { hits, nbHits } = searchResult;
 
-      const products = await Promise.all(
-        hits.map(async (hit) => {
-          const product = await strapi.services.product.findOne({ id: hit._id });
-          return sanitizeEntity(addStockStatus(product), { model: strapi.models.product });
-        })
-      );
+      const products = (
+        await Promise.all(
+          hits.map(async (hit) => {
+            const product = await strapi.services.product.findOne({ id: hit._id });
+            return sanitizeEntity(addStockStatus(product), { model: strapi.models.product });
+          })
+        )
+      ).filter((product) => product !== null);
 
       return { nbHits, products };
     } catch (e) {
