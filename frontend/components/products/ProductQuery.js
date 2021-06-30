@@ -3,39 +3,28 @@ import { Alert } from '@material-ui/lab';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { Fade, LinearProgress } from '@material-ui/core';
+import { Fade, LinearProgress, Typography } from '@material-ui/core';
 import LoadMore from './LoadMore';
 import ProductList from './ProductList';
 
 const PRODUCTS_QUERY = gql`
-  query SEARCH_PRODUCTS(
-    $search: String
-    $sort: String
-    $priceRange: [Int]
-    $category: String
-    $limit: Int
-    $start: Int
-  ) {
-    productsSearch(
-      query: $search
-      sort: $sort
-      priceRange: $priceRange
-      category: $category
-      limit: $limit
-      start: $start
-    ) {
-      id
-      name
-      shortDescription
-      images(limit: 1) {
-        url
+  query SEARCH_PRODUCTS($search: String, $category: String, $limit: Int, $start: Int) {
+    productsSearch(query: $search, category: $category, limit: $limit, start: $start) {
+      nbHits
+      products {
+        id
+        name
+        shortDescription
+        images(limit: 1) {
+          url
+        }
+        price
+        reference
+        slug
+        stockStatus
+        type
+        bookAuthor
       }
-      price
-      reference
-      slug
-      stockStatus
-      type
-      bookAuthor
     }
     globalDiscount {
       discounts {
@@ -57,10 +46,10 @@ const getListName = (search, category) => {
   return 'General Product Listing';
 };
 
-const ProductQuery = ({ sort, priceRange, search, category }) => {
+const ProductQuery = ({ search, category }) => {
   const [hasMoreToLoad, setHasMoreToLoad] = useState(true);
   const { loading, error, data, fetchMore } = useQuery(PRODUCTS_QUERY, {
-    variables: { search, sort, priceRange, category, limit, start: 0 },
+    variables: { search, category, limit, start: 0 },
     fetchPolicy: 'cache-and-network',
   });
 
@@ -71,14 +60,17 @@ const ProductQuery = ({ sort, priceRange, search, category }) => {
   const loadMore = () =>
     fetchMore({
       variables: {
-        start: data.productsSearch.length,
+        start: data.productsSearch.products.length,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
-        if (fetchMoreResult.productsSearch.length === 0) setHasMoreToLoad(false);
+        if (fetchMoreResult.productsSearch.products.length === 0) setHasMoreToLoad(false);
         return {
           ...prev,
-          productsSearch: [...prev.productsSearch, ...fetchMoreResult.productsSearch],
+          productsSearch: {
+            ...fetchMoreResult.productsSearch,
+            products: [...prev.productsSearch.products, ...fetchMoreResult.productsSearch.products],
+          },
         };
       },
     });
@@ -96,7 +88,7 @@ const ProductQuery = ({ sort, priceRange, search, category }) => {
     ),
   });
 
-  const products = (data.productsSearch || []).map(handleProduct);
+  const products = (data.productsSearch.products || []).map(handleProduct);
 
   return (
     <>
@@ -109,9 +101,14 @@ const ProductQuery = ({ sort, priceRange, search, category }) => {
         <LinearProgress variant='query' />
       </Fade>
       <ProductList products={products || []} listName={getListName(search, category)} />
+      {data.productsSearch.nbHits > 0 && (
+        <Typography variant='subtitle2' color='textSecondary' style={{ textAlign: 'center' }}>
+          Foram encontrados {data.productsSearch.nbHits} resultados
+        </Typography>
+      )}
       <LoadMore
         onClick={loadMore}
-        hide={data.productsSearch.length % limit !== 0 || !hasMoreToLoad}
+        hide={data.productsSearch.products.length % limit !== 0 || !hasMoreToLoad}
         loading={loading}
       />
     </>
@@ -119,15 +116,11 @@ const ProductQuery = ({ sort, priceRange, search, category }) => {
 };
 
 ProductQuery.propTypes = {
-  sort: PropTypes.string,
-  priceRange: PropTypes.arrayOf(PropTypes.number),
   search: PropTypes.string,
   category: PropTypes.string,
 };
 
 ProductQuery.defaultProps = {
-  sort: undefined,
-  priceRange: undefined,
   search: undefined,
   category: undefined,
 };

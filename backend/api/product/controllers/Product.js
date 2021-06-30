@@ -45,33 +45,32 @@ const addStockStatus = (entity) => {
   return { ...entity, stockStatus: stockStatus };
 };
 
-const escapeRegex = (str) => str.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
-
 module.exports = {
   async searchEnhanced(ctx) {
     try {
-      const { _category, _query, _sort, _limit, _start, _priceRange } = Joi.attempt(
-        ctx.query,
-        searchEnhancedSchema
-      );
+      const { _category, _query, _limit, _start } = Joi.attempt(ctx.query, searchEnhancedSchema);
 
-      const query = {};
+      const categoriesIds = await strapi.services.category.getCategoriesIds(_category);
+      const filterQuery = categoriesIds.map((id) => `category = "${id}"`).join(' OR ');
 
-      if (_category) query.category = escapeRegex(_category);
-      if (_query) query.query = escapeRegex(_query.substring(0, 30));
-      if (_sort) query.sort = _sort;
-      if (_limit) query.limit = _limit;
-      if (_start) query.start = _start;
-      if (_priceRange) {
-        query.minPrice = _priceRange[0];
-        query.maxPrice = _priceRange[1];
-      }
+      const searchResult = await strapi.services.productsearch.searchProduct(_query, {
+        limit: _limit,
+        offset: _start,
+        filters: filterQuery || undefined,
+      });
 
-      const entities = await strapi.services.product.searchEnhanced(query);
+      const { hits, nbHits } = searchResult;
 
-      return entities.map((entity) =>
-        sanitizeEntity(addStockStatus(entity), { model: strapi.models.product })
-      );
+      const products = (
+        await Promise.all(
+          hits.map(async (hit) => {
+            const product = await strapi.services.product.findOne({ id: hit._id });
+            return sanitizeEntity(addStockStatus(product), { model: strapi.models.product });
+          })
+        )
+      ).filter((product) => product !== null);
+
+      return { nbHits, products };
     } catch (e) {
       if (Joi.isError(e)) {
         ctx.throw(400, 'invalid input');
