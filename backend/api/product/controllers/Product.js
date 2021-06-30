@@ -61,8 +61,6 @@ module.exports = {
 
       const { hits, nbHits } = searchResult;
 
-      // TODO send nbHits to frontend
-
       const products = await Promise.all(
         hits.map(async (hit) => {
           const product = await strapi.services.product.findOne({ id: hit._id });
@@ -70,7 +68,7 @@ module.exports = {
         })
       );
 
-      return products;
+      return { nbHits, products };
     } catch (e) {
       if (Joi.isError(e)) {
         ctx.throw(400, 'invalid input');

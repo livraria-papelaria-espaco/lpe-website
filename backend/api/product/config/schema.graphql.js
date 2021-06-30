@@ -1,7 +1,13 @@
 module.exports = {
+  definition: `
+    type ProductSearchResult {
+      nbHits: Int!
+      products: [Product]!
+    }
+  `,
   query: `
     productBySlug(slug: String!): Product
-    productsSearch(query: String, limit: Int, start: Int, category: String): [Product]
+    productsSearch(query: String, limit: Int, start: Int, category: String): ProductSearchResult
     newProducts: [Product]
   `,
   resolver: {
