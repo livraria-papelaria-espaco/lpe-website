@@ -51,26 +51,47 @@ module.exports = {
       const { _category, _query, _limit, _start } = Joi.attempt(ctx.query, searchEnhancedSchema);
 
       const categoriesIds = await strapi.services.category.getCategoriesIds(_category);
-      const filterQuery = categoriesIds.map((id) => `category = "${id}"`).join(' OR ');
 
-      const searchResult = await strapi.services.productsearch.searchProduct(_query, {
-        limit: _limit,
-        offset: _start,
-        filters: filterQuery || undefined,
-      });
+      if (_query) {
+        // Use meilisearch when searching by text
+        const filterQuery = categoriesIds.map((id) => `category = "${id}"`).join(' OR ');
 
-      const { hits, nbHits } = searchResult;
+        const searchResult = await strapi.services.productsearch.searchProduct(_query, {
+          limit: _limit,
+          offset: _start,
+          filters: filterQuery || undefined,
+        });
 
-      const products = (
-        await Promise.all(
-          hits.map(async (hit) => {
-            const product = await strapi.services.product.findOne({ id: hit._id });
-            return sanitizeEntity(addStockStatus(product), { model: strapi.models.product });
-          })
-        )
-      ).filter((product) => product !== null);
+        const { hits, nbHits } = searchResult;
 
-      return { nbHits, products };
+        const products = (
+          await Promise.all(
+            hits.map(async (hit) => {
+              const product = await strapi.services.product.findOne({ id: hit._id });
+              return sanitizeEntity(addStockStatus(product), { model: strapi.models.product });
+            })
+          )
+        ).filter((product) => product !== null);
+
+        return { nbHits, products };
+      } else {
+        // Get directly from DB if text query is empty
+        const nbHits = await strapi.services.product.count({
+          quantity_gt: 0, // show only products in stock
+          show: true,
+          _sort: 'updatedAt:desc',
+        });
+
+        const products = await strapi.services.product.find({
+          quantity_gt: 0, // show only products in stock
+          show: true,
+          _sort: 'updatedAt:desc',
+          _limit,
+          _start,
+        });
+
+        return { nbHits, products };
+      }
     } catch (e) {
       if (Joi.isError(e)) {
         ctx.throw(400, 'invalid input');
