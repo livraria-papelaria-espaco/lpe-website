@@ -79,12 +79,14 @@ module.exports = {
         const nbHits = await strapi.services.product.count({
           quantity_gt: 0, // show only products in stock
           show: true,
+          category_in: categoriesIds.length === 0 ? undefined : categoriesIds,
           _sort: 'updatedAt:desc',
         });
 
         const products = await strapi.services.product.find({
           quantity_gt: 0, // show only products in stock
           show: true,
+          category_in: categoriesIds.length === 0 ? undefined : categoriesIds,
           _sort: 'updatedAt:desc',
           _limit,
           _start,
