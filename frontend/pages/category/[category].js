@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Layout from '~/components/Layout';
-import FilterToolbar from '~/components/products/filters/FilterToolbar';
+// TODO import FilterToolbar from '~/components/products/filters/FilterToolbar';
 import ProductQuery from '~/components/products/ProductQuery';
 import HighlightRow from '~/components/productsHighlight/HighlightRow';
 import { useProductFilters } from '~/hooks/useProductFilters';
@@ -51,7 +51,7 @@ const CategoryPage = ({ name, productHighlights }) => {
       {productHighlights.map((highlight) => (
         <HighlightRow key={highlight.id} row={highlight} listName='Category Product Highlights' />
       ))}
-      <FilterToolbar />
+      {/* TODO <FilterToolbar /> */}
       <ProductQuery
         priceRange={priceRange}
         search={delayedSearch}
