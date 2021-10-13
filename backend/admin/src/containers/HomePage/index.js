@@ -4,26 +4,52 @@
  *
  */
 /* eslint-disable */
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { get, upperFirst } from 'lodash';
-import { auth } from 'strapi-helper-plugin';
+import { auth, LoadingIndicatorPage } from 'strapi-helper-plugin';
 import PageTitle from '../../components/PageTitle';
+import { useModels } from '../../hooks';
 
-import useFetch from './previewHooks';
+import useFetch from './hooks';
 import { ALink, Block, Container, LinkWrapper, P, Wave, Separator } from './components';
 
-const HomePage = ({ global: { plugins }, history: { push } }) => {
+/* EXTENDED: delete FIRST_BLOCK_LINKS AND SOCIAL_LINKS */
+
+const HomePage = ({ history: { push } }) => {
+  // Change to data (preview key)
   const { data } = useFetch();
-  const username = get(auth.getUserInfo(), 'username', '');
+  // Temporary until we develop the menu API
+  const { collectionTypes, singleTypes, isLoading: isLoadingForModels } = useModels();
+
+  // CHANGE: Remove handleClick since it's not longer needed
+
+  const hasAlreadyCreatedContentTypes = useMemo(() => {
+    const filterContentTypes = contentTypes => contentTypes.filter(c => c.isDisplayed);
+
+    return (
+      filterContentTypes(collectionTypes).length > 1 || filterContentTypes(singleTypes).length > 0
+    );
+  }, [collectionTypes, singleTypes]);
+
+  if (isLoadingForModels) {
+    return <LoadingIndicatorPage />;
+  }
+
+  const headerId = hasAlreadyCreatedContentTypes
+    ? 'HomePage.greetings'
+    : 'app.components.HomePage.welcome';
+  const username = get(auth.getUserInfo(), 'firstname', '');
+  // CHANGE: Remove link props hasAlreadyCreatedContentTypes
   const linkProps = {
     id: 'app.components.HomePage.button.blog',
-    href: 'https://blog.strapi.io/',
+    href: 'https://strapi.io/blog/',
     onClick: () => {},
     type: 'blog',
     target: '_blank',
   };
 
+  // CHANGE: Add handleLink
   const handleLink = (link) => (e) => {
     e.preventDefault();
     push(link);
@@ -31,29 +57,56 @@ const HomePage = ({ global: { plugins }, history: { push } }) => {
 
   return (
     <>
-      <FormattedMessage id='HomePage.helmet.title'>
-        {(title) => <PageTitle title={title} />}
+      <FormattedMessage id="HomePage.helmet.title">
+        {title => <PageTitle title={title} />}
       </FormattedMessage>
-      <Container className='container-fluid'>
-        <div className='row'>
-          <div className='col-lg-8 col-md-12'>
+      <Container className="container-fluid">
+        <div className="row">
+          <div className="col-lg-8 col-md-12">
             <Block>
               <Wave />
               <FormattedMessage
-                id='HomePage.greetings'
+                id={headerId}
                 values={{
                   name: upperFirst(username),
                 }}
               >
-                {(msg) => <h2 id='mainHeader'>{msg}</h2>}
+                {msg => <h2 id="mainHeader">{msg}</h2>}
               </FormattedMessage>
-              <FormattedMessage id='app.components.HomePage.welcomeBlock.content.again'>
-                {(msg) => <P>{msg}</P>}
-              </FormattedMessage>
+              {hasAlreadyCreatedContentTypes ? (
+                <FormattedMessage id="app.components.HomePage.welcomeBlock.content.again">
+                  {msg => <P>{msg}</P>}
+                </FormattedMessage>
+              ) : (
+                <FormattedMessage id="HomePage.welcome.congrats">
+                  {congrats => {
+                    return (
+                      <FormattedMessage id="HomePage.welcome.congrats.content">
+                        {content => {
+                          return (
+                            <FormattedMessage id="HomePage.welcome.congrats.content.bold">
+                              {boldContent => {
+                                return (
+                                  <P>
+                                    <b>{congrats}</b>&nbsp;
+                                    {content}&nbsp;
+                                    <b>{boldContent}</b>
+                                  </P>
+                                );
+                              }}
+                            </FormattedMessage>
+                          );
+                        }}
+                      </FormattedMessage>
+                    );
+                  }}
+                </FormattedMessage>
+              )}
+              {/* Remove blog posts */}
               <FormattedMessage id={linkProps.id}>
-                {(msg) => (
+                {msg => (
                   <ALink
-                    rel='noopener noreferrer'
+                    rel="noopener noreferrer"
                     {...linkProps}
                     style={{ verticalAlign: ' bottom', marginBottom: 5 }}
                   >
@@ -61,11 +114,13 @@ const HomePage = ({ global: { plugins }, history: { push } }) => {
                   </ALink>
                 )}
               </FormattedMessage>
+              {/* Remove FIRST_BLOCK_LINKS */}
             </Block>
           </div>
 
-          <div className='col-md-12 col-lg-4'>
+          <div className="col-md-12 col-lg-4">
             <Block style={{ paddingRight: 30, paddingBottom: 0 }}>
+              {/* CHANGE: Add custom links */}
               <FormattedMessage id='custom.HomePage.tools.title'>
                 {(msg) => <h2>{msg}</h2>}
               </FormattedMessage>
@@ -109,7 +164,7 @@ const HomePage = ({ global: { plugins }, history: { push } }) => {
                     rel='noopener noreferrer'
                     href=''
                     onClick={handleLink(
-                      '/plugins/content-manager/collectionType/application::product.product?_sort=createdAt:DESC&show=false'
+                      '/plugins/content-manager/collectionType/application::product.product?_sort=createdAt:DESC&show=false&page=1&pageSize=50'
                     )}
                     target='_blank'
                   >
@@ -117,6 +172,8 @@ const HomePage = ({ global: { plugins }, history: { push } }) => {
                   </ALink>
                 )}
               </FormattedMessage>
+
+              {/* Remove SOCIAL_LINKS */}
             </Block>
           </div>
         </div>

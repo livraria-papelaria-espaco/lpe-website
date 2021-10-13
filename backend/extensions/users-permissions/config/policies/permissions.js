@@ -1,3 +1,5 @@
+'use strict';
+
 const _ = require('lodash');
 
 module.exports = async (ctx, next) => {
@@ -34,10 +36,10 @@ module.exports = async (ctx, next) => {
         delete ctx.request.query.token;
       } else if (ctx.request && ctx.request.header && ctx.request.header.authorization) {
         // use the current system with JWT in the header
-        const decrypted = await strapi.plugins['users-permissions'].services.jwt.getToken(ctx);
+        const decoded = await strapi.plugins['users-permissions'].services.jwt.getToken(ctx);
 
-        id = decrypted.id;
-        isAdmin = decrypted.isAdmin || false;
+        id = decoded.id;
+        isAdmin = decoded.isAdmin || false;
       }
 
       if (id === undefined) {
