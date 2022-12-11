@@ -8,7 +8,7 @@ const axios = require('axios');
  * @description: A set of functions similar to controller's actions to avoid code duplication.
  */
 
-const WOOK_REGEX = /<script type="application\/ld\+json">[^]*?({[^]+})[^]*?<\/script>[^]*?<!-- Fim Google/;
+const WOOK_REGEX = /<script type="application\/ld\+json">([^]+?)<\/script>/;
 const NEWLINE_REGEX = /\n/g;
 /*const FNAC_SEARCH_REGEX = /<a href="(.+?)" class=".*?Article-title js-minifa-title js-Search-hashLink.*?">.+?<\/a>/;
 const FNAC_REGEX = /<script type="application\/json" class="js-configuration">[^]*?({.+})[^]*?<\/script>/;
