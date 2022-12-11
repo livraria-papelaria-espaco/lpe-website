@@ -70,9 +70,7 @@ const run = async () => {
         const contentManagerService = strapi.plugins['content-manager'].services['entity-manager'];
 
         try {
-          console.log(product.images);
           if (!product.images || product.images.length === 0) {
-            console.log('Getting images');
             product = {
               ...product,
               images: await metadataServices.fetchAndUploadImages(isbn, product.slug),
