@@ -9,6 +9,7 @@ import React from 'react';
 import AboutUs from '~/components/home/AboutUs';
 import Hero from '~/components/home/Hero';
 import Layout from '~/components/Layout';
+import Newsletter from '~/components/newsletter/Newsletter';
 import HighlightRow from '~/components/productsHighlight/HighlightRow';
 import { fetchAPI, fetchREST } from '~/lib/graphql';
 
@@ -81,6 +82,7 @@ const HomePage = ({ newProducts, productHighlights, homePage }) => {
             {homePage.information}
           </Alert>
         )}
+        <Newsletter/>
         {newProducts && newProducts.length > 0 && (
           <HighlightRow row={newProductsRow} listName='New Products Highlight' />
         )}

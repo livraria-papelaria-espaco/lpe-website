@@ -31,5 +31,9 @@ module.exports = withImages({
     },
     googleAnalyticsId: process.env.GA_ID || '',
     tawkToId: process.env.TAWKTO_ID || '',
+    newsletter: {
+      listmonkUrl: 'https://newsletter.lpespaco.pt',
+      listId: 'eaf9f013-05d7-45cd-9fed-586ff3ddc2d8',
+    },
   },
 });
