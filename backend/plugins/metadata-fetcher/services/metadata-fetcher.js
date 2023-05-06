@@ -64,9 +64,7 @@ const fetchImagesFromFnac = async (isbn) => {
 module.exports = {
   fetchMetadataFromWook: async (isbn) => {
     try {
-      const response = await axios.get(`https://www.wook.pt/pesquisa/${isbn}`);
-      const dataString = (WOOK_REGEX.exec(response.data) || [])[1];
-      const data = JSON.parse(dataString);
+      const { data } = await axios.get(`https://book-api.diogotc.com/wook/info-by-isbn/${isbn}`);
       return {
         name: data.name,
         type: 'Livro',
