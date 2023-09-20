@@ -40,7 +40,7 @@ const addStockStatus = (entity) => {
     if (entity.quantity > strapi.config.get('custom.lowStockThreshold', 3))
       stockStatus = 'IN_STOCK';
     else if (entity.quantity > 0) stockStatus = 'LOW_STOCK';
-    else stockStatus = entity.orderAvailable ? 'ORDER_ONLY' : 'UNAVAILABLE';
+    else stockStatus = 'UNAVAILABLE';
   }
   return { ...entity, stockStatus: stockStatus };
 };

@@ -99,9 +99,7 @@ const parseOrderData = async (data, price) => {
       let needsRestock = 0;
 
       if (product.quantity - v.quantity < 0) {
-        if (!product.orderAvailable)
-          throw strapi.errors.conflict(`Stock not available`, { id: v.id });
-        needsRestock = v.quantity - product.quantity;
+        throw strapi.errors.conflict(`Stock not available`, { id: v.id });
       }
 
       const priceUnity = +(product.price * (1 - discountPercent / 100)).toFixed(2);
