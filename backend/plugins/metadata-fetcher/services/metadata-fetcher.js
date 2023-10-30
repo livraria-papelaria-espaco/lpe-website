@@ -78,6 +78,7 @@ module.exports = {
           ? `# Sinopse\n${data.description.replace(NEWLINE_REGEX, '  \n')}`
           : undefined,
         shortDescription: data.alternativeHeadline,
+        ...(data.isSchoolbook ? { show: false } : {})
       };
     } catch (e) {
       return null;

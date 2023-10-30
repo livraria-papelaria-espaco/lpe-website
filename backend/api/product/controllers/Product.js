@@ -182,10 +182,10 @@ module.exports = {
           });
           data = {
             ...data,
+            show: true,
             ...metadata,
             slug,
             images: await metadataServices.fetchAndUploadImages(data.reference, slug),
-            show: true,
             category: category ? category.id : undefined,
           };
         }

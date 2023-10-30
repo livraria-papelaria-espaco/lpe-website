@@ -62,9 +62,9 @@ const run = async () => {
 
         product = {
           ...product,
+          show: (product.price || 0) > 0,
           ...metadata,
           category: category.id,
-          show: (product.price || 0) > 0,
         };
 
         const contentManagerService = strapi.plugins['content-manager'].services['entity-manager'];
