@@ -4,7 +4,8 @@ services:
   meilisearch:
     image: getmeili/meilisearch:v0.20.0
     ports:
-      - 7700:7700
+      - 127.0.0.1:7700:7700
     volumes:
       - ./data.ms:/data.ms
     env_file: meili.env
+    restart: unless-stopped
