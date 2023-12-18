@@ -14,7 +14,7 @@ const handleMultibancoPayment = async (query) => {
 
   if (
     `${query.reference}` !== order.orderData.multibanco.reference ||
-    `${query.entidade}` !== order.orderData.multibanco.entity ||
+    (query.mp !== "MW:PT" && `${query.entidade}` !== order.orderData.multibanco.entity) ||
     parseFloat(query.price) !== order.orderData.multibanco.price
   )
     throw strapi.errors.badRequest('Invalid reference/entity/price for provided order.');
