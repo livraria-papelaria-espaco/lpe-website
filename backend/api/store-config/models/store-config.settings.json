@@ -21,6 +21,10 @@
       "type": "boolean",
       "default": false,
       "private": false
+    },
+    "disableEuPago": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

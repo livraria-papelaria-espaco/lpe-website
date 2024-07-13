@@ -237,10 +237,14 @@ module.exports = {
 
     const request = Joi.attempt(ctx.request.body, orderCreateSchema);
 
-    const { blockOrders } = await strapi.services['store-config'].find();
+    const { blockOrders, disableEuPago } = await strapi.services['store-config'].find();
 
-    if (blockOrders)
+    if (blockOrders) {
       throw strapi.errors.forbidden('Orders are disabled by the store at the moment.');
+    }
+    if (disableEuPago && (request.paymentGateway === "MB" || request.paymentGateway === "MBWAY")) {
+      throw strapi.errors.forbidden('Payment method is disabled');
+    }
 
     const shippingCost =
       request.shippingMethod === 'STORE_PICKUP'

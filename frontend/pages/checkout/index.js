@@ -12,26 +12,29 @@ const STORE_SETTINGS_QUERY = gql`
   query {
     storeConfig {
       blockOrders
+      disableEuPago
     }
   }
 `;
 
-const CheckoutPage = ({ blockOrders }) => {
+const CheckoutPage = ({ blockOrders, disableEuPago }) => {
   useAuth({ secure: true });
 
   return (
     <Layout title='Checkout'>
-      <Container maxWidth='md'>{blockOrders ? <StoreClosed /> : <CheckoutStepper />}</Container>
+      <Container maxWidth='md'>{blockOrders ? <StoreClosed /> : <CheckoutStepper disableEuPago={disableEuPago} />}</Container>
     </Layout>
   );
 };
 
 CheckoutPage.propTypes = {
   blockOrders: PropTypes.bool,
+  disableEuPago: PropTypes.bool,
 };
 
 CheckoutPage.defaultProps = {
   blockOrders: false,
+  disableEuPago: false,
 };
 
 export const getStaticProps = async () => {
@@ -39,7 +42,10 @@ export const getStaticProps = async () => {
 
   return {
     revalidate: 10, // 10 seconds
-    props: { blockOrders: graphql.storeConfig.blockOrders } || {},
+    props: {
+      blockOrders: graphql.storeConfig.blockOrders,
+      disableEuPago: graphql.storeConfig.disableEuPago,
+    } || {},
   };
 };
 

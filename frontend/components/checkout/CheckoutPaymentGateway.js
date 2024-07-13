@@ -6,7 +6,7 @@ import CheckoutMbWayPhone from './CheckoutMbWayPhone';
 
 const mbWayPhoneRegex = /^9\d{8}$/;
 
-const CheckoutPaymentGateway = ({ state, dispatch, children }) => {
+const CheckoutPaymentGateway = ({ state, dispatch, disableEuPago, children }) => {
   const handleChange = (field) => (event) => {
     dispatch({ type: 'setValue', field, value: event.target.value });
   };
@@ -31,19 +31,25 @@ const CheckoutPaymentGateway = ({ state, dispatch, children }) => {
             label='Pagar em Loja'
             disabled={state.get('shippingMethod') !== 'STORE_PICKUP'}
           />
-          <FormControlLabel
-            value='MB'
-            control={<Radio color='primary' />}
-            label='Referência Multibanco'
-          />
-          <FormControlLabel value='MBWAY' control={<Radio color='primary' />} label='MBWay' />
-          <Collapse in={paymentGateway === 'MBWAY'}>
-            <CheckoutMbWayPhone
-              value={mbWayPhone}
-              handleChange={handleChange('mbWayPhone')}
-              error={!isValidMbWayPhone}
-            />
-          </Collapse>
+          {
+            !disableEuPago && (
+              <>
+                <FormControlLabel
+                  value='MB'
+                  control={<Radio color='primary' />}
+                  label='Referência Multibanco'
+                />
+                <FormControlLabel value='MBWAY' control={<Radio color='primary' />} label='MBWay' />
+                <Collapse in={paymentGateway === 'MBWAY'}>
+                  <CheckoutMbWayPhone
+                    value={mbWayPhone}
+                    handleChange={handleChange('mbWayPhone')}
+                    error={!isValidMbWayPhone}
+                  />
+                </Collapse>
+              </>
+            )
+          }
           <FormControlLabel
             value='BANK_TRANSFER'
             control={<Radio color='primary' />}
@@ -63,7 +69,12 @@ const CheckoutPaymentGateway = ({ state, dispatch, children }) => {
 CheckoutPaymentGateway.propTypes = {
   state: PropTypes.instanceOf(Map).isRequired,
   dispatch: PropTypes.func.isRequired,
+  disableEuPago: PropTypes.bool,
   children: PropTypes.func.isRequired,
+};
+
+CheckoutPaymentGateway.defaultProps = {
+  disableEuPago: false,
 };
 
 export default CheckoutPaymentGateway;

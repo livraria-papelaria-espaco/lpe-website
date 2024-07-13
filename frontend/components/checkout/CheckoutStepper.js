@@ -2,6 +2,7 @@ import { Button, Collapse, Paper, Step, StepContent, StepLabel, Stepper } from '
 import { makeStyles } from '@material-ui/core/styles';
 import { fromJS } from 'immutable';
 import React, { useReducer, useState } from 'react';
+import PropTypes from 'prop-types';
 import CheckoutClientData from './CheckoutClientData';
 import CheckoutItems from './CheckoutItems';
 import CheckoutPaymentGateway from './CheckoutPaymentGateway';
@@ -68,7 +69,7 @@ function getSteps() {
   ];
 }
 
-const CheckoutStepper = () => {
+const CheckoutStepper = ({ disableEuPago }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
@@ -89,7 +90,7 @@ const CheckoutStepper = () => {
           <Step key={title}>
             <StepLabel>{title}</StepLabel>
             <StepContent>
-              <Component state={state} dispatch={dispatch}>
+              <Component state={state} dispatch={dispatch} disableEuPago={disableEuPago}>
                 {(disabled) => (
                   <div className={classes.actionsContainer}>
                     <div>
@@ -124,6 +125,14 @@ const CheckoutStepper = () => {
       </Collapse>
     </div>
   );
+};
+
+CheckoutStepper.propTypes = {
+  disableEuPago: PropTypes.bool,
+};
+
+CheckoutStepper.defaultProps = {
+  disableEuPago: false,
 };
 
 export default CheckoutStepper;
