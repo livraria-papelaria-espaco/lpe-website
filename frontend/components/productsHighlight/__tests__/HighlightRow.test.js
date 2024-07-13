@@ -62,22 +62,18 @@ describe('HighlightRow (components/productsHighlight/HighlightRow)', () => {
     expect(wrapper.find(ContentRow)).toHaveLength(mockContent.length);
   });
 
-  it('Renders a count of content row with the provided listName', () => {
+  it('Renders a count of content row', () => {
     const rowData = {
       id: 'someRandomId',
       title: 'Lorem ipsum',
       subtitle: 'dolor sit amet',
       content: mockContent,
     };
-    const listName = 'Lorem ipsum list';
 
-    const wrapper = shallow(<HighlightRow row={rowData} listName={listName} />);
+    const wrapper = shallow(<HighlightRow row={rowData} />);
 
     expect(wrapper.find(Typography).first().text()).toMatch(rowData.title);
     expect(wrapper.find(Typography).at(1).text()).toMatch(rowData.subtitle);
     expect(wrapper.find(ContentRow)).toHaveLength(mockContent.length);
-    wrapper.find(ContentRow).forEach((node) => {
-      expect(node.prop('listName')).toMatch(listName);
-    });
   });
 });

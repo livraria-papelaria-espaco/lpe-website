@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
 import AddToCart from '~/components/cart/AddToCart';
 import CategoryBreadcrumbs from '~/components/categories/CategoryBreadcrumbs';
 import Error404 from '~/components/error/404';
@@ -104,12 +103,6 @@ const Product = ({ defaultData }) => {
   return (
     <Layout title={product.name} showStoreNav>
       <ProductSEO product={product} />
-      <GAProduct
-        id={product.id}
-        name={product.name}
-        price={product.price}
-        category={product.category ? product.category.name : undefined}
-      />
       <Paper className={classes.paper}>
         {product.category && (
           <CategoryBreadcrumbs
@@ -276,18 +269,6 @@ export const getStaticProps = async (context) => {
     revalidate: 300, // 5 min
     props: { defaultData },
   };
-};
-
-const GAProduct = ({ id, name, price, category }) => {
-  useEffect(() => {
-    if (window && window.gtag) {
-      window.gtag('event', 'view_item', {
-        items: [{ id, name, price, category }],
-      });
-    }
-  }, []);
-
-  return null;
 };
 
 export default Product;

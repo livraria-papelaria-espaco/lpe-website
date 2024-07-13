@@ -5,7 +5,6 @@ import React from 'react';
 import { AuthProvider } from '~/hooks/useAuth';
 import { CartProvider } from '~/hooks/useCart';
 import { withApollo } from '~/lib/apollo';
-import * as gtag from '../lib/gtag';
 import { ProductFiltersProvider } from '~/hooks/useProductFilters';
 
 let theme = createMuiTheme({
@@ -44,7 +43,5 @@ const MyApp = ({ Component, pageProps }) => (
     </CartProvider>
   </AuthProvider>
 );
-
-Router.events.on('routeChangeComplete', (url) => gtag.pageview(url));
 
 export default withApollo(MyApp, { ssr: false });

@@ -41,12 +41,8 @@ describe('ContentRow (/components/productHighlight/ContentRow)', () => {
         id: 'mock-row-1',
         products: mockProducts,
       };
-      const listName = 'Lorem ipsum';
 
-      const wrapper = shallow(<ContentRow row={mockRow} listName={listName} />);
-      const productList = wrapper.find(ProductList);
-      expect(productList.prop('products')).toBe(mockProducts);
-      expect(productList.prop('listName')).toMatch(listName);
+      const wrapper = shallow(<ContentRow row={mockRow} />);
       expect(wrapper.find(Typography)).toHaveLength(0);
     });
 
@@ -58,12 +54,10 @@ describe('ContentRow (/components/productHighlight/ContentRow)', () => {
         products: mockProducts,
         title: rowTitle,
       };
-      const listName = 'Lorem ipsum';
 
-      const wrapper = shallow(<ContentRow row={mockRow} listName={listName} />);
+      const wrapper = shallow(<ContentRow row={mockRow} />);
       const productList = wrapper.find(ProductList);
       expect(productList.prop('products')).toBe(mockProducts);
-      expect(productList.prop('listName')).toMatch(listName);
       expect(wrapper.find(Typography).text()).toMatch(rowTitle);
     });
   });
@@ -78,12 +72,10 @@ describe('ContentRow (/components/productHighlight/ContentRow)', () => {
         product: mockProducts[0],
         description,
       };
-      const listName = 'Lorem ipsum';
 
-      const wrapper = shallow(<ContentRow row={mockRow} listName={listName} />);
+      const wrapper = shallow(<ContentRow row={mockRow} />);
       const productCard = wrapper.find(ProductCard);
       expect(productCard.prop('product')).toBe(mockProducts[0]);
-      expect(productCard.prop('listName')).toMatch(listName);
       expect(wrapper.find(Markdown).prop('children')).toMatch(description);
       expect(wrapper.find(Typography)).toHaveLength(0);
       expect(wrapper.find(Badge).prop('badgeContent')).toBe(0);
@@ -98,12 +90,10 @@ describe('ContentRow (/components/productHighlight/ContentRow)', () => {
         description,
         badgeNumber,
       };
-      const listName = 'Lorem ipsum';
 
-      const wrapper = shallow(<ContentRow row={mockRow} listName={listName} />);
+      const wrapper = shallow(<ContentRow row={mockRow} />);
       const productCard = wrapper.find(ProductCard);
       expect(productCard.prop('product')).toBe(mockProducts[0]);
-      expect(productCard.prop('listName')).toMatch(listName);
       expect(wrapper.find(Markdown).prop('children')).toMatch(description);
       expect(wrapper.find(Typography)).toHaveLength(0);
       expect(wrapper.find(Badge).prop('badgeContent')).toMatch(`#${badgeNumber}`);
@@ -120,12 +110,10 @@ describe('ContentRow (/components/productHighlight/ContentRow)', () => {
         badgeNumber,
         title: rowTitle,
       };
-      const listName = 'Lorem ipsum';
 
-      const wrapper = shallow(<ContentRow row={mockRow} listName={listName} />);
+      const wrapper = shallow(<ContentRow row={mockRow} />);
       const productCard = wrapper.find(ProductCard);
       expect(productCard.prop('product')).toBe(mockProducts[0]);
-      expect(productCard.prop('listName')).toMatch(listName);
       expect(wrapper.find(Markdown).prop('children')).toMatch(description);
       expect(wrapper.find(Typography).text()).toMatch(rowTitle);
       expect(wrapper.find(Badge).prop('badgeContent')).toMatch(`#${badgeNumber}`);
@@ -139,12 +127,10 @@ describe('ContentRow (/components/productHighlight/ContentRow)', () => {
         id: 'mock-row-5',
         products: mockProducts,
       };
-      const listName = 'Lorem ipsum';
 
-      const wrapper = shallow(<ContentRow row={mockRow} listName={listName} />);
+      const wrapper = shallow(<ContentRow row={mockRow} />);
       const productList = wrapper.find(ProductList);
       expect(productList.prop('products')).toBe(mockProducts);
-      expect(productList.prop('listName')).toMatch(listName);
       expect(productList.prop('startAt')).toBe(0);
       expect(wrapper.find(Typography)).toHaveLength(0);
     });
@@ -157,12 +143,10 @@ describe('ContentRow (/components/productHighlight/ContentRow)', () => {
         products: mockProducts,
         startAt,
       };
-      const listName = 'Lorem ipsum';
 
-      const wrapper = shallow(<ContentRow row={mockRow} listName={listName} />);
+      const wrapper = shallow(<ContentRow row={mockRow} />);
       const productList = wrapper.find(ProductList);
       expect(productList.prop('products')).toBe(mockProducts);
-      expect(productList.prop('listName')).toMatch(listName);
       expect(productList.prop('startAt')).toBe(startAt);
       expect(wrapper.find(Typography)).toHaveLength(0);
     });
@@ -177,12 +161,10 @@ describe('ContentRow (/components/productHighlight/ContentRow)', () => {
         startAt,
         title: rowTitle,
       };
-      const listName = 'Lorem ipsum';
 
-      const wrapper = shallow(<ContentRow row={mockRow} listName={listName} />);
+      const wrapper = shallow(<ContentRow row={mockRow} />);
       const productList = wrapper.find(ProductList);
       expect(productList.prop('products')).toBe(mockProducts);
-      expect(productList.prop('listName')).toMatch(listName);
       expect(productList.prop('startAt')).toBe(startAt);
       expect(wrapper.find(Typography).text()).toMatch(rowTitle);
     });

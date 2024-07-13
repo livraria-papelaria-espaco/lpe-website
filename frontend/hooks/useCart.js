@@ -29,16 +29,14 @@ export const CartProvider = ({ children }) => {
       case 'LOAD_CART':
         return action.data;
       case 'ADD_ITEM':
-        if (window && window.gtag) {
-          window.gtag('event', 'add_to_cart', {
-            items: [
-              {
-                id: action.item.id,
-                name: action.item.name,
-                price: action.item.price,
-                quantity: action.item.quantity || 1,
-              },
-            ],
+        if (window && window.umami) {
+          window.umami.track('add_to_cart', {
+            item: {
+              id: action.item.id,
+              name: action.item.name,
+              price: action.item.price,
+              quantity: action.item.quantity || 1,
+            },
           });
         }
 
@@ -71,13 +69,11 @@ export const CartProvider = ({ children }) => {
           })
           .update(refreshMeta);
       case 'REMOVE_ITEM':
-        if (window && window.gtag) {
-          window.gtag('event', 'remove_from_cart', {
-            items: [
-              {
-                id: action.id,
-              },
-            ],
+        if (window && window.umami) {
+          window.umami.track('remove_from_cart', {
+            item: {
+              id: action.id,
+            },
           });
         }
 

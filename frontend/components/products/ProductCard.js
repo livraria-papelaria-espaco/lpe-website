@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProductCard = ({ product, listName, className }) => {
+const ProductCard = ({ product, className }) => {
   const classes = useStyles();
 
   const getImage = () => {
@@ -67,27 +67,11 @@ const ProductCard = ({ product, listName, className }) => {
     return <LogoSvg className={classes.image} />;
   };
 
-  const handleGA = () => {
-    if (window && window.gtag) {
-      window.gtag('event', 'select_content', {
-        content_type: 'product',
-        items: [
-          {
-            id: product.id,
-            name: product.name,
-            list_name: listName,
-            price: product.price,
-          },
-        ],
-      });
-    }
-  };
-
   return (
     <Link href='/product/[slug]' as={`/product/${product.slug}`}>
       <a className={`${classes.link} ${className}`}>
         {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-        <div className={classes.root} onClick={handleGA}>
+        <div className={classes.root}>
           <div className={classes.imageContainer}>{getImage()}</div>
           <Typography variant='h5' component='h2' className={classes.productTitle}>
             {product.name}
@@ -137,12 +121,10 @@ ProductCard.propTypes = {
     stockStatus: PropTypes.oneOf(['IN_STOCK', 'LOW_STOCK', 'ORDER_ONLY', 'UNAVAILABLE']),
     discountPercent: PropTypes.number,
   }).isRequired,
-  listName: PropTypes.string,
   className: PropTypes.string,
 };
 
 ProductCard.defaultProps = {
-  listName: 'Unknown',
   className: '',
 };
 

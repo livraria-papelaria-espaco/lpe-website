@@ -49,7 +49,7 @@ const CategoryPage = ({ name, productHighlights }) => {
         {categoryTitle}
       </Typography>
       {productHighlights.map((highlight) => (
-        <HighlightRow key={highlight.id} row={highlight} listName='Category Product Highlights' />
+        <HighlightRow key={highlight.id} row={highlight} />
       ))}
       {/* TODO <FilterToolbar /> */}
       <ProductQuery

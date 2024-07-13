@@ -46,7 +46,6 @@ The following environment variables are available:
 | Name             | Default Value           | Description                                                                                 |
 | ---------------- | ----------------------- | ------------------------------------------------------------------------------------------- |
 | `API_URL`        | `http://localhost:3337` | The URL of the backend. Used for server side rendering                                      |
-| `GA_ID`          | _none_                  | The property ID for Google Analytics                                                        |
 | `TAWKTO_ID`      | _none_                  | The property ID for tawk.to live chat                                                       |
 | `PREVIEW_SECRET` | _none_                  | Must be the same as `PREVIEW_SECRET` on backend. Used to enable CMS preview mode for a user |
 

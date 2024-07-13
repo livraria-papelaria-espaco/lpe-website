@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HighlightRow = ({ row, listName }) => {
+const HighlightRow = ({ row }) => {
   const classes = useStyles();
 
   const { title, subtitle, content = [] } = row;
@@ -35,7 +35,7 @@ const HighlightRow = ({ row, listName }) => {
       </div>
       <Paper>
         {content.map((contentRow) => (
-          <ContentRow key={contentRow.id} row={contentRow} listName={listName} />
+          <ContentRow key={contentRow.id} row={contentRow} />
         ))}
       </Paper>
     </div>
@@ -76,11 +76,6 @@ HighlightRow.propTypes = {
     subtitle: PropTypes.string,
     content: PropTypes.arrayOf(contentType),
   }).isRequired,
-  listName: PropTypes.string,
-};
-
-HighlightRow.defaultProps = {
-  listName: 'Product Highlights',
 };
 
 export default HighlightRow;

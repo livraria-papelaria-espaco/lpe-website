@@ -40,12 +40,6 @@ const PRODUCTS_QUERY = gql`
 
 const limit = 24;
 
-const getListName = (search, category) => {
-  if (category) return 'Category Listing';
-  if (search) return 'Product Search';
-  return 'General Product Listing';
-};
-
 const ProductQuery = ({ search, category }) => {
   const [hasMoreToLoad, setHasMoreToLoad] = useState(true);
   const { loading, error, data, fetchMore } = useQuery(PRODUCTS_QUERY, {
@@ -100,7 +94,7 @@ const ProductQuery = ({ search, category }) => {
       >
         <LinearProgress variant='query' />
       </Fade>
-      <ProductList products={products || []} listName={getListName(search, category)} />
+      <ProductList products={products || []} />
       {data.productsSearch.nbHits > 0 && (
         <Typography variant='subtitle2' color='textSecondary' style={{ textAlign: 'center' }}>
           Foram encontrados {data.productsSearch.nbHits} resultados

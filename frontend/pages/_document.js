@@ -1,9 +1,9 @@
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import React from 'react';
-import { GA_TRACKING_ID } from '~/lib/gtag';
 
 const tawkToChannelId = process.env.tawkToId;
+const umami = process.env.umami;
 
 let prefixer;
 let cleanCSS;
@@ -37,24 +37,8 @@ export default class MyDocument extends Document {
             rel='stylesheet'
             href='https://fonts.googleapis.com/css?family=Baloo+2:400,500,700&display=swap'
           />
-          {process.env.NODE_ENV === 'production' && GA_TRACKING_ID && (
-            <>
-              {/* Global Site Tag (gtag.js) - Google Analytics */}
-              <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
-              <script
-                // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{
-                  __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_TRACKING_ID}', {
-              page_path: window.location.pathname,
-            });
-          `,
-                }}
-              />
-            </>
+          {process.env.NODE_ENV === 'production' && umami?.scriptUrl && (
+            <script async src={umami.scriptUrl} data-website-id={umami.websiteId} data-domains={umami.domains} />
           )}
         </Head>
         <body>

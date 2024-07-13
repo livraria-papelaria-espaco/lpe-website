@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ContentRow = ({ row, listName }) => {
+const ContentRow = ({ row }) => {
   const classes = useStyles();
 
   const { __component, title } = row;
@@ -25,7 +25,7 @@ const ContentRow = ({ row, listName }) => {
 
   switch (__component) {
     case 'highlight.product-list':
-      content = <ProductList products={row.products} listName={listName} />;
+      content = <ProductList products={row.products} />;
       break;
     case 'highlight.product-with-description':
       content = (
@@ -38,7 +38,6 @@ const ContentRow = ({ row, listName }) => {
             >
               <ProductCard
                 product={row.product}
-                listName={listName}
                 className={classes.withDescriptionGrow}
               />
             </Badge>
@@ -50,7 +49,7 @@ const ContentRow = ({ row, listName }) => {
       );
       break;
     case 'highlight.top-10':
-      content = <ProductList products={row.products} listName={listName} startAt={row.startAt} />;
+      content = <ProductList products={row.products} startAt={row.startAt} />;
       break;
     default:
       content = null;
@@ -97,11 +96,6 @@ const contentType = PropTypes.shape({
 
 ContentRow.propTypes = {
   row: contentType.isRequired,
-  listName: PropTypes.string,
-};
-
-ContentRow.defaultProps = {
-  listName: 'Product Highlights',
 };
 
 export default ContentRow;

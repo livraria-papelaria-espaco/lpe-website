@@ -5,7 +5,7 @@ import React from 'react';
 import ProductCard from './ProductCard';
 import ProductSkeleton from './ProductSkeleton';
 
-const ProductList = ({ products, loading, listName, startAt }) => {
+const ProductList = ({ products, loading, startAt }) => {
   if (loading)
     return (
       <Grid container direction='row' justify='flex-start' alignItems='center' spacing={3}>
@@ -30,7 +30,7 @@ const ProductList = ({ products, loading, listName, startAt }) => {
       {products.map((res, i) => (
         <Grid item xs={6} md={4} lg={2} key={res.slug}>
           <Badge color='secondary' badgeContent={startAt === 0 ? 0 : `#${startAt + i}`}>
-            <ProductCard product={res} listName={listName} />
+            <ProductCard product={res} />
           </Badge>
         </Grid>
       ))}
@@ -41,14 +41,12 @@ const ProductList = ({ products, loading, listName, startAt }) => {
 ProductList.propTypes = {
   products: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool,
-  listName: PropTypes.string,
   startAt: PropTypes.number,
 };
 
 ProductList.defaultProps = {
   products: [],
   loading: false,
-  listName: 'Unknown',
   startAt: 0,
 };
 

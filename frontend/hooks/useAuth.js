@@ -100,10 +100,6 @@ const useAuthProvider = () => {
     if (!res.login.user.confirmed) throw new Error('Auth.form.error.confirmed');
     Cookies.set('jwt', res.login.jwt);
 
-    if (window && window.gtag) {
-      window.gtag('event', 'login', { method: 'Email' });
-    }
-
     setUsername(res.login.user.username);
     window.localStorage.setItem('login', Date.now());
     return res;
@@ -111,10 +107,6 @@ const useAuthProvider = () => {
 
   const register = async (name, password, email) => {
     const { data: res } = await requestRegister({ variables: { name, password, email } });
-
-    if (window && window.gtag) {
-      window.gtag('event', 'sign_up', { method: 'Email' });
-    }
 
     if (!res.register.user.confirmed) throw new Error('Auth.form.error.confirmed');
     Cookies.set('jwt', res.register.jwt);

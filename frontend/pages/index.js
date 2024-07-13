@@ -84,10 +84,10 @@ const HomePage = ({ newProducts, productHighlights, homePage }) => {
         )}
         <Newsletter/>
         {newProducts && newProducts.length > 0 && (
-          <HighlightRow row={newProductsRow} listName='New Products Highlight' />
+          <HighlightRow row={newProductsRow} />
         )}
         {productHighlights.map((highlight) => (
-          <HighlightRow key={highlight.id} row={highlight} listName='Product Highlights' />
+          <HighlightRow key={highlight.id} row={highlight} />
         ))}
       </Container>
       <AboutUs text={homePage.about} />

@@ -12,8 +12,8 @@ const CheckoutItems = ({ children }) => {
   const empty = state.get('items').size === 0;
 
   useEffect(() => {
-    if (!empty && window && window.gtag) {
-      window.gtag('event', 'begin_checkout', {
+    if (!empty && window && window.umami) {
+      window.umami.track('begin_checkout', {
         items: state
           .get('items', List())
           .map((v) => ({

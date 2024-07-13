@@ -95,31 +95,16 @@ const CheckoutSubmit = ({ state, itemsState, shippingCost = 0, disabled, classNa
         },
       });
 
-      if (window && window.gtag) {
-        window.gtag('event', 'purchase', {
-          transaction_id: data.createOrder.order.invoiceId,
-          affiliation: 'LPE Official Online Store',
-          value: price,
-          currency: 'EUR',
-          shipping: shippingCost,
-          items: itemsState
-            .get('items', List())
-            .map((v) => ({
-              id: v.get('id'),
-              name: v.get('name'),
-              price: v.get('price'),
-              quantity: v.get('quantity', 1),
-            }))
-            .toJS(),
-        });
+      if (window && window.umami) {
+        window.umami.track('purchase');
       }
 
       router.push('/checkout/success/[orderId]', `/checkout/success/${data.createOrder.order.id}`);
     } catch (e) {
       console.error(e);
 
-      if (window && window.gtag) {
-        window.gtag('event', 'error', {
+      if (window && window.umami) {
+        window.umami.track('error', {
           description: JSON.stringify(e),
         });
       }

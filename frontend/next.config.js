@@ -29,7 +29,11 @@ module.exports = withImages({
       instagram: 'https://instagram.com/livraria_espaco/',
       facebookEvents: 'https://www.facebook.com/pg/livrariaepapelaria.espaco/events/',
     },
-    googleAnalyticsId: process.env.GA_ID || '',
+    umami: {
+      scriptUrl: 'https://analytics.diogotc.com/script.js',
+      websiteId: 'ba033a56-0faf-44df-b09e-febede19e208',
+      domains: 'lpespaco.pt',
+    },
     tawkToId: process.env.TAWKTO_ID || '',
     newsletter: {
       listmonkUrl: 'https://newsletter.lpespaco.pt',
