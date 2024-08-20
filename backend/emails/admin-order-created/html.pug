@@ -1,0 +1,10 @@
+extends ../layout/layout.pug
+
+block header
+  //- :tada: emoji (Party Popper)
+  h1 Nova encomenda! &#x1F389;
+
+block content
+  p O/a cliente #{clientName} efetuou a encomenda abaixo.
+  .center
+    a(href=adminOrderUrl).button Ver encomenda

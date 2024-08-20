@@ -280,6 +280,21 @@ module.exports = {
         `Failed to send order create email for order ${entity.invoiceId}: ${JSON.stringify(e)}`
       );
     }
+    try {
+      const emailTo = strapi.config.get('custom.orderNotificationEmail', '');
+      if (emailTo) {
+        strapi.services.email.sendAdminOrderCreatedEmail({
+          order: entity,
+          user: ctx.state.user,
+          emailTo,
+        });
+      }
+    } catch (e) {
+      strapi.log.error(
+        { error: e },
+        `Failed to send admin order create email for order ${entity.invoiceId}: ${JSON.stringify(e)}`
+      );
+    }
 
     return sanitizeOrderData(sanitizeEntity(entity, { model: strapi.models.order }));
   },

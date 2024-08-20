@@ -22,6 +22,8 @@ const paymentGatewayMap = {
   BANK_TRANSFER: 'Tranferência Bancária',
 };
 
+const sendAdminOrderCreatedEmail = (data) => sendPugEmail(data, 'admin-order-created');
+
 const sendOrderCreatedEmail = (data) => sendPugEmail(data, 'order-created');
 
 const sendOrderPaidEmail = (data) => sendPugEmail(data, 'order-paid');
@@ -33,6 +35,7 @@ const sendOrderShippedEmail = (data) => sendPugEmail(data, 'order-shipped');
 const sendOrderCancelledEmail = (data) => sendPugEmail(data, 'order-cancelled');
 
 module.exports = {
+  sendAdminOrderCreatedEmail,
   sendOrderCreatedEmail,
   sendOrderPaidEmail,
   sendOrderReadyToPickupEmail,
@@ -40,12 +43,14 @@ module.exports = {
   sendOrderCancelledEmail,
 };
 
-const sendPugEmail = async ({ order, user }, template) => {
+const sendPugEmail = async ({ order, user, emailTo }, template) => {
   const shippingAddress = order.shippingAddress || {};
+  const adminUrl = strapi.config.get('custom.adminUrl', 'http://localhost:3337/admin');
   const frontendUrl = strapi.config.get('custom.frontendUrl', 'http://localhost:3000');
   const variables = {
     frontendUrl,
     id: order.id,
+    adminOrderUrl: `${adminUrl}/plugins/order-management/view/${order.id}?redirectUrl=/plugins/order-management/pending`,
     orderUrl: `${frontendUrl}/dashboard/order/${order.id}`,
     productUrlPrefix: `${frontendUrl}/product/`,
     clientName: user.username,
@@ -73,7 +78,7 @@ const sendPugEmail = async ({ order, user }, template) => {
   const { subject, text, html } = await email.renderAll(template, variables);
 
   await strapi.plugins['email'].services.email.send({
-    to: user.email,
+    to: emailTo || user.email,
     subject,
     text,
     html,
