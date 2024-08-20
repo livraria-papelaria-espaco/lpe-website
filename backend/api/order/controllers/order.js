@@ -80,7 +80,6 @@ const parseOrderData = async (data, price) => {
   let totalPrice = 0;
 
   const { discounts } = await strapi.services['global-discounts'].find();
-  console.log(discounts);
 
   const items = await Promise.all(
     data.items.map(async (v) => {
@@ -118,8 +117,6 @@ const parseOrderData = async (data, price) => {
       };
     })
   );
-
-  console.log(totalPrice, price);
 
   if (totalPrice.toFixed(2) !== price.toFixed(2))
     throw strapi.errors.badRequest('Provided price does not match with calculated price.', {
