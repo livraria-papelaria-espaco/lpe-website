@@ -1,5 +1,8 @@
 'use strict';
 
+// https://github.com/strapi/strapi/blob/v3.6.8/packages/strapi-plugin-content-manager/services/uid.js#L4
+const slugify = require('@sindresorhus/slugify');
+
 const convertSortQueryParams = (sortQuery) => {
   if (typeof sortQuery !== 'string') {
     throw new Error(`convertSortQueryParams expected a string, got ${typeof sortQuery}`);
@@ -40,6 +43,9 @@ const convertLimitQueryParams = (limitQuery) => {
   }
   return limitAsANumber;
 };
+
+// Only one instance of the fetchMetadataForQueuedProducts function may be running at a given time
+let LOCK_METADATA_QUEUE = false;
 
 module.exports = {
   searchEnhanced: async (params) => {
@@ -142,4 +148,70 @@ module.exports = {
       return { ref, qnt };
     }
   },
+
+  fetchMetadataForQueuedProducts: async () => {
+    if (LOCK_METADATA_QUEUE) {
+      // Only allow one instance of this function to be running
+      return;
+    }
+    LOCK_METADATA_QUEUE = true;
+
+    try {
+      let metadataServices = strapi.plugins['metadata-fetcher'].services['metadata-fetcher'];
+
+      let queuedProducts = await strapi.services.product.find({
+        waitingForMetadata: true,
+        _sort: 'updatedAt:asc',
+      });
+
+      for (let product of queuedProducts) {
+        const metadata = await metadataServices.fetchMetadataFromWook(product.reference);
+
+        let data = {
+          waitingForMetadata: false,
+        };
+
+        if (metadata) {
+          const category = await strapi.services.category.findOne({ name: 'Livraria' });
+
+          const calculatedSlug = slugify(metadata.name);
+          let slug = product.slug;
+          if (calculatedSlug !== slug) {
+            slug = await strapi.plugins['content-manager'].services.uid.generateUIDField({
+              contentTypeUID: 'application::product.product',
+              field: 'slug',
+              data: metadata,
+            });
+          }
+
+          data = {
+            ...data,
+            show: true,
+            ...metadata,
+            slug,
+            images: await metadataServices.fetchAndUploadImages(product.reference, slug),
+            category: category ? category.id : undefined,
+          };
+        }
+
+        const res = await strapi.query('product').model.updateOne({ _id: product._id }, data);
+
+        if (res.nModified !== 1) {
+          throw new Error(`Failed to save updated metadata for product ${product.reference}`);
+        }
+
+        await strapi.services.productsearch
+          .updateProduct({
+            ...product,
+            ...data,
+          })
+          .catch(strapi.log.error);
+      }
+    } catch (e) {
+      console.error(e);
+      strapi.log.error("Error while fetching metadata for queued products:", e);
+    } finally {
+      LOCK_METADATA_QUEUE = false;
+    }
+  }
 };

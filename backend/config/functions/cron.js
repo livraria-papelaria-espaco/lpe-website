@@ -19,4 +19,10 @@ module.exports = {
 
     strapi.services.order.cancelExpiredOrders();
   },
+  // Every 5 minutes
+  '*/5 * * * *': () => {
+    if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE !== '0') return;
+
+    strapi.services.product.fetchMetadataForQueuedProducts();
+  },
 };

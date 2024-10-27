@@ -40,6 +40,13 @@
       "private": true,
       "index": true
     },
+    "waitingForMetadata": {
+      "required": true,
+      "default": false,
+      "type": "boolean",
+      "private": true,
+      "index": true
+    },
     "reference": {
       "type": "string",
       "required": false,

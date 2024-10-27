@@ -171,24 +171,12 @@ module.exports = {
       }
 
       if (metadataServices.isISBN(data.reference)) {
-        const metadata = await metadataServices.fetchMetadataFromWook(data.reference);
-        if (metadata) {
-          const category = await strapi.services.category.findOne({ name: 'Livraria' });
-
-          const slug = await strapi.plugins['content-manager'].services.uid.generateUIDField({
-            contentTypeUID: 'application::product.product',
-            field: 'slug',
-            data: metadata,
-          });
-          data = {
-            ...data,
-            show: true,
-            ...metadata,
-            slug,
-            images: await metadataServices.fetchAndUploadImages(data.reference, slug),
-            category: category ? category.id : undefined,
-          };
-        }
+        data = {
+          ...data,
+          show: false,
+          // Instead of blocking on this request, set a flag and fetch metadata in a cron job
+          waitingForMetadata: true,
+        };
       }
 
       if (!data.slug)
