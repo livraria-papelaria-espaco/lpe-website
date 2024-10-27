@@ -19,7 +19,7 @@ module.exports = {
     afterDelete: async (result) => {
       if (!result || !result._id) return;
 
-      await strapi.services.productsearch.deleteProdut(result);
+      await strapi.services.productsearch.deleteProduct(result);
     },
   },
 };
