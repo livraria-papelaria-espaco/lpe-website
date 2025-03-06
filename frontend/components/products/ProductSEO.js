@@ -48,7 +48,7 @@ const ProductSEO = ({ product }) => {
       },
       headline: product.name,
       alternativeHeadline: product.shortDescription,
-      image: `${process.env.apiUrl}${image}`,
+      image: image ? `${process.env.apiUrl}${image}` : undefined,
     };
   } else {
     structedData = {
@@ -67,7 +67,7 @@ const ProductSEO = ({ product }) => {
         },
       },
       inLanguage: product.language,
-      image: `${process.env.apiUrl}${image}`,
+      image: image ? `${process.env.apiUrl}${image}` : undefined,
       sku: product.reference,
     };
   }
