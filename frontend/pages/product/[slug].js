@@ -122,11 +122,11 @@ const Product = ({ defaultData }) => {
         )}
         <Grid container spacing={3} alignItems='stretch' className={classes.grid}>
           {hasImage && (
-            <Grid item sm={12} md={6}>
+            <Grid item xs={12} md={6}>
               <ProductImageCarousel images={product.images} />
             </Grid>
           )}
-          <Grid item sm={12} md={hasImage ? 6 : 12}>
+          <Grid item xs={12} md={hasImage ? 6 : 12}>
             {product.discountPercent > 0 && (
               <Typography variant='h5' component='p'>
                 <strong className={classes.discountOld}>{`${product.price.toFixed(2)}€ `}</strong>
