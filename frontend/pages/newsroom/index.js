@@ -19,7 +19,7 @@ const NEWSROOM_QUERY = gql`
   }
 `;
 
-const PrivacyPolicy = ({ defaultData }) => {
+const NewsroomPage = ({ defaultData }) => {
   const { data, loading, error } = useQuery(NEWSROOM_QUERY);
 
   if (!defaultData && error) return <ErrorPage statusCode={500} />;
@@ -28,11 +28,11 @@ const PrivacyPolicy = ({ defaultData }) => {
   const content = data ? data.newsrooms : defaultData;
 
   return (
-    <Layout title='Destaques'>
-      <Typography variant='h1'>Destaques</Typography>
+    <Layout title='Agenda de Eventos'>
+      <Typography variant='h1'>Agenda de Eventos</Typography>
       {content.length === 0 && (
         <Typography variant='body1' color='textSecondary'>
-          Não existem destaques neste momento
+          Não existem eventos neste momento
         </Typography>
       )}
       {content.map(({ id, content: markdown, title, createdAt }, i) => (
@@ -45,7 +45,7 @@ const PrivacyPolicy = ({ defaultData }) => {
   );
 };
 
-PrivacyPolicy.propTypes = {
+NewsroomPage.propTypes = {
   defaultData: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string, // MongoDB ID
@@ -56,7 +56,7 @@ PrivacyPolicy.propTypes = {
   ),
 };
 
-PrivacyPolicy.defaultProps = {
+NewsroomPage.defaultProps = {
   defaultData: [{ id: 'error', title: '', content: '', createdAt: '0' }],
 };
 
@@ -70,4 +70,4 @@ export const getStaticProps = async () => {
   };
 };
 
-export default PrivacyPolicy;
+export default NewsroomPage;

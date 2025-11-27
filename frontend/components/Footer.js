@@ -60,7 +60,7 @@ const Footer = () => {
           </Typography>
           <FooterLink href='/legal/tos' text='Termos e Condições' />
           <FooterLink href='/legal/privacy' text='Política de Privacidade' />
-          <FooterLink href='/newsroom' text='Destaques' />
+          <FooterLink href='/newsroom' text='Agenda de Eventos' />
           <Typography variant='body1'>
             <MUILink
               href='https://www.livroreclamacoes.pt/'
@@ -139,16 +139,6 @@ const Footer = () => {
             >
               <FacebookIcon className={classes.socialIcon} />
               Facebook
-            </MUILink>
-          </Typography>
-          <Typography variant='body1'>
-            <MUILink
-              href={process.env.footer.facebookEvents}
-              color='inherit'
-              target='_blank'
-              rel='noopener'
-            >
-              Agenda de Eventos
             </MUILink>
           </Typography>
         </div>

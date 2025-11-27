@@ -90,14 +90,9 @@ const CategoryDrawer = ({ mobile, open, setOpen }) => {
       </div>
       <Divider />
       <List>
-        <Link href={process.env.footer.facebookEvents} passHref>
-          <ListItem button component={MUILink} color='inherit' underline='none'>
-            <ListItemText>Agenda de Eventos</ListItemText>
-          </ListItem>
-        </Link>
         <Link href='/newsroom' passHref>
           <ListItem button component={MUILink} color='inherit' underline='none'>
-            <ListItemText>Destaques</ListItemText>
+            <ListItemText>Agenda de Eventos</ListItemText>
           </ListItem>
         </Link>
       </List>
