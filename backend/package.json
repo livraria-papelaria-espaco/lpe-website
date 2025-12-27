@@ -22,7 +22,7 @@
     "email-templates": "^8.0.8",
     "joi": "^17.4.2",
     "meilisearch": "^0.18.1",
-    "sharp": "^0.29.1",
+    "sharp": "^0.30.5",
     "strapi": "3.6.8",
     "strapi-admin": "3.6.8",
     "strapi-connector-mongoose": "3.6.8",
