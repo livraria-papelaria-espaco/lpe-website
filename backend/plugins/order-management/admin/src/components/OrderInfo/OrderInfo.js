@@ -20,8 +20,10 @@ const OrderInfo = ({ id }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [nextStepPopup, setNextStepPopup] = useState(false);
+  const [cancelOrderPopup, setCancelOrderPopup] = useState(false);
 
   const toggleNextStepPopup = () => setNextStepPopup((v) => !v);
+  const toggleCancelOrderPopup = () => setCancelOrderPopup((v) => !v);
 
   const fetchData = async () => {
     setLoading(true);
@@ -44,11 +46,18 @@ const OrderInfo = ({ id }) => {
   const needsRestock = data.orderData.items.some((v) => v.needsRestock > 0);
 
   const handleNextStep = async () => {
-    toggleNextStepPopup();
+    setNextStepPopup(false);
+    handleNextStepRequest(needsRestock ? 'WAITING_ITEMS' : null);
+  };
+  const handleCancelOrder = async () => {
+    setCancelOrderPopup(false);
+    handleNextStepRequest('CANCELLED');
+  };
+  const handleNextStepRequest = async (nextStatus) => {
     try {
       await request(
         `/order-management/order/nextstep/${id}?status=${data.status}${
-          needsRestock ? `&nextStatus=WAITING_ITEMS` : ''
+          nextStatus ? `&nextStatus=${nextStatus}` : ''
         }`,
         {
           method: 'POST',
@@ -81,6 +90,21 @@ const OrderInfo = ({ id }) => {
     data.status === 'PROCESSING' ||
     data.status === 'WAITING_ITEMS'
       ? [
+          {
+            onClick: () => {
+              toggleCancelOrderPopup();
+            },
+            color: 'cancel',
+            label: formatMessage({
+              id: getTrad(`List.content.orders.markAsCancelled`),
+            }),
+            type: 'button',
+            style: {
+              paddingLeft: 15,
+              paddingRight: 15,
+              fontWeight: 600,
+            },
+          },
           {
             disabled: data.status === 'WAITING_ITEMS' && needsRestock,
             onClick: () => {
@@ -134,6 +158,18 @@ const OrderInfo = ({ id }) => {
         }}
         popUpWarningType='danger'
         onConfirm={handleNextStep}
+      />
+      <PopUpWarning
+        isOpen={!!cancelOrderPopup}
+        toggleModal={() => toggleCancelOrderPopup()}
+        content={{
+          title: getTrad(`PopUpWarning.title`),
+          message: getTrad(`PopUpWarning.warning.cancelorder`),
+          cancel: getTrad(`PopUpWarning.button.cancel`),
+          confirm: getTrad(`PopUpWarning.button.confirm`),
+        }}
+        popUpWarningType='danger'
+        onConfirm={handleCancelOrder}
       />
       <Wrapper>
         <SectionTitle title='customer'>

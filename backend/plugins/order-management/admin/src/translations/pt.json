@@ -53,6 +53,7 @@
   "List.content.orders.statusBadge.CANCELLED": "Cancelado",
   "List.content.orders.statusBadge.DELIVERED": "Entregue",
   "List.content.orders.statusBadge.WAITING_ITEMS": "À espera de items",
+  "List.content.orders.markAsCancelled": "Cancelar Encomenda",
   "List.content.orders.markAsPaid": "Marcar como Paga",
   "List.content.orders.markAsReadyToPickup": "Marcar como Pronto para Recolha",
   "List.content.orders.markAsWaitingItems": "Marcar como À Espera de Items",
@@ -60,6 +61,7 @@
   "List.content.orders.markAsPickedUp": "Marcar como Entregue",
 
   "PopUpWarning.title": "Atenção",
+  "PopUpWarning.warning.cancelorder": "Tem a certeza que quer cancelar esta encomenda?",
   "PopUpWarning.warning.nextstep": "Tem a certeza que quer alterar o estado desta encomenda?",
   "PopUpWarning.button.cancel": "Cancelar",
   "PopUpWarning.button.confirm": "Confirmar",

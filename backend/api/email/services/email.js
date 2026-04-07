@@ -34,6 +34,8 @@ const sendOrderShippedEmail = (data) => sendPugEmail(data, 'order-shipped');
 
 const sendOrderCancelledEmail = (data) => sendPugEmail(data, 'order-cancelled');
 
+const sendOrderCancelledCannotBeFulfilledEmail = (data) => sendPugEmail(data, 'order-cancelled-cannot-be-fulfilled');
+
 module.exports = {
   sendAdminOrderCreatedEmail,
   sendOrderCreatedEmail,
@@ -41,6 +43,7 @@ module.exports = {
   sendOrderReadyToPickupEmail,
   sendOrderShippedEmail,
   sendOrderCancelledEmail,
+  sendOrderCancelledCannotBeFulfilledEmail,
 };
 
 const sendPugEmail = async ({ order, user, emailTo }, template) => {

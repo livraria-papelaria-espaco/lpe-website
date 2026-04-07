@@ -38,7 +38,10 @@ module.exports = {
       case 'PROCESSING':
       case 'WAITING_ITEMS':
         let sendEmail;
-        if (status === 'WAITING_PAYMENT') {
+        if (nextStatus === 'CANCELLED') {
+          finalStatus = 'CANCELLED';
+          sendEmail = strapi.services.email.sendOrderCancelledCannotBeFulfilledEmail;
+        } else if (status === 'WAITING_PAYMENT') {
           finalStatus = 'PROCESSING';
           sendEmail = strapi.services.email.sendOrderPaidEmail;
         } else if (status === 'PROCESSING' && nextStatus === 'WAITING_ITEMS') {
