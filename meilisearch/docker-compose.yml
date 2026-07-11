@@ -6,6 +6,6 @@ services:
     ports:
       - 127.0.0.1:7700:7700
     volumes:
-      - ./data.ms:/data.ms
+      - ./meili_data:/meili_data
     env_file: meili.env
     restart: unless-stopped
