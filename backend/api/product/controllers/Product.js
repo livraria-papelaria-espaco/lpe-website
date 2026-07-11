@@ -62,7 +62,7 @@ module.exports = {
           filters: filterQuery || undefined,
         });
 
-        const { hits, nbHits } = searchResult;
+        const { hits, totalHits, estimatedTotalHits } = searchResult;
 
         const products = (
           await Promise.all(
@@ -73,7 +73,7 @@ module.exports = {
           )
         ).filter((product) => product !== null);
 
-        return { nbHits, products };
+        return { nbHits: totalHits ?? estimatedTotalHits, products };
       } else {
         // Get directly from DB if text query is empty
         const nbHits = await strapi.services.product.count({
